@@ -648,13 +648,32 @@
       intro.classList.add("play");
     }
   }
+  // Measure stable layout positions; transforms are applied only after all reads.
+  const heroRevealItems = $$(".hero-reveal");
+  const clamp01 = (value) => Math.min(1, Math.max(0, value));
+  function syncHeroReveal() {
+    if (reduceMotion) return;
+    const vh = window.innerHeight;
+    const states = heroRevealItems.map((el) => {
+      const top = el.offsetTop + el.offsetParent.getBoundingClientRect().top;
+      const enter = clamp01((vh * 0.94 - top) / (vh * 0.24));
+      const leave = clamp01((top + el.offsetHeight - vh * 0.08) / (vh * 0.22));
+      const opacity = Math.min(enter, leave);
+      return { el, opacity, offset: 28 * (1 - enter) - 18 * (1 - leave) };
+    });
+    states.forEach(({ el, opacity, offset }) => {
+      el.style.setProperty("--hero-opacity", opacity.toFixed(3));
+      el.style.setProperty("--hero-offset", `${offset.toFixed(2)}px`);
+    });
+  }
   // iOS can skip the last scroll event of a fling, so re-check when the scroll settles
   ["scrollend", "touchend", "resize", "orientationchange"].forEach((ev) =>
-    window.addEventListener(ev, () => requestAnimationFrame(syncIntro), { passive: true }));
+    window.addEventListener(ev, () => requestAnimationFrame(() => { syncIntro(); syncHeroReveal(); }), { passive: true }));
   new IntersectionObserver(() => syncIntro(), { threshold: Array.from({ length: 21 }, (_, i) => i / 20) }).observe(intro);
   function onScroll() {
     const y = window.scrollY;
     syncIntro();
+    syncHeroReveal();
     updateTraces();
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
