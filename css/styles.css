@@ -546,3 +546,21 @@ body.at-intro .cookie { opacity: 0; pointer-events: none; }
 .office-dropdown .office-list span { line-height: 1.7; overflow-wrap: anywhere; }
 .office-dropdown .office-list em { margin-top: auto; padding-top: 4px; }
 @media (max-width: 480px) { .office-dropdown summary { padding: 22px 20px; } .office-dropdown .office-list { padding: 0 16px 16px; } .office-dropdown .office-list a { padding: 24px 20px; } }
+
+/* Keep the disclosure title centered independently of its chevron. */
+.office-dropdown summary { display: grid; grid-template-columns: 24px minmax(0, 1fr) 24px; text-align: center; }
+.office-dropdown summary::before { content: ""; }
+.office-dropdown summary .ico { justify-self: end; }
+
+/* A shared accent glow for content panels and keyboard interaction. */
+:where(.svc, .work-card, .detail-card, .approach, .talk, .train, .mapbox, .office, .office-dropdown, .chip, .social a) { transition: border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  :is(.svc, .work-card, .detail-card, .approach, .talk, .train, .mapbox, .office, .office-dropdown, .chip, .social a):hover {
+    border-color: rgba(224, 80, 94, .72);
+    box-shadow: 0 0 0 1px rgba(224, 80, 94, .16), 0 0 24px rgba(224, 80, 94, .18), inset 0 0 16px rgba(224, 80, 94, .035);
+  }
+}
+:is(.svc, .work-card, .detail-card, .approach, .talk, .train, .mapbox, .office, .office-dropdown, .chip, .social a):focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 4px;
+  box-shadow: 0 0 24px rgba(224, 80, 94, .22);
+}
