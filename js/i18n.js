@@ -1,6 +1,34 @@
 /* All visible text lives here (EN default, TH second). Edit wording in one place. */
 window.SBS_I18N = {
   en: {
+    "work.title": "People behind your security",
+    "work.sub": "Consulting, engineering and monitoring supported by our team.",
+    "work.consulting": "Consulting & engineering",
+    "work.consulting.p": "Connect governance, secure architecture and practical operations. We involve your team throughout the process so you can understand and manage the systems we implement.",
+    "work.monitoring": "Monitoring & threat management",
+    "work.monitoring.p": "Security monitoring brings together system health, compliance scanning, SIEM and XDR. Explore Bronze, Silver and Gold service levels to discuss the right scope for your environment.",
+    "work.consulting.alt": "Two team members discussing dashboards in a monitoring workspace",
+    "work.monitoring.alt": "Team members working at multiple security monitoring screens",
+    "eib.title": "Enterprise in a Box",
+    "eib.p": "An infrastructure approach for organizations establishing a domain for the first time: combine domain migration, port security and proxy-level internet protection, with on-premise and cloud components selected for your requirements.",
+    "bi.detail": "Turn business data into useful decisions through data analysis, dashboard design and reporting. Contact us to discuss your data sources and reporting needs.",
+    "life.detail.title": "Cybersecurity for Life Sciences",
+    "life.detail.p": "Align cybersecurity with data integrity, computerized systems validation (CSV) and your Quality Management System in GxP environments.",
+    "life.scope1": "IT & QA governance: define cybersecurity roles and responsibilities within the quality system.",
+    "life.scope2": "Validation requirements: support security requirements in URS, FS and CS/DS, and their verification through IQ, OQ and PQ.",
+    "life.scope3": "Risk management: integrate vulnerability tracking and mitigation with CAPA, threat modeling, data classification and system criticality.",
+    "life.scope4": "Regulated environments: support security requirements in FDA, EU, PIC/S and ICH contexts using established governance practices.",
+    "life.note": "These describe areas of service; they are not claims of regulatory certification.",
+    "life.more": "Explore GxP services",
+    "training.details": "View program details",
+    "training.alt": "Training presentation and participants",
+    "photo.story": "A presenter speaking about data integrity at a conference",
+    "photo.team": "Silver Bullet Security team outside Exchange Tower in Bangkok",
+    "office.list.title": "Office addresses",
+    "cookie.title": "Your preferences",
+    "cookie.p": "This site stores your language choice and this notice dismissal in your browser. Website files are cached for offline access.",
+    "cookie.accept": "Got it",
+
     "meta.title": "Silver Bullet Security — Cyber Security Professional Services",
     "meta.desc":
       "Managed security services for the secure design, monitoring and management of on-premise and cloud-based systems.",
@@ -168,7 +196,7 @@ window.SBS_I18N = {
     "training.conf.tag": "Annual training conference",
     "training.conf.title": "Secure Bangkok",
     "training.conf.p":
-      "Our annual conference. Sign up early — the 2025 event is in planning.",
+      "Cybersecurity training for the community and local organizations. Contact us for the next event schedule.",
     "training.conf.cta": "Register interest",
     "training.gamp.tag": "Life science industries",
     "training.gamp.title": "GAMP 5 & Cyber Security",
@@ -195,10 +223,6 @@ window.SBS_I18N = {
     "office.au": "Australia",
 
     "footer.copy": "Copyright © 2025 Silver Bullet Security — All Rights Reserved.",
-    "cookie.title": "This website uses cookies.",
-    "cookie.p":
-      "We use cookies to analyze website traffic and optimize your website experience. By accepting, your data will be aggregated with all other user data.",
-    "cookie.accept": "Accept",
 
     "steps.tap": "Tap a step to explore",
     "steps.auto": "Step",
@@ -246,7 +270,7 @@ window.SBS_I18N = {
       ["Audience", "Sign up early to join", "Quality Assurance professionals"],
       ["In cooperation with", "—", "ISPE"],
       ["Focus", "Cyber security training", "Cybersecurity, data integrity and computerized systems validation"],
-      ["Status", "2025 event in planning", "Ask us for details"],
+      ["Status", "Contact us for the next schedule", "Ask us for details"],
     ],
     "sheet.trainingTitle": "Training",
 
@@ -275,6 +299,34 @@ window.SBS_I18N = {
   },
 
   th: {
+    "work.title": "ทีมงานเบื้องหลังความปลอดภัยของคุณ",
+    "work.sub": "งานที่ปรึกษา วิศวกรรม และเฝ้าระวังโดยทีมงานของเรา",
+    "work.consulting": "ที่ปรึกษาและวิศวกรรมระบบ",
+    "work.consulting.p": "เชื่อมโยงการกำกับดูแล สถาปัตยกรรมที่ปลอดภัย และการปฏิบัติงานจริง โดยให้ทีมของคุณมีส่วนร่วมตลอดกระบวนการ เพื่อเข้าใจและดูแลระบบที่เราติดตั้งได้",
+    "work.monitoring": "เฝ้าระวังและจัดการภัยคุกคาม",
+    "work.monitoring.p": "ผสานการตรวจสอบสถานะระบบ การสแกนความสอดคล้อง SIEM และ XDR พร้อมระดับบริการ Bronze, Silver และ Gold เพื่อกำหนดขอบเขตที่เหมาะกับระบบของคุณ",
+    "work.consulting.alt": "ทีมงานสองคนกำลังปรึกษางานหน้าจอแดชบอร์ด",
+    "work.monitoring.alt": "ทีมงานปฏิบัติงานหน้าจอเฝ้าระวังความปลอดภัยหลายจอ",
+    "eib.title": "Enterprise in a Box",
+    "eib.p": "แนวทางวางโครงสร้างพื้นฐานสำหรับองค์กรที่เริ่มใช้โดเมนเป็นครั้งแรก รวมการย้ายเข้าสู่โดเมน การรักษาความปลอดภัยพอร์ต และการป้องกันอินเทอร์เน็ตระดับพร็อกซี โดยเลือกองค์ประกอบภายในองค์กรและคลาวด์ให้เหมาะกับความต้องการ",
+    "bi.detail": "เปลี่ยนข้อมูลธุรกิจเป็นข้อมูลประกอบการตัดสินใจ ด้วยการวิเคราะห์ข้อมูล ออกแบบแดชบอร์ด และจัดทำรายงาน ติดต่อเพื่อหารือแหล่งข้อมูลและความต้องการด้านรายงานของคุณ",
+    "life.detail.title": "Cybersecurity สำหรับ Life Sciences",
+    "life.detail.p": "เชื่อมความปลอดภัยไซเบอร์กับความถูกต้องครบถ้วนของข้อมูล การตรวจสอบความถูกต้องของระบบคอมพิวเตอร์ (CSV) และระบบบริหารคุณภาพในสภาพแวดล้อม GxP",
+    "life.scope1": "การกำกับดูแล IT และ QA: กำหนดบทบาทและความรับผิดชอบด้านไซเบอร์ภายในระบบคุณภาพ",
+    "life.scope2": "ข้อกำหนดการตรวจสอบความถูกต้อง: สนับสนุนข้อกำหนดความปลอดภัยใน URS, FS และ CS/DS พร้อมการทดสอบ IQ, OQ และ PQ",
+    "life.scope3": "การบริหารความเสี่ยง: เชื่อมการติดตามและลดช่องโหว่กับ CAPA การจำลองภัยคุกคาม การจัดประเภทข้อมูล และความสำคัญของระบบ",
+    "life.scope4": "สภาพแวดล้อมที่อยู่ภายใต้ข้อกำหนด: สนับสนุนข้อกำหนดความปลอดภัยในบริบท FDA, EU, PIC/S และ ICH ด้วยแนวปฏิบัติด้านการกำกับดูแล",
+    "life.note": "รายการนี้เป็นขอบเขตบริการ ไม่ใช่การกล่าวอ้างว่าได้รับการรับรองจากหน่วยงานกำกับดูแล",
+    "life.more": "ดูบริการ GxP",
+    "training.details": "ดูรายละเอียดโปรแกรม",
+    "training.alt": "การบรรยายและผู้เข้าร่วมอบรม",
+    "photo.story": "ผู้บรรยายเรื่องความถูกต้องครบถ้วนของข้อมูลในงานประชุม",
+    "photo.team": "ทีม Silver Bullet Security หน้าอาคาร Exchange Tower กรุงเทพฯ",
+    "office.list.title": "ที่อยู่สำนักงาน",
+    "cookie.title": "การตั้งค่าของคุณ",
+    "cookie.p": "เว็บไซต์จดจำภาษาที่เลือกและการปิดประกาศนี้ในเบราว์เซอร์ พร้อมแคชไฟล์เว็บไซต์สำหรับใช้งานออฟไลน์",
+    "cookie.accept": "รับทราบ",
+
     "meta.title": "Silver Bullet Security — บริการด้านความมั่นคงปลอดภัยไซเบอร์แบบมืออาชีพ",
     "meta.desc":
       "บริการ Managed Security ครอบคลุมการออกแบบ การเฝ้าระวัง และการบริหารจัดการระบบทั้งแบบ On-premise และบนคลาวด์ อย่างปลอดภัย",
@@ -442,7 +494,7 @@ window.SBS_I18N = {
     "training.conf.tag": "งานประชุมอบรมประจำปี",
     "training.conf.title": "Secure Bangkok",
     "training.conf.p":
-      "งานประชุมประจำปีของเรา สมัครล่วงหน้าได้เลย งานปี 2025 อยู่ระหว่างวางแผน",
+      "การอบรมไซเบอร์สำหรับชุมชนและองค์กรท้องถิ่น ติดต่อเพื่อสอบถามกำหนดการครั้งถัดไป",
     "training.conf.cta": "แสดงความสนใจ",
     "training.gamp.tag": "อุตสาหกรรมวิทยาศาสตร์ชีวภาพ",
     "training.gamp.title": "GAMP 5 & Cyber Security",
@@ -469,10 +521,6 @@ window.SBS_I18N = {
     "office.au": "ออสเตรเลีย",
 
     "footer.copy": "ลิขสิทธิ์ © 2025 Silver Bullet Security สงวนลิขสิทธิ์",
-    "cookie.title": "เว็บไซต์นี้ใช้คุกกี้",
-    "cookie.p":
-      "เราใช้คุกกี้เพื่อวิเคราะห์การเข้าชมและปรับปรุงประสบการณ์การใช้งานเว็บไซต์ เมื่อยอมรับ ข้อมูลของคุณจะถูกรวมเข้ากับข้อมูลของผู้ใช้อื่น",
-    "cookie.accept": "ยอมรับ",
 
     "steps.tap": "แตะแต่ละขั้นเพื่อดูรายละเอียด",
     "steps.auto": "ขั้นที่",
@@ -520,7 +568,7 @@ window.SBS_I18N = {
       ["ผู้เข้าร่วม", "สมัครล่วงหน้าเพื่อเข้าร่วม", "ผู้เชี่ยวชาญด้านการประกันคุณภาพ (QA)"],
       ["ร่วมกับ", "—", "ISPE"],
       ["จุดเน้น", "การอบรมด้านความมั่นคงปลอดภัยไซเบอร์", "ไซเบอร์ ความถูกต้องของข้อมูล และการตรวจสอบความถูกต้องของระบบคอมพิวเตอร์"],
-      ["สถานะ", "งานปี 2025 อยู่ระหว่างวางแผน", "สอบถามรายละเอียดได้"],
+      ["สถานะ", "สอบถามกำหนดการครั้งถัดไป", "สอบถามรายละเอียดได้"],
     ],
     "sheet.trainingTitle": "อบรม",
 
