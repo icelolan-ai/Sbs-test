@@ -507,14 +507,20 @@
   (wide.addEventListener ? wide.addEventListener("change", placeNav) : wide.addListener(placeNav));
 
   /* ---------- Circuit traces: the dot rides the path as you scroll, the trail stays lit ---------- */
+  // Each trace: main path points (fractions of width/height) + side branches
+  // [from point index, end x, end y] that light up when the dot passes that point.
   const TRACE_SHAPES = [
-    [[0.015, 0], [0.015, 0.16], [0.5, 0.16], [0.5, 0.5], [0.2, 0.5], [0.2, 0.8], [0.015, 0.8], [0.015, 1]],
-    [[0.015, 0], [0.015, 0.3], [0.36, 0.3], [0.36, 0.7], [0.015, 0.7], [0.015, 1]],
-    [[0.015, 0], [0.015, 0.22], [0.62, 0.22], [0.62, 0.62], [0.015, 0.62], [0.015, 1]],
-    [[0.015, 0], [0.015, 0.4], [0.24, 0.4], [0.24, 0.76], [0.015, 0.76], [0.015, 1]],
+    { pts: [[0.015, 0], [0.015, 0.16], [0.9, 0.16], [0.9, 0.6], [0.46, 0.6], [0.46, 0.84], [0.015, 0.84], [0.015, 1]],
+      branches: [[2, 0.9, 0.04], [4, 0.62, 0.74], [5, 0.62, 0.84]] },
+    { pts: [[0.96, 0], [0.96, 0.32], [0.58, 0.32], [0.58, 0.7], [0.015, 0.7], [0.015, 1]],
+      branches: [[1, 0.8, 0.18], [3, 0.78, 0.7], [2, 0.58, 0.16]] },
+    { pts: [[0.5, 0], [0.5, 0.22], [0.16, 0.22], [0.16, 0.52], [0.84, 0.52], [0.84, 0.82], [0.015, 0.82], [0.015, 1]],
+      branches: [[2, 0.16, 0.08], [4, 0.96, 0.4], [5, 0.96, 0.82]] },
+    { pts: [[0.96, 0], [0.96, 0.46], [0.34, 0.46], [0.34, 0.78], [0.015, 0.78], [0.015, 1]],
+      branches: [[1, 0.72, 0.3], [2, 0.34, 0.24], [3, 0.6, 0.9]] },
   ];
   const SVGNS = "http://www.w3.org/2000/svg";
-  const traces = $$(".trace").map((el) => ({ el, shape: TRACE_SHAPES[Number(el.dataset.variant) % TRACE_SHAPES.length] }));
+  const traces = $$(".trace").map((el) => ({ el, def: TRACE_SHAPES[Number(el.dataset.variant) % TRACE_SHAPES.length] }));
 
   function roundedPath(pts, r) {
     let d = `M${pts[0][0]} ${pts[0][1]}`;
@@ -533,13 +539,23 @@
   function buildTrace(tr) {
     const w = tr.el.clientWidth, h = tr.el.clientHeight;
     if (!w || !h) return;
-    const pts = tr.shape.map(([fx, fy]) => [Math.round(fx * w), Math.round(fy * h)]);
+    const P = ([fx, fy]) => [Math.round(fx * w), Math.round(fy * h)];
+    const pts = tr.def.pts.map(P);
     const d = roundedPath(pts, 16);
-    tr.el.innerHTML = `<svg viewBox="0 0 ${w} ${h}"><path class="base" d="${d}"/><path class="lit" d="${d}"/></svg>`;
+    // Branches leave the main trace at a right angle, then turn to their pad
+    const stubs = tr.def.branches.map(([i, fx, fy]) => {
+      const [x0, y0] = pts[i], [x1, y1] = P([fx, fy]);
+      const bend = Math.abs(x1 - x0) > Math.abs(y1 - y0) ? [x1, y0] : [x0, y1];
+      return { i, d: roundedPath([[x0, y0], bend, [x1, y1]], 10), end: [x1, y1] };
+    });
+    tr.el.innerHTML = `<svg viewBox="0 0 ${w} ${h}">
+      ${stubs.map((b) => `<path class="base" d="${b.d}"/>`).join("")}
+      <path class="base" d="${d}"/>
+      ${stubs.map((b, k) => `<path class="stub" data-k="${k}" d="${b.d}"/>`).join("")}
+      <path class="lit" d="${d}"/></svg>`;
     tr.lit = $(".lit", tr.el);
     tr.total = tr.lit.getTotalLength();
     tr.lit.style.strokeDasharray = tr.total;
-    // node positions along the path (straight-segment approximation is close enough for lighting)
     let acc = 0;
     tr.nodes = pts.map((p, i) => {
       if (i) acc += Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]);
@@ -550,8 +566,15 @@
       tr.el.appendChild(n);
       return { n, at: acc };
     });
-    const straight = acc;
-    tr.nodes.forEach((x) => { x.at = x.at / straight; });
+    tr.nodes.forEach((x) => { x.at = x.at / acc; });
+    tr.stubs = stubs.map((b, k) => {
+      const pad = document.createElement("i");
+      pad.className = "pad";
+      pad.style.left = b.end[0] + "px";
+      pad.style.top = b.end[1] + "px";
+      tr.el.appendChild(pad);
+      return { path: $(`.stub[data-k="${k}"]`, tr.el), pad, at: tr.nodes[b.i].at };
+    });
     tr.spark = document.createElement("i");
     tr.spark.className = "spark";
     tr.el.appendChild(tr.spark);
@@ -571,6 +594,11 @@
       tr.spark.style.transform = `translate(${pt.x.toFixed(1)}px, ${pt.y.toFixed(1)}px)`;
       tr.spark.classList.toggle("on", p > 0.001 && p < 0.999 && !reduceMotion);
       tr.nodes.forEach((x) => x.n.classList.toggle("on", p >= x.at - 0.001 && p > 0.001));
+      tr.stubs.forEach((x) => {
+        const on = p >= x.at - 0.001 && p > 0.001;
+        x.path.classList.toggle("on", on);
+        x.pad.classList.toggle("on", on);
+      });
     }
   }
   function buildTraces() { traces.forEach(buildTrace); updateTraces(); }

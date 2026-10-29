@@ -20,7 +20,10 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--appbar-h) + var(--safe-t) + 12px); background: var(--bg); }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--appbar-h) + var(--safe-t) + 12px); background: #070b0e; overscroll-behavior-y: none; }
+/* If the page still rubber-bands (older iOS), the area pulled into view above the
+   logo screen matches the hero's top colour instead of showing a dark band */
+html::before { content: ""; position: fixed; left: 0; right: 0; top: 0; height: 50%; z-index: -1; background: #10202a; pointer-events: none; }
 body {
   margin: 0;
   background: #070b0e;
@@ -32,6 +35,7 @@ body {
   -webkit-font-smoothing: antialiased;
   padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
   overflow-x: clip;
+  overscroll-behavior-y: none;
   touch-action: manipulation;
 }
 html[lang="th"] body { line-height: 1.8; }
@@ -452,3 +456,8 @@ body.at-intro .cookie { opacity: 0; pointer-events: none; }
 .trace + .sec { padding-top: 14px; }
 /* Blend the hero gradient into the page so the trace below has no visible seam */
 .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 180px; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(7, 11, 14, 0), #070b0e); }
+
+.trace .stub { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; opacity: 0; transition: opacity .5s; filter: drop-shadow(0 0 4px rgba(224, 80, 94, .8)); }
+.trace .stub.on { opacity: .85; }
+.trace .pad { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 3px; border: 1.5px solid rgba(211, 224, 230, .28); background: var(--bg); transition: all .45s var(--ease); }
+.trace .pad.on { border-color: #ffb3ba; background: rgba(224, 80, 94, .35); box-shadow: 0 0 12px rgba(224, 80, 94, .8); }
