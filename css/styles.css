@@ -356,6 +356,7 @@ html[lang="th"] .sheet-body h4 { letter-spacing: .02em; text-transform: none; fo
 /* ---------- Reveal ---------- */
 html.js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 html.js .reveal.in { opacity: 1; transform: none; }
+html.js .hero-reveal { opacity: var(--hero-opacity, 0); transform: translateY(var(--hero-offset, 28px)); }
 
 /* ---------- Tablet / desktop ---------- */
 @media (min-width: 640px) {
@@ -405,7 +406,7 @@ html.js .reveal.in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-  html.js .reveal { opacity: 1; transform: none; }
+  html.js .reveal, html.js .hero-reveal { opacity: 1; transform: none; }
 }
 
 
