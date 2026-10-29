@@ -6,8 +6,8 @@ window.SBS_CONFIG = {
 
   // Training pages. Empty = the button falls back to emailing the training address.
   links: {
-    secureBangkok: "", // was /bkk-training on the old site
-    gamp: "",          // was /gxp-training on the old site
+    secureBangkok: "https://silverbulletsecurity.com/bkk-training", // was /bkk-training on the old site
+    gamp: "https://silverbulletsecurity.com/gxp-training",          // was /gxp-training on the old site
   },
 
   offices: [

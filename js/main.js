@@ -37,6 +37,7 @@
       if (el.dataset.count && !el.dataset.done) return; // count-up still pending
       el.textContent = t(el.dataset.i18n);
     });
+    $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", t(el.dataset.i18nAlt)));
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
     updateWheelLabels();
@@ -46,6 +47,7 @@
     renderTraining(false);
     renderMap();
     renderOffice(false);
+    $("#officeList").innerHTML = CFG.offices.map((o) => `<a class="detail-card" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(o.address)}" target="_blank" rel="noopener"><strong>${esc(t("office." + o.id))}</strong><span>${esc(o.address)}</span><em>${esc(t("contact.map"))}</em></a>`).join("");
     renderSocial();
     wireContacts();
     if (current) renderSheet(current);
@@ -191,17 +193,18 @@
   let trainIdx = 0;
   function renderTraining(animate = true) {
     const it = TRAININGS[trainIdx];
-    const r = trainHref(it.link, it.subject);
+    const r = trainHref(null, it.subject);
     $("#trainTabs").style.setProperty("--i", trainIdx);
     $$("[data-train-tab]").forEach((b, n) => b.setAttribute("aria-selected", String(n === trainIdx)));
     const stage = $("#trainStage");
-    stage.innerHTML = `<img src="${it.img}" alt="" loading="lazy" width="1400" height="900">
+    stage.innerHTML = `<img src="${it.img}" alt="${esc(t("training.alt"))}" loading="lazy" width="1400" height="900">
       <div class="train-text">
         <p class="tag">${esc(t("training." + it.key + ".tag"))}</p>
         <h3>${esc(t("training." + it.key + ".title"))}</h3>
         <p>${esc(t("training." + it.key + ".p"))}</p>
         <div class="train-actions">
           <a class="btn btn-primary" href="${esc(r.href)}"${r.ext ? ' target="_blank" rel="noopener"' : ""}><span>${esc(t("training." + it.key + ".cta"))}</span>${icon("arrow")}</a>
+          <a class="btn btn-ghost" href="${esc(CFG.links[it.link])}" target="_blank" rel="noopener">${esc(t("training.details"))}${icon("arrow")}</a>
           <button type="button" class="btn btn-ghost" data-open="training">${icon("layers")}<span>${esc(t("training.compare.title"))}</span></button>
         </div>
       </div>`;
