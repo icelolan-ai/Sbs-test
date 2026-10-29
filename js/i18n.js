@@ -200,6 +200,17 @@ window.SBS_I18N = {
       "We use cookies to analyze website traffic and optimize your website experience. By accepting, your data will be aggregated with all other user data.",
     "cookie.accept": "Accept",
 
+    "steps.tap": "Tap a step to explore",
+    "steps.auto": "Step",
+    "services.also": "Also covers",
+    "compare.show": "Compare all levels",
+    "compare.hide": "Hide comparison",
+    "map.title": "Where we are",
+    "map.hint": "Tap a pin to see the address",
+    "life.title": "In life sciences",
+    "hero.tap": "Tap anywhere on the network",
+    "radar.hint": "Tap the radar",
+
     "hero.ctaTitle": "Ready to secure your systems?",
     "hero.ctaSub": "Tell us about your environment and we will point you to the right service.",
     "rail.label": "Page progress",
@@ -462,6 +473,17 @@ window.SBS_I18N = {
     "cookie.p":
       "เราใช้คุกกี้เพื่อวิเคราะห์การเข้าชมและปรับปรุงประสบการณ์การใช้งานเว็บไซต์ เมื่อยอมรับ ข้อมูลของคุณจะถูกรวมเข้ากับข้อมูลของผู้ใช้อื่น",
     "cookie.accept": "ยอมรับ",
+
+    "steps.tap": "แตะแต่ละขั้นเพื่อดูรายละเอียด",
+    "steps.auto": "ขั้นที่",
+    "services.also": "ครอบคลุมด้วย",
+    "compare.show": "เปรียบเทียบทุกระดับ",
+    "compare.hide": "ซ่อนตารางเปรียบเทียบ",
+    "map.title": "สำนักงานของเรา",
+    "map.hint": "แตะหมุดเพื่อดูที่อยู่",
+    "life.title": "ในแวดวง Life Sciences",
+    "hero.tap": "แตะที่เครือข่ายได้เลย",
+    "radar.hint": "แตะที่เรดาร์",
 
     "hero.ctaTitle": "พร้อมยกระดับความปลอดภัยของระบบคุณหรือยัง?",
     "hero.ctaSub": "เล่าให้เราฟังเกี่ยวกับระบบของคุณ แล้วเราจะแนะนำบริการที่เหมาะสม",
