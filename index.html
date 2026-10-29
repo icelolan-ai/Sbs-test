@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Silver Bullet Security — Cyber Security Professional Services</title>
   <meta name="description" content="Managed security services for the secure design, monitoring and management of on-premise and cloud-based systems.">
-  <meta name="theme-color" content="#0a1220">
+  <meta name="theme-color" content="#080d11">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,7 +21,6 @@
 </head>
 <body>
 
-<!-- Icon sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h4.5v-5h4v5h4.5V10"/></symbol>
@@ -35,21 +34,19 @@
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
     <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
-    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V16M8 8v.1M11.5 16v-3.2a2.3 2.3 0 0 1 4.6 0V16M11.5 10.5V16"/></symbol>
-    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 8.5h2V5.5h-2.4A3.6 3.6 0 0 0 10 9.1V11H8v3h2v6h3v-6h2.3l.5-3H13V9.4c0-.5.4-.9 1-.9z"/></symbol>
     <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
     <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A5.5 5.5 0 0 0 7.1 9.2 4.7 4.7 0 0 0 7 18.5z"/></symbol>
-    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3.5 9 4.7-9 4.7-9-4.7zM3 12.2l9 4.7 9-4.7M3 16.2l9 4.7 9-4.7"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
     <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8.5 4.5v9L12 21l-8.5-4.5v-9zM3.5 7.5 12 12l8.5-4.5M12 12v9"/></symbol>
     <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
-    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c.6-3.3 3-5 6-5s5.4 1.7 6 5M16.5 5.6a3.2 3.2 0 0 1 0 5.8M18.5 14.8c1.6.6 2.6 2.2 3 4.7"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3.5 9 4.7-9 4.7-9-4.7zM3 12.2l9 4.7 9-4.7M3 16.2l9 4.7 9-4.7"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V16M8 8v.1M11.5 16v-3.2a2.3 2.3 0 0 1 4.6 0V16M11.5 10.5V16"/></symbol>
+    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 8.5h2V5.5h-2.4A3.6 3.6 0 0 0 10 9.1V11H8v3h2v6h3v-6h2.3l.5-3H13V9.4c0-.5.4-.9 1-.9z"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 4.5h3.6l10.4 15h-3.6zM18.6 4.5 12.9 11M5.4 19.5l5.8-6.6"/></symbol>
   </defs>
 </svg>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
-<nav class="rail" id="rail" data-i18n-aria="rail.label"></nav>
 
 <header class="appbar" id="appbar">
   <a class="brand" href="#home" aria-label="Silver Bullet Security">
@@ -74,61 +71,94 @@
 
   <!-- HOME -->
   <section class="hero" id="home" data-section>
-    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
     <canvas class="hero-net" id="net" aria-hidden="true"></canvas>
-    <div class="hero-shade"></div>
     <div class="wrap hero-inner">
-      <img class="hero-logo reveal" src="assets/img/logo-mark.png" alt="Silver Bullet Security" width="190" height="79">
+      <img class="hero-mark reveal" src="assets/img/logo-mark.png" alt="" width="150" height="63">
       <p class="eyebrow reveal" data-i18n="hero.eyebrow">Cyber Security Professional Services</p>
       <h1 class="reveal" data-i18n="hero.title">Security is a method, not a single product.</h1>
       <p class="lead reveal" data-i18n="hero.sub">Managed security services for the secure design, monitoring and management of on-premise and cloud-based systems.</p>
-      <div class="cta glass spot reveal">
-        <div class="cta-text">
-          <strong data-i18n="hero.ctaTitle">Ready to secure your systems?</strong>
-          <span data-i18n="hero.ctaSub"></span>
-        </div>
-        <div class="cta-actions">
-          <a class="btn btn-primary" href="#services"><span data-i18n="hero.cta1">Explore services</span><svg class="ico"><use href="#i-arrow"/></svg></a>
-          <a class="btn btn-ghost" data-mail href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-i18n="hero.cta2">Email us</span></a>
-        </div>
+      <div class="hero-actions reveal">
+        <a class="btn btn-primary" href="#services"><span data-i18n="hero.cta1">Explore services</span><svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost" data-mail href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-i18n="hero.cta2">Email us</span></a>
       </div>
-      <div class="stats reveal">
-        <div class="stat"><b data-count="2010" data-from="1990" data-i18n="stat1.n">2010</b><span data-i18n="stat1.l">Founded in Houston, Texas</span></div>
-        <div class="stat"><b data-count="3" data-i18n="stat2.n">3</b><span data-i18n="stat2.l">Offices: US · Thailand · Australia</span></div>
-        <div class="stat"><b data-i18n="stat3.n">24/7</b><span data-i18n="stat3.l">Monitoring and threat management</span></div>
-        <div class="stat"><b data-count="6" data-i18n="stat4.n">6</b><span data-i18n="stat4.l">Step approach to cyber risk</span></div>
-      </div>
+      <dl class="hero-stats reveal">
+        <div><dt data-count="2010" data-from="1990" data-i18n="stat1.n">2010</dt><dd data-i18n="stat1.l">Founded in Houston, Texas</dd></div>
+        <div><dt data-count="3" data-i18n="stat2.n">3</dt><dd data-i18n="stat2.l">Offices: US · Thailand · Australia</dd></div>
+        <div><dt data-i18n="stat3.n">24/7</dt><dd data-i18n="stat3.l">Monitoring and threat management</dd></div>
+      </dl>
+      <p class="hint-line reveal"><span class="pulse-dot"></span><span data-i18n="hero.tap">Tap anywhere on the network</span></p>
     </div>
-    <a class="scroll-hint" href="#services" aria-label="Scroll"><span data-i18n="hero.scroll">Scroll</span><svg class="ico"><use href="#i-down"/></svg></a>
   </section>
 
-  <!-- SERVICES (bento) -->
+  <!-- SERVICES -->
   <section class="sec" id="services" data-section>
     <div class="wrap">
       <header class="sec-head reveal">
-        <p class="eyebrow"><span class="stepno"><span data-i18n="step.label">Step</span> 02/05</span><span data-i18n="services.eyebrow">What we do</span></p>
+        <p class="eyebrow" data-i18n="services.eyebrow">What we do</p>
         <h2 data-i18n="services.title">Our Services</h2>
-        <p class="muted" data-i18n="services.sub"></p>
+        <p class="sub" data-i18n="services.sub"></p>
       </header>
-      <div class="bento">
-        <button type="button" class="tile tile-img b-consulting spot reveal" data-open="consulting">
-          <span class="tile-bg" style="background-image:url(assets/img/p089.jpg)"></span>
-          <span class="tile-body"><span class="tile-badge">01</span><span class="svc-tag" data-i18n="svc.consulting.tag"></span><strong data-i18n="svc.consulting.title">Consulting</strong><span class="tile-sum" data-i18n="svc.consulting.sum"></span><span class="svc-more"><span data-i18n="services.details">View details</span><svg class="ico"><use href="#i-arrow"/></svg></span></span>
-        </button>
-        <button type="button" class="tile tile-img b-monitoring spot reveal" data-open="monitoring">
-          <span class="tile-bg" style="background-image:url(assets/img/services.jpg)"></span>
-          <span class="tile-body"><span class="tile-badge">02</span><span class="svc-tag" data-i18n="svc.monitoring.tag"></span><strong data-i18n="svc.monitoring.title">24/7 Monitoring</strong><span class="tile-sum" data-i18n="svc.monitoring.sum"></span><span class="svc-more"><span data-i18n="services.details">View details</span><svg class="ico"><use href="#i-arrow"/></svg></span></span>
-        </button>
-        <button type="button" class="tile tile-img b-training spot reveal" data-open="training">
-          <span class="tile-bg" style="background-image:url(assets/img/training.jpg)"></span>
-          <span class="tile-body"><span class="tile-badge">03</span><span class="svc-tag" data-i18n="svc.training.tag"></span><strong data-i18n="svc.training.title">Training</strong><span class="tile-sum" data-i18n="svc.training.sum"></span><span class="svc-more"><span data-i18n="services.details">View details</span><svg class="ico"><use href="#i-arrow"/></svg></span></span>
-        </button>
-        <button type="button" class="tile tile-sm b-siem spot reveal" data-open="monitoring"><span class="chip-ico"><svg class="ico"><use href="#i-shield"/></svg></span><strong data-i18n="tile.siem.t"></strong><span data-i18n="tile.siem.s"></span></button>
-        <button type="button" class="tile tile-sm b-cloud spot reveal" data-open="consulting"><span class="chip-ico"><svg class="ico"><use href="#i-cloud"/></svg></span><strong data-i18n="tile.cloud.t"></strong><span data-i18n="tile.cloud.s"></span></button>
-        <button type="button" class="tile tile-sm b-iso spot reveal" data-open="monitoring"><span class="chip-ico"><svg class="ico"><use href="#i-check"/></svg></span><strong data-i18n="tile.iso.t"></strong><span data-i18n="tile.iso.s"></span></button>
-        <button type="button" class="tile tile-sm b-vuln spot reveal" data-open="consulting"><span class="chip-ico"><svg class="ico"><use href="#i-search"/></svg></span><strong data-i18n="tile.vuln.t"></strong><span data-i18n="tile.vuln.s"></span></button>
-        <a class="tile tile-sm b-bi spot reveal" href="#about"><span class="chip-ico"><svg class="ico"><use href="#i-chart"/></svg></span><strong data-i18n="tile.bi.t"></strong><span data-i18n="tile.bi.s"></span></a>
-        <button type="button" class="tile tile-sm b-eib spot reveal" data-open="consulting"><span class="chip-ico"><svg class="ico"><use href="#i-box"/></svg></span><strong data-i18n="tile.eib.t"></strong><span data-i18n="tile.eib.s"></span></button>
+
+      <div class="svc-list">
+        <article class="svc reveal" data-open="consulting" tabindex="0" role="button">
+          <div class="art art-layers" aria-hidden="true">
+            <svg viewBox="0 0 200 140">
+              <path class="ly ly3" d="M100 104 166 80 100 56 34 80Z"/>
+              <path class="ly ly2" d="M100 86 166 62 100 38 34 62Z"/>
+              <g class="ly ly1"><path d="M100 68 166 44 100 20 34 44Z"/><path class="ly-mark" d="m86 44 9 7 18-14"/></g>
+            </svg>
+          </div>
+          <div class="svc-text">
+            <h3 data-i18n="svc.consulting.title">Consulting</h3>
+            <p data-i18n="svc.consulting.sum"></p>
+            <span class="more"><span data-i18n="services.details">View details</span><svg class="ico"><use href="#i-arrow"/></svg></span>
+          </div>
+        </article>
+
+        <article class="svc svc-featured reveal" data-open="monitoring" tabindex="0" role="button">
+          <div class="art art-radar" id="radar" aria-hidden="true">
+            <div class="radar-sweep"></div>
+            <i class="blip" style="--x:68%;--y:30%"></i>
+            <i class="blip" style="--x:30%;--y:62%;--dl:1.2s"></i>
+            <i class="blip" style="--x:58%;--y:74%;--dl:2.1s"></i>
+          </div>
+          <div class="svc-text">
+            <h3 data-i18n="svc.monitoring.title">24/7 Monitoring</h3>
+            <p data-i18n="svc.monitoring.sum"></p>
+            <span class="more"><span data-i18n="services.details">View details</span><svg class="ico"><use href="#i-arrow"/></svg></span>
+          </div>
+        </article>
+
+        <article class="svc reveal" data-open="training" tabindex="0" role="button">
+          <div class="art art-board" aria-hidden="true">
+            <svg viewBox="0 0 200 140">
+              <rect class="bd" x="30" y="16" width="140" height="90" rx="8"/>
+              <rect class="bar b1" x="52" y="62" width="16" height="32" rx="3"/>
+              <rect class="bar b2" x="80" y="48" width="16" height="46" rx="3"/>
+              <rect class="bar b3" x="108" y="34" width="16" height="60" rx="3"/>
+              <rect class="bar b4" x="136" y="54" width="16" height="40" rx="3"/>
+              <path class="bd" d="M100 106v14M80 124h40"/>
+            </svg>
+          </div>
+          <div class="svc-text">
+            <h3 data-i18n="svc.training.title">Training</h3>
+            <p data-i18n="svc.training.sum"></p>
+            <span class="more"><span data-i18n="services.details">View details</span><svg class="ico"><use href="#i-arrow"/></svg></span>
+          </div>
+        </article>
+      </div>
+
+      <div class="also reveal">
+        <p class="also-title" data-i18n="services.also">Also covers</p>
+        <div class="chip-row">
+          <button type="button" class="chip" data-open="monitoring"><svg class="ico"><use href="#i-shield"/></svg><span data-i18n="tile.siem.t"></span></button>
+          <button type="button" class="chip" data-open="consulting"><svg class="ico"><use href="#i-cloud"/></svg><span data-i18n="tile.cloud.t"></span></button>
+          <button type="button" class="chip" data-open="monitoring"><svg class="ico"><use href="#i-check"/></svg><span data-i18n="tile.iso.t"></span></button>
+          <button type="button" class="chip" data-open="consulting"><svg class="ico"><use href="#i-search"/></svg><span data-i18n="tile.vuln.t"></span></button>
+          <button type="button" class="chip" data-open="consulting"><svg class="ico"><use href="#i-box"/></svg><span data-i18n="tile.eib.t"></span></button>
+          <a class="chip" href="#about"><svg class="ico"><use href="#i-chart"/></svg><span data-i18n="tile.bi.t"></span></a>
+        </div>
       </div>
     </div>
   </section>
@@ -137,88 +167,100 @@
   <section class="sec" id="about" data-section>
     <div class="wrap">
       <header class="sec-head reveal">
-        <p class="eyebrow"><span class="stepno"><span data-i18n="step.label">Step</span> 03/05</span><span data-i18n="about.eyebrow">Who we are</span></p>
+        <p class="eyebrow" data-i18n="about.eyebrow">Who we are</p>
         <h2 data-i18n="about.title">About Silver Bullet Security</h2>
+        <p class="sub" data-i18n="name.p"></p>
       </header>
 
-      <div class="since glass spot reveal">
-        <div class="since-num" aria-hidden="true"><small data-i18n="since.word">Since</small><b data-i18n="since.year">2010</b></div>
-        <ol class="since-facts" id="sinceFacts"></ol>
+      <div class="approach reveal">
+        <div class="wheel-wrap">
+          <svg class="wheel" id="wheel" viewBox="0 0 320 320"></svg>
+          <div class="wheel-core" aria-hidden="true"><img src="assets/img/logo-mark.png" alt="" width="120" height="50"></div>
+        </div>
+        <div class="step-detail" aria-live="polite">
+          <p class="eyebrow" data-i18n="steps.title">Our 6-step approach</p>
+          <p class="step-num" id="stepNum">01</p>
+          <h3 id="stepTitle"></h3>
+          <p class="sub" id="stepText"></p>
+          <p class="hint-line"><span class="pulse-dot"></span><span data-i18n="steps.tap">Tap a step to explore</span></p>
+        </div>
       </div>
 
-      <div class="split">
+      <div class="story">
         <figure class="photo reveal"><img src="assets/img/story.jpg" alt="" loading="lazy" width="1400" height="934"></figure>
-        <div class="panel glass spot reveal">
-          <h3 data-i18n="story.title">Our Story</h3>
-          <p data-i18n="story.p1"></p>
-          <p data-i18n="story.p2"></p>
-        </div>
-      </div>
-
-      <div class="callout glass reveal">
-        <img src="assets/img/about.jpg" alt="" loading="lazy" width="1400" height="934">
-        <div>
-          <h3 data-i18n="name.title">Why “Silver Bullet”?</h3>
-          <p data-i18n="name.p"></p>
-        </div>
-      </div>
-
-      <h3 class="reveal row-title"><span data-i18n="steps.title">Our 6-step approach</span><small data-i18n="steps.hint">Swipe →</small></h3>
-      <div class="steps" id="steps" tabindex="0"></div>
-      <div class="dots" id="stepDots" aria-hidden="true"></div>
-
-      <div class="split split-rev">
-        <figure class="photo reveal"><img src="assets/img/team.jpg" alt="" loading="lazy" width="1400" height="934"></figure>
         <div class="reveal">
-          <div class="panel glass spot">
-            <h3 data-i18n="team.title">Our Team</h3>
-            <p data-i18n="team.p"></p>
+          <h3 data-i18n="story.title">Our Story</h3>
+          <p class="sub" data-i18n="story.p1"></p>
+          <ol class="timeline" id="timeline"></ol>
+        </div>
+      </div>
+
+      <div class="team reveal">
+        <figure class="photo"><img src="assets/img/team.jpg" alt="" loading="lazy" width="1400" height="934"></figure>
+        <div class="team-card">
+          <h3 data-i18n="team.title">Our Team</h3>
+          <p class="sub" data-i18n="team.p"></p>
+          <div class="person">
+            <div class="avatar" aria-hidden="true">JY</div>
+            <div><strong data-i18n="profile.name">Jason Young</strong><span data-i18n="profile.role">Founder &amp; CEO</span></div>
           </div>
-          <div id="profile"></div>
         </div>
       </div>
 
       <div class="life reveal">
-        <h3 data-i18n="talks.title">In life sciences</h3>
-        <p class="muted" data-i18n="talks.sub"></p>
-        <div id="speaker"></div>
-        <h4 class="journey-title" data-i18n="journey.title"></h4>
-        <p class="muted" data-i18n="journey.sub"></p>
-        <ol class="journey" id="talks"></ol>
+        <h3 data-i18n="life.title">In life sciences</h3>
+        <p class="sub" data-i18n="talks.sub"></p>
+        <div class="talks" id="talks"></div>
       </div>
     </div>
   </section>
 
-  <!-- TRAINING (showcase) -->
+  <!-- TRAINING -->
   <section class="sec" id="training" data-section>
     <div class="wrap">
       <header class="sec-head reveal">
-        <p class="eyebrow"><span class="stepno"><span data-i18n="step.label">Step</span> 04/05</span><span data-i18n="training.eyebrow">Learn with us</span></p>
+        <p class="eyebrow" data-i18n="training.eyebrow">Learn with us</p>
         <h2 data-i18n="training.title">Training</h2>
       </header>
-      <div class="showcase reveal">
-        <div class="show-tabs" role="tablist" id="showTabs"></div>
-        <div class="show-stage" id="showStage"></div>
+      <div class="seg reveal" role="tablist" id="trainTabs">
+        <i class="seg-thumb"></i>
+        <button type="button" role="tab" data-train-tab="0" aria-selected="true" data-i18n="training.conf.title">Secure Bangkok</button>
+        <button type="button" role="tab" data-train-tab="1" aria-selected="false" data-i18n="training.gamp.title">GAMP 5 &amp; Cyber Security</button>
       </div>
-      <div class="note glass reveal">
-        <div>
-          <strong data-i18n="training.pres.title">Request our presentations</strong>
-          <span data-i18n="training.pres.p"></span>
-        </div>
-        <a class="btn btn-ghost" data-train="" data-subject="training.subject.pres" href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-train-addr></span></a>
-      </div>
+      <div class="train reveal" id="trainStage"></div>
+      <p class="pres reveal">
+        <span data-i18n="training.pres.title">Request our presentations</span>
+        <a data-train="" data-subject="training.subject.pres" href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-train-addr></span></a>
+      </p>
     </div>
   </section>
 
-  <!-- CONTACT (features) -->
+  <!-- CONTACT -->
   <section class="sec" id="contact" data-section>
     <div class="wrap">
       <header class="sec-head reveal">
-        <p class="eyebrow"><span class="stepno"><span data-i18n="step.label">Step</span> 05/05</span><span data-i18n="contact.eyebrow">Get in touch</span></p>
+        <p class="eyebrow" data-i18n="contact.eyebrow">Get in touch</p>
         <h2 data-i18n="contact.title">Contact</h2>
-        <p class="muted" data-i18n="contact.sub"></p>
+        <p class="sub" data-i18n="contact.sub"></p>
       </header>
-      <div class="features" id="features"></div>
+
+      <div class="contact-cta reveal">
+        <a class="btn btn-primary btn-xl" data-mail href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span><span data-i18n="contact.email">Email us</span><small data-mail-addr></small></span></a>
+        <a class="btn btn-ghost btn-xl" id="callBtn" hidden href="#contact"><svg class="ico"><use href="#i-phone"/></svg><span><span data-i18n="contact.call">Call us</span><small data-phone-num></small></span></a>
+      </div>
+
+      <div class="mapbox reveal">
+        <div class="map-head">
+          <h3 data-i18n="map.title">Where we are</h3>
+          <p class="hint-line"><span class="pulse-dot"></span><span data-i18n="map.hint">Tap a pin to see the address</span></p>
+        </div>
+        <div class="map" id="map">
+          <svg class="map-arcs" id="mapArcs" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true"></svg>
+        </div>
+        <a class="office" id="office" target="_blank" rel="noopener" href="#contact"></a>
+      </div>
+
+      <div class="social reveal" id="social"></div>
     </div>
   </section>
 
@@ -226,24 +268,11 @@
 
 <footer class="footer">
   <div class="wrap">
-    <div class="foot glass">
-      <div class="foot-brand">
-        <img src="assets/img/logo-mark.png" alt="" width="72" height="30">
-        <a data-mail href="#contact"><span data-mail-addr></span></a>
-      </div>
-      <nav class="foot-links" data-i18n-aria="nav.label">
-        <a href="#home" data-i18n="nav.home">Home</a>
-        <a href="#services" data-i18n="nav.services">Services</a>
-        <a href="#about" data-i18n="nav.about">About</a>
-        <a href="#training" data-i18n="nav.training">Training</a>
-        <a href="#contact" data-i18n="nav.contact">Contact</a>
-      </nav>
-      <p data-i18n="footer.copy">Copyright © 2025 Silver Bullet Security — All Rights Reserved.</p>
-    </div>
+    <img src="assets/img/logo-mark.png" alt="" width="72" height="30">
+    <p data-i18n="footer.copy">Copyright © 2025 Silver Bullet Security — All Rights Reserved.</p>
   </div>
 </footer>
 
-<!-- Bottom sheet (service details) -->
 <div class="sheet-root" id="sheetRoot" hidden>
   <div class="sheet-backdrop" id="sheetBackdrop"></div>
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
@@ -253,7 +282,6 @@
   </div>
 </div>
 
-<!-- Cookie notice -->
 <aside class="cookie" id="cookie" hidden>
   <div>
     <strong data-i18n="cookie.title">This website uses cookies.</strong>
