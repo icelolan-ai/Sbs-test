@@ -114,11 +114,10 @@ section[data-section] { scroll-margin-top: calc(var(--appbar-h) + var(--safe-t) 
 .sec-head { margin-bottom: 30px; }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; min-height: calc(100svh - 10px); display: flex; align-items: flex-end; overflow: hidden; padding: calc(var(--appbar-h) + var(--safe-t) + 40px) 0 calc(var(--tabbar-h) + 30px); isolation: isolate; align-items: center; }
+.hero { position: relative; min-height: calc(100svh - 10px); display: flex; align-items: flex-end; overflow: hidden; padding: 0 0 calc(var(--tabbar-h) + 30px); isolation: isolate; flex-direction: column; align-items: stretch; }
 .hero { background: linear-gradient(165deg, #10202a 0%, #0b151c 45%, #080d11 100%); }
 .hero-glow { position: absolute; inset: -20%; z-index: -3; pointer-events: none; background: radial-gradient(40% 35% at 78% 22%, rgba(224, 80, 94, .30), transparent 70%), radial-gradient(45% 40% at 18% 30%, rgba(46, 150, 170, .34), transparent 70%), radial-gradient(40% 30% at 60% 85%, rgba(120, 150, 200, .16), transparent 70%); animation: glow 18s ease-in-out infinite alternate; }
 @keyframes glow { to { transform: translate3d(-4%, 3%, 0) rotate(6deg); } }
-.hero-mark { width: 96px; height: auto; margin-bottom: 22px; filter: drop-shadow(0 8px 24px rgba(0, 0, 0, .45)); }
 .hero-net { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -2; opacity: .55; }
 .hero h1 { font-size: clamp(38px, 10vw, 68px); font-weight: 500; max-width: 15ch; margin-bottom: .35em; }
 html[lang="th"] .hero h1 { font-size: clamp(32px, 8vw, 56px); max-width: 18ch; }
@@ -370,11 +369,10 @@ html.js .reveal.in { opacity: 1; transform: none; }
   .appbar .tab { flex: 0 0 auto; gap: 8px; height: 44px; padding: 0 16px; font-size: 15px; box-shadow: none; }
   .appbar .tab span { max-width: none; opacity: 1; margin-left: 8px; }
   .appbar .tab.active { background: rgba(224, 80, 94, .18); }
-  .hero-mark { width: 120px; }
   .tab .ico { width: 18px; height: 18px; }
   .tab.active .ico { transform: none; }
   .sec { padding: 120px 0 30px; }
-  .hero { align-items: center; padding-bottom: 60px; }
+  .hero { padding-bottom: 60px; }
   .hero-actions .btn { flex: 0 0 auto; }
   .svc-list { grid-template-columns: repeat(3, 1fr); gap: 18px; }
   .svc { grid-template-columns: 1fr; gap: 18px; padding: 26px; align-items: start; }
@@ -402,4 +400,34 @@ html.js .reveal.in { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   html.js .reveal { opacity: 1; transform: none; }
+}
+
+
+/* ---------- Opening screen: logo first, everything else on scroll ---------- */
+.intro { position: relative; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: calc(1 - var(--ip, 0) * 1.2); transform: translateY(calc(var(--ip, 0) * -60px)) scale(calc(1 - var(--ip, 0) * .12)); }
+.intro-logo { position: relative; width: min(56vw, 260px); animation: introLogo 1.4s var(--ease) both; }
+.intro-logo img { width: 100%; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .55)); }
+.intro-logo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .85) 50%, transparent 62%) no-repeat; background-size: 260% 100%; background-position: 140% 0;
+  -webkit-mask: url(../assets/img/logo-mark.png) center / contain no-repeat; mask: url(../assets/img/logo-mark.png) center / contain no-repeat;
+  animation: shine 2.2s 1.2s ease-in-out both, shine 2.2s 6s ease-in-out infinite; }
+.intro-name { margin: 30px 0 0; font-size: 13px; font-weight: 500; letter-spacing: .5em; text-indent: .5em; color: var(--silver); animation: introName 1.4s .55s var(--ease) both; }
+.intro-cue { position: absolute; bottom: calc(28px + var(--safe-b)); left: 50%; width: 48px; height: 48px; margin-left: -24px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); border: 1px solid var(--line); animation: introName 1s 1.6s var(--ease) both; }
+.intro-cue .ico { animation: bob 1.8s ease-in-out infinite; }
+@keyframes introLogo { from { opacity: 0; transform: scale(.82); filter: blur(14px); } }
+@keyframes introName { from { opacity: 0; letter-spacing: .1em; transform: translateY(8px); } }
+@keyframes shine { from { background-position: 140% 0; } to { background-position: -40% 0; } }
+@keyframes bob { 50% { transform: translateY(5px); } }
+.hero-inner { min-height: 90svh; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--appbar-h) + var(--safe-t) + 20px); }
+
+/* Bars stay out of the way on the opening screen */
+.appbar, .tabbar { transition: transform .5s var(--ease), opacity .4s; }
+body.at-intro .appbar { transform: translateY(calc(-100% - 24px)); opacity: 0; pointer-events: none; }
+body.at-intro .tabbar { transform: translateY(110%); opacity: 0; pointer-events: none; }
+body.at-intro .cookie { opacity: 0; pointer-events: none; }
+
+@media (min-width: 900px) {
+  .intro-logo { width: 300px; }
+  .intro-name { font-size: 14px; }
+  body.at-intro .appbar { transform: translateY(calc(-100% - 24px)); opacity: 0; }
 }
