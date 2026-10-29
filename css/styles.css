@@ -405,14 +405,18 @@ html.js .reveal.in { opacity: 1; transform: none; }
 
 /* ---------- Opening screen: logo first, everything else on scroll ---------- */
 .intro { position: relative; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; opacity: calc(1 - var(--ip, 0) * 1.2); transform: translateY(calc(var(--ip, 0) * -60px)) scale(calc(1 - var(--ip, 0) * .12)); }
-.intro-logo { position: relative; width: min(56vw, 260px); animation: introLogo 1.4s var(--ease) both; }
+.intro-logo { position: relative; width: min(56vw, 260px); }
+.intro.play .intro-logo { animation: introLogo 1.4s var(--ease) both; }
 .intro-logo img { width: 100%; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .55)); }
 .intro-logo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .85) 50%, transparent 62%) no-repeat; background-size: 260% 100%; background-position: 140% 0;
   -webkit-mask: url(../assets/img/logo-mark.png) center / contain no-repeat; mask: url(../assets/img/logo-mark.png) center / contain no-repeat;
-  animation: shine 2.2s 1.2s ease-in-out both, shine 2.2s 6s ease-in-out infinite; }
-.intro-name { margin: 30px 0 0; font-size: 13px; font-weight: 500; letter-spacing: .5em; text-indent: .5em; color: var(--silver); animation: introName 1.4s .55s var(--ease) both; }
-.intro-cue { position: absolute; bottom: calc(28px + var(--safe-b)); left: 50%; width: 48px; height: 48px; margin-left: -24px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); border: 1px solid var(--line); animation: introName 1s 1.6s var(--ease) both; }
+  background-position: 140% 0; }
+.intro.play .intro-logo::after { animation: shine 2.2s 1.2s ease-in-out both, shine 2.2s 6s ease-in-out infinite; }
+.intro-name { margin: 30px 0 0; font-size: 13px; font-weight: 500; letter-spacing: .5em; text-indent: .5em; color: var(--silver); }
+.intro.play .intro-name { animation: introName 1.4s .55s var(--ease) both; }
+.intro-cue { position: absolute; bottom: calc(28px + var(--safe-b)); left: 50%; width: 48px; height: 48px; margin-left: -24px; display: grid; place-items: center; border-radius: 50%; color: var(--muted); border: 1px solid var(--line); }
+.intro.play .intro-cue { animation: introName 1s 1.6s var(--ease) both; }
 .intro-cue .ico { animation: bob 1.8s ease-in-out infinite; }
 @keyframes introLogo { from { opacity: 0; transform: scale(.82); filter: blur(14px); } }
 @keyframes introName { from { opacity: 0; letter-spacing: .1em; transform: translateY(8px); } }
@@ -421,9 +425,10 @@ html.js .reveal.in { opacity: 1; transform: none; }
 .hero-inner { min-height: 90svh; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--appbar-h) + var(--safe-t) + 20px); }
 
 /* Bars stay out of the way on the opening screen */
-.appbar, .tabbar { transition: transform .5s var(--ease), opacity .4s; }
-body.at-intro .appbar { transform: translateY(calc(-100% - 24px)); opacity: 0; pointer-events: none; }
-body.at-intro .tabbar { transform: translateY(110%); opacity: 0; pointer-events: none; }
+.appbar, .tabbar { visibility: visible; transition: transform .5s var(--ease), opacity .4s, visibility 0s; }
+body.at-intro .appbar, body.at-intro .tabbar { opacity: 0; visibility: hidden; pointer-events: none; -webkit-backdrop-filter: none; backdrop-filter: none; transition: transform .5s var(--ease), opacity .4s, visibility 0s .5s; }
+body.at-intro .appbar { transform: translateY(calc(-100% - 24px)); }
+body.at-intro .tabbar { transform: translateY(110%); }
 body.at-intro .cookie { opacity: 0; pointer-events: none; }
 
 @media (min-width: 900px) {
