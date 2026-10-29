@@ -54,17 +54,25 @@ window.SBS_I18N = {
     "consulting.approach":
       "Our goal is an environment you can manage yourself, with you involved at every step. There is no standard solution, but there is a standard methodology — applied to our “Enterprise in a Box” offerings for organizations of different sizes.",
     "consulting.listTitle": "What we cover",
-    "consulting.items": [
-      "Information security frameworks such as COBIT, ISO and NIST",
-      "Aligning cybersecurity roles and responsibilities",
-      "Creating core cybersecurity governance functions",
-      "SIEM and XDR security operations and monitoring",
-      "Cloud validation and engineering for PaaS, SaaS and IaaS",
-      "Enterprise infrastructure and architecture design",
-      "Segmenting IT and OT (production) systems and data",
-      "Security design for IoT, mobile apps and big data",
-      "Data privacy protections for personally identifiable information (PII)",
-      "Vulnerability assessments",
+    "consulting.groups": [
+      ["Governance & frameworks", [
+        "Information security frameworks such as COBIT, ISO and NIST",
+        "Aligning cybersecurity roles and responsibilities",
+        "Creating core cybersecurity governance functions",
+      ]],
+      ["Architecture & cloud", [
+        "Cloud validation and engineering for PaaS, SaaS and IaaS",
+        "Enterprise infrastructure and architecture design",
+        "Segmenting IT and OT (production) systems and data",
+        "Security design for IoT, mobile apps and big data",
+      ]],
+      ["Security operations", [
+        "SIEM and XDR security operations and monitoring",
+        "Vulnerability assessments",
+      ]],
+      ["Data protection", [
+        "Data privacy protections for personally identifiable information (PII)",
+      ]],
     ],
 
     "monitoring.heading": "Monitoring and threat management services",
@@ -191,6 +199,68 @@ window.SBS_I18N = {
     "cookie.p":
       "We use cookies to analyze website traffic and optimize your website experience. By accepting, your data will be aggregated with all other user data.",
     "cookie.accept": "Accept",
+
+    "hero.ctaTitle": "Ready to secure your systems?",
+    "hero.ctaSub": "Tell us about your environment and we will point you to the right service.",
+    "rail.label": "Page progress",
+    "step.label": "Step",
+
+    "tile.siem.t": "SIEM & XDR", "tile.siem.s": "Security operations and monitoring",
+    "tile.cloud.t": "Cloud & IT/OT", "tile.cloud.s": "PaaS, SaaS, IaaS and production-system segmentation",
+    "tile.iso.t": "ISO/IEC 27001", "tile.iso.s": "An ISMS built around your business",
+    "tile.vuln.t": "Vulnerability assessment", "tile.vuln.s": "Find weaknesses before they are exploited",
+    "tile.bi.t": "Business Intelligence", "tile.bi.s": "Data analysis, dashboards and reporting",
+    "tile.eib.t": "Enterprise in a Box", "tile.eib.s": "One methodology, sized to your organization",
+
+    "tier.count": "capabilities",
+    "compare.title": "Compare the levels",
+    "compare.hint": "Swipe to compare →",
+    "compare.note": "— Not listed for this level on the current site.",
+    "compare.col": "Capability",
+    "monitoring.rows": [
+      ["Log & event analysis", "Basic firewall rule logging", "System, firewall and network events", "XDR and SIEM analysis"],
+      ["Compliance scans", "Quarterly", "Monthly", "Daily, weekly or monthly"],
+      ["Web gateway", "Basic", "Medium level", "Active filtering, encrypted and unencrypted"],
+      ["Network", "Uptime monitoring and logging", "Management and critical events", "Bandwidth and ACL optimization"],
+      ["Servers & OS", "—", "Health monitoring", "Event logging and health monitoring"],
+      ["Patch & baseline", "—", "Basic", "Managed"],
+      ["Antivirus", "Quarterly monitoring", "—", "—"],
+    ],
+
+    "training.compare.title": "Compare at a glance",
+    "training.colConf": "Secure Bangkok",
+    "training.colGamp": "GAMP 5 & Cyber Security",
+    "training.rows": [
+      ["Format", "Annual conference", "Course"],
+      ["Audience", "Sign up early to join", "Quality Assurance professionals"],
+      ["In cooperation with", "—", "ISPE"],
+      ["Focus", "Cyber security training", "Cybersecurity, data integrity and computerized systems validation"],
+      ["Status", "2025 event in planning", "Ask us for details"],
+    ],
+    "sheet.trainingTitle": "Training",
+
+    "since.word": "Since",
+    "since.year": "2010",
+    "since.f": [
+      ["2010", "Silver Bullet Security L.L.C. is founded by Jason Young in Houston, Texas."],
+      ["2018", "Our sister company, Silver Bullet Security Service Co. Ltd., joins in Thailand."],
+      ["Today", "Offices in the United States, Thailand and Australia."],
+    ],
+    "profile.name": "Jason Young",
+    "profile.role": "Founder & CEO",
+    "profile.bio": "Founded Silver Bullet Security in Houston, Texas in 2010, and presents on cyber security and data integrity at life-science conferences.",
+    "profile.tags": ["Houston, Texas", "Since 2010", "Life sciences speaker"],
+    "profile.cta": "Email the team",
+    "speaker.role": "Speaker · CEO",
+    "journey.title": "Our journey in life sciences",
+    "journey.sub": "From Singapore to India — taking cyber security and data integrity to the pharmaceutical community.",
+
+    "feat.email.d": "Write to our sales team.",
+    "feat.call.d": "Speak with us directly.",
+    "feat.social.t": "Find us online",
+    "feat.social.d": "LinkedIn, Facebook and X.",
+    "feat.training.t": "Training & presentations",
+    "feat.training.d": "Course questions and copies of our presentations.",
   },
 
   th: {
@@ -247,17 +317,25 @@ window.SBS_I18N = {
     "consulting.approach":
       "เป้าหมายของเราคือสภาพแวดล้อมที่คุณบริหารจัดการเองได้ โดยคุณมีส่วนร่วมในทุกขั้นตอน ไม่มีโซลูชันมาตรฐานตายตัว แต่มีระเบียบวิธีมาตรฐาน ซึ่งเรานำไปใช้กับชุดบริการ “Enterprise in a Box” สำหรับองค์กรหลายขนาด",
     "consulting.listTitle": "ขอบเขตที่เราดูแล",
-    "consulting.items": [
-      "กรอบการรักษาความมั่นคงปลอดภัยสารสนเทศ เช่น COBIT, ISO และ NIST",
-      "จัดบทบาทและความรับผิดชอบด้านไซเบอร์ให้สอดคล้องกัน",
-      "จัดตั้งหน้าที่ธรรมาภิบาลด้านไซเบอร์ที่เป็นหัวใจหลัก",
-      "ปฏิบัติการและเฝ้าระวังความปลอดภัยด้วย SIEM และ XDR",
-      "ตรวจสอบและออกแบบระบบคลาวด์ทั้ง PaaS, SaaS และ IaaS",
-      "ออกแบบโครงสร้างพื้นฐานและสถาปัตยกรรมระดับองค์กร",
-      "แบ่งส่วนระบบและข้อมูลของ IT และ OT (สายการผลิต)",
-      "ออกแบบความปลอดภัยสำหรับ IoT, แอปมือถือ และ Big Data",
-      "ปกป้องความเป็นส่วนตัวของข้อมูลส่วนบุคคล (PII)",
-      "การประเมินช่องโหว่ (Vulnerability Assessment)",
+    "consulting.groups": [
+      ["ธรรมาภิบาลและกรอบมาตรฐาน", [
+        "กรอบการรักษาความมั่นคงปลอดภัยสารสนเทศ เช่น COBIT, ISO และ NIST",
+        "จัดบทบาทและความรับผิดชอบด้านไซเบอร์ให้สอดคล้องกัน",
+        "จัดตั้งหน้าที่ธรรมาภิบาลด้านไซเบอร์ที่เป็นหัวใจหลัก",
+      ]],
+      ["สถาปัตยกรรมและคลาวด์", [
+        "ตรวจสอบและออกแบบระบบคลาวด์ทั้ง PaaS, SaaS และ IaaS",
+        "ออกแบบโครงสร้างพื้นฐานและสถาปัตยกรรมระดับองค์กร",
+        "แบ่งส่วนระบบและข้อมูลของ IT และ OT (สายการผลิต)",
+        "ออกแบบความปลอดภัยสำหรับ IoT, แอปมือถือ และ Big Data",
+      ]],
+      ["ปฏิบัติการด้านความปลอดภัย", [
+        "ปฏิบัติการและเฝ้าระวังความปลอดภัยด้วย SIEM และ XDR",
+        "การประเมินช่องโหว่ (Vulnerability Assessment)",
+      ]],
+      ["การปกป้องข้อมูล", [
+        "ปกป้องความเป็นส่วนตัวของข้อมูลส่วนบุคคล (PII)",
+      ]],
     ],
 
     "monitoring.heading": "บริการเฝ้าระวังและจัดการภัยคุกคาม",
@@ -384,5 +462,67 @@ window.SBS_I18N = {
     "cookie.p":
       "เราใช้คุกกี้เพื่อวิเคราะห์การเข้าชมและปรับปรุงประสบการณ์การใช้งานเว็บไซต์ เมื่อยอมรับ ข้อมูลของคุณจะถูกรวมเข้ากับข้อมูลของผู้ใช้อื่น",
     "cookie.accept": "ยอมรับ",
+
+    "hero.ctaTitle": "พร้อมยกระดับความปลอดภัยของระบบคุณหรือยัง?",
+    "hero.ctaSub": "เล่าให้เราฟังเกี่ยวกับระบบของคุณ แล้วเราจะแนะนำบริการที่เหมาะสม",
+    "rail.label": "ความคืบหน้าของหน้า",
+    "step.label": "ขั้นที่",
+
+    "tile.siem.t": "SIEM & XDR", "tile.siem.s": "ปฏิบัติการและเฝ้าระวังความปลอดภัย",
+    "tile.cloud.t": "คลาวด์ & IT/OT", "tile.cloud.s": "PaaS, SaaS, IaaS และการแบ่งส่วนระบบสายการผลิต",
+    "tile.iso.t": "ISO/IEC 27001", "tile.iso.s": "ระบบ ISMS ที่ออกแบบรอบธุรกิจของคุณ",
+    "tile.vuln.t": "ประเมินช่องโหว่", "tile.vuln.s": "ค้นพบจุดอ่อนก่อนถูกโจมตี",
+    "tile.bi.t": "Business Intelligence", "tile.bi.s": "วิเคราะห์ข้อมูล แดชบอร์ด และรายงาน",
+    "tile.eib.t": "Enterprise in a Box", "tile.eib.s": "ระเบียบวิธีเดียว ปรับขนาดให้เหมาะกับองค์กร",
+
+    "tier.count": "ความสามารถ",
+    "compare.title": "เปรียบเทียบแต่ละระดับ",
+    "compare.hint": "ปัดเพื่อเปรียบเทียบ →",
+    "compare.note": "— ไม่ได้ระบุไว้ในระดับนี้บนเว็บไซต์ปัจจุบัน",
+    "compare.col": "ความสามารถ",
+    "monitoring.rows": [
+      ["วิเคราะห์ล็อกและเหตุการณ์", "บันทึกกฎไฟร์วอลล์ระดับพื้นฐาน", "เหตุการณ์ของระบบ ไฟร์วอลล์ และเครือข่าย", "วิเคราะห์ XDR และ SIEM"],
+      ["สแกนความสอดคล้อง", "รายไตรมาส", "รายเดือน", "รายวัน รายสัปดาห์ หรือรายเดือน"],
+      ["Web Gateway", "ระดับพื้นฐาน", "ระดับกลาง", "กรองเว็บเข้มข้น ทั้งที่เข้ารหัสและไม่เข้ารหัส"],
+      ["เครือข่าย", "เฝ้าระวังสถานะและบันทึกล็อก", "บริหารเครือข่ายและเหตุการณ์สำคัญ", "ปรับแต่งแบนด์วิดท์และ ACL"],
+      ["เซิร์ฟเวอร์และ OS", "—", "เฝ้าระวังสถานะ", "บันทึกเหตุการณ์และเฝ้าระวังสถานะ"],
+      ["แพตช์และ Baseline", "—", "ระดับพื้นฐาน", "บริหารจัดการเต็มรูปแบบ"],
+      ["แอนตี้ไวรัส", "ตรวจสอบรายไตรมาส", "—", "—"],
+    ],
+
+    "training.compare.title": "เปรียบเทียบอย่างรวดเร็ว",
+    "training.colConf": "Secure Bangkok",
+    "training.colGamp": "GAMP 5 & Cyber Security",
+    "training.rows": [
+      ["รูปแบบ", "งานประชุมประจำปี", "หลักสูตร"],
+      ["ผู้เข้าร่วม", "สมัครล่วงหน้าเพื่อเข้าร่วม", "ผู้เชี่ยวชาญด้านการประกันคุณภาพ (QA)"],
+      ["ร่วมกับ", "—", "ISPE"],
+      ["จุดเน้น", "การอบรมด้านความมั่นคงปลอดภัยไซเบอร์", "ไซเบอร์ ความถูกต้องของข้อมูล และการตรวจสอบความถูกต้องของระบบคอมพิวเตอร์"],
+      ["สถานะ", "งานปี 2025 อยู่ระหว่างวางแผน", "สอบถามรายละเอียดได้"],
+    ],
+    "sheet.trainingTitle": "อบรม",
+
+    "since.word": "ตั้งแต่",
+    "since.year": "2010",
+    "since.f": [
+      ["2010", "Silver Bullet Security L.L.C. ก่อตั้งโดย Jason Young ที่เมืองฮูสตัน รัฐเท็กซัส"],
+      ["2018", "บริษัทในเครือ Silver Bullet Security Service Co. Ltd. ร่วมเป็นส่วนหนึ่งในประเทศไทย"],
+      ["ปัจจุบัน", "สำนักงานในสหรัฐอเมริกา ประเทศไทย และออสเตรเลีย"],
+    ],
+    "profile.name": "Jason Young",
+    "profile.role": "ผู้ก่อตั้งและ CEO",
+    "profile.bio": "ก่อตั้ง Silver Bullet Security ที่ฮูสตัน รัฐเท็กซัส ในปี 2010 และบรรยายเรื่องความมั่นคงปลอดภัยไซเบอร์และความถูกต้องของข้อมูลในงานประชุมด้านวิทยาศาสตร์ชีวภาพ",
+    "profile.tags": ["ฮูสตัน เท็กซัส", "ตั้งแต่ 2010", "วิทยากรด้าน Life Sciences"],
+    "profile.cta": "ส่งอีเมลหาทีมงาน",
+    "speaker.role": "วิทยากร · CEO",
+    "journey.title": "เส้นทางของเราในแวดวง Life Sciences",
+    "journey.sub": "จากสิงคโปร์สู่อินเดีย นำเรื่องความมั่นคงปลอดภัยไซเบอร์และความถูกต้องของข้อมูลไปสู่ชุมชนอุตสาหกรรมยา",
+
+    "feat.email.d": "เขียนถึงทีมขายของเรา",
+    "feat.call.d": "พูดคุยกับเราโดยตรง",
+    "feat.social.t": "ติดตามเราออนไลน์",
+    "feat.social.d": "LinkedIn, Facebook และ X",
+    "feat.training.t": "การอบรมและสไลด์การบรรยาย",
+    "feat.training.d": "สอบถามหลักสูตรและขอสำเนาสไลด์การบรรยาย",
   },
 };
