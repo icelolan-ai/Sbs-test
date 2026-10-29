@@ -577,6 +577,29 @@
   let traceRt;
   window.addEventListener("resize", () => { clearTimeout(traceRt); traceRt = setTimeout(buildTraces, 150); });
 
+  /* ---------- In-page links scroll without touching the URL hash.
+     iOS Safari re-scrolls to a #target whenever its toolbar resizes, which used to
+     pull the page back down from the logo screen after tapping the scroll cue. ---------- */
+  function scrollToTarget(id) {
+    const smooth = reduceMotion ? "auto" : "smooth";
+    if (id === "home" || id === "") { window.scrollTo({ top: 0, behavior: smooth }); return; }
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (el.matches("[data-section]")) el.scrollIntoView({ behavior: smooth, block: "start" });
+    else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: smooth });
+  }
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented) return;
+    e.preventDefault();
+    scrollToTarget(a.getAttribute("href").slice(1));
+  });
+  if (location.hash) {
+    const id = location.hash.slice(1);
+    history.replaceState(null, "", location.pathname + location.search);
+    requestAnimationFrame(() => scrollToTarget(id));
+  }
+
   /* ---------- Scroll behaviour ---------- */
   const progress = $("#progress");
   let ticking = false;
