@@ -1,5 +1,5 @@
 /* Network-first service worker: always shows the newest mockup, falls back to cache offline. */
-const CACHE = "sbs-v6";
+const CACHE = "sbs-v7";
 
 self.addEventListener("install", (e) => { self.skipWaiting(); });
 

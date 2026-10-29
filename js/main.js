@@ -506,6 +506,77 @@
   tabbar.addEventListener("pointercancel", unmagnify);
   (wide.addEventListener ? wide.addEventListener("change", placeNav) : wide.addListener(placeNav));
 
+  /* ---------- Circuit traces: the dot rides the path as you scroll, the trail stays lit ---------- */
+  const TRACE_SHAPES = [
+    [[0.015, 0], [0.015, 0.16], [0.5, 0.16], [0.5, 0.5], [0.2, 0.5], [0.2, 0.8], [0.015, 0.8], [0.015, 1]],
+    [[0.015, 0], [0.015, 0.3], [0.36, 0.3], [0.36, 0.7], [0.015, 0.7], [0.015, 1]],
+    [[0.015, 0], [0.015, 0.22], [0.62, 0.22], [0.62, 0.62], [0.015, 0.62], [0.015, 1]],
+    [[0.015, 0], [0.015, 0.4], [0.24, 0.4], [0.24, 0.76], [0.015, 0.76], [0.015, 1]],
+  ];
+  const SVGNS = "http://www.w3.org/2000/svg";
+  const traces = $$(".trace").map((el) => ({ el, shape: TRACE_SHAPES[Number(el.dataset.variant) % TRACE_SHAPES.length] }));
+
+  function roundedPath(pts, r) {
+    let d = `M${pts[0][0]} ${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], [x2, y2] = pts[i + 1];
+      const l1 = Math.hypot(x1 - x0, y1 - y0), l2 = Math.hypot(x2 - x1, y2 - y1);
+      const rr = Math.min(r, l1 / 2, l2 / 2);
+      const ax = x1 - ((x1 - x0) / l1) * rr, ay = y1 - ((y1 - y0) / l1) * rr;
+      const bx = x1 + ((x2 - x1) / l2) * rr, by = y1 + ((y2 - y1) / l2) * rr;
+      d += ` L${ax.toFixed(1)} ${ay.toFixed(1)} Q${x1.toFixed(1)} ${y1.toFixed(1)} ${bx.toFixed(1)} ${by.toFixed(1)}`;
+    }
+    const last = pts[pts.length - 1];
+    return d + ` L${last[0]} ${last[1]}`;
+  }
+
+  function buildTrace(tr) {
+    const w = tr.el.clientWidth, h = tr.el.clientHeight;
+    if (!w || !h) return;
+    const pts = tr.shape.map(([fx, fy]) => [Math.round(fx * w), Math.round(fy * h)]);
+    const d = roundedPath(pts, 16);
+    tr.el.innerHTML = `<svg viewBox="0 0 ${w} ${h}"><path class="base" d="${d}"/><path class="lit" d="${d}"/></svg>`;
+    tr.lit = $(".lit", tr.el);
+    tr.total = tr.lit.getTotalLength();
+    tr.lit.style.strokeDasharray = tr.total;
+    // node positions along the path (straight-segment approximation is close enough for lighting)
+    let acc = 0;
+    tr.nodes = pts.map((p, i) => {
+      if (i) acc += Math.hypot(p[0] - pts[i - 1][0], p[1] - pts[i - 1][1]);
+      const n = document.createElement("i");
+      n.className = "node";
+      n.style.left = p[0] + "px";
+      n.style.top = p[1] + "px";
+      tr.el.appendChild(n);
+      return { n, at: acc };
+    });
+    const straight = acc;
+    tr.nodes.forEach((x) => { x.at = x.at / straight; });
+    tr.spark = document.createElement("i");
+    tr.spark.className = "spark";
+    tr.el.appendChild(tr.spark);
+    tr.last = -1;
+  }
+
+  function updateTraces() {
+    const vh = window.innerHeight;
+    for (const tr of traces) {
+      if (!tr.lit) continue;
+      const r = tr.el.getBoundingClientRect();
+      const p = reduceMotion ? 1 : Math.min(1, Math.max(0, (vh * 0.72 - r.top) / (r.height + vh * 0.22)));
+      if (Math.abs(p - tr.last) < 0.0005) continue;
+      tr.last = p;
+      tr.lit.style.strokeDashoffset = (tr.total * (1 - p)).toFixed(1);
+      const pt = tr.lit.getPointAtLength(tr.total * p);
+      tr.spark.style.transform = `translate(${pt.x.toFixed(1)}px, ${pt.y.toFixed(1)}px)`;
+      tr.spark.classList.toggle("on", p > 0.001 && p < 0.999 && !reduceMotion);
+      tr.nodes.forEach((x) => x.n.classList.toggle("on", p >= x.at - 0.001 && p > 0.001));
+    }
+  }
+  function buildTraces() { traces.forEach(buildTrace); updateTraces(); }
+  let traceRt;
+  window.addEventListener("resize", () => { clearTimeout(traceRt); traceRt = setTimeout(buildTraces, 150); });
+
   /* ---------- Scroll behaviour ---------- */
   const progress = $("#progress");
   let ticking = false;
@@ -532,6 +603,7 @@
   function onScroll() {
     const y = window.scrollY;
     syncIntro();
+    updateTraces();
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
     ticking = false;
@@ -661,6 +733,7 @@
   $$(".lang-btn").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
   setActive("home");
   applyLang();
+  buildTraces();
   onScroll();
 
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
