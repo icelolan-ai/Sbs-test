@@ -20,7 +20,7 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html { scroll-behavior: smooth; scroll-padding-top: calc(var(--appbar-h) + var(--safe-t) + 12px); background: #070b0e; overscroll-behavior-y: none; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--appbar-h) + var(--safe-t) + 12px); background: #070b0e; overscroll-behavior: none; overflow-x: hidden; }
 /* If the page still rubber-bands (older iOS), the area pulled into view above the
    logo screen matches the hero's top colour instead of showing a dark band */
 html::before { content: ""; position: fixed; left: 0; right: 0; top: 0; height: 50%; z-index: -1; background: #10202a; pointer-events: none; }
@@ -35,8 +35,9 @@ body {
   -webkit-font-smoothing: antialiased;
   padding-bottom: calc(var(--tabbar-h) + var(--safe-b) + 16px);
   overflow-x: clip;
-  overscroll-behavior-y: none;
-  touch-action: manipulation;
+  overscroll-behavior: none;
+  /* vertical page panning only; inner scrollers (tables, sheet) and pinch-zoom still work */
+  touch-action: pan-y pinch-zoom;
 }
 html[lang="th"] body { line-height: 1.8; }
 body.locked { overflow: hidden; }
@@ -64,6 +65,7 @@ strong { font-weight: 500; }
 .pressing > * { transition: transform .35s var(--ease), opacity .3s, flex-grow .5s var(--ease), background .3s; }
 .pressing > :not(.is-pressed):not(.seg-thumb) { transform: scale(.93); opacity: .7; }
 .pressing > .is-pressed { transform: scale(1.05); }
+.svc-list.pressing > .is-pressed, .contact-cta.pressing > .is-pressed, .hero-actions.pressing > .is-pressed, .train-actions.pressing > .is-pressed { transform: scale(1.015); }
 .tabbar.pressing > .is-pressed { transform: scale(1.06); }
 
 /* Tap ripple (added by JS on press) */

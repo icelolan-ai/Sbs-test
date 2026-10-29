@@ -527,6 +527,7 @@
     for (let i = 1; i < pts.length - 1; i++) {
       const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], [x2, y2] = pts[i + 1];
       const l1 = Math.hypot(x1 - x0, y1 - y0), l2 = Math.hypot(x2 - x1, y2 - y1);
+      if (l1 < 0.5 || l2 < 0.5) { d += ` L${x1} ${y1}`; continue; } // repeated point: no corner to round
       const rr = Math.min(r, l1 / 2, l2 / 2);
       const ax = x1 - ((x1 - x0) / l1) * rr, ay = y1 - ((y1 - y0) / l1) * rr;
       const bx = x1 + ((x2 - x1) / l2) * rr, by = y1 + ((y2 - y1) / l2) * rr;
