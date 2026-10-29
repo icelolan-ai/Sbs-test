@@ -11,7 +11,7 @@ python3 -m http.server 8000   # then open http://localhost:8000
 | What | File |
 | --- | --- |
 | Email, **phone number**, training links, offices, social links | `js/config.js` |
-| All wording, English and Thai | `js/i18n.js` |
+| All wording, English and Thai (services, tiers, comparison tables, profile, journey) | `js/i18n.js` |
 | Colours / layout | `css/styles.css` (tokens at the top) |
 | Photos and logo | `assets/img/` |
 
