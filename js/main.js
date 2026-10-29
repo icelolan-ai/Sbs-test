@@ -509,8 +509,12 @@
   /* ---------- Scroll behaviour ---------- */
   const progress = $("#progress");
   let lastY = window.scrollY, ticking = false;
+  const intro = $("#intro");
   function onScroll() {
     const y = window.scrollY;
+    const vh = window.innerHeight;
+    document.body.classList.toggle("at-intro", y < vh * 0.35);
+    if (!reduceMotion) intro.style.setProperty("--ip", Math.min(1, y / (vh * 0.7)).toFixed(3));
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
     if (!wide.matches) {
