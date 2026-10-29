@@ -509,12 +509,29 @@
   /* ---------- Scroll behaviour ---------- */
   const progress = $("#progress");
   let ticking = false;
+  /* Opening logo screen: fades as you scroll, comes back (and replays) at the top */
   const intro = $("#intro");
-  function onScroll() {
-    const y = window.scrollY;
+  let leftIntro = false;
+  function syncIntro() {
+    const y = Math.max(0, window.scrollY);
     const vh = window.innerHeight;
     document.body.classList.toggle("at-intro", y < vh * 0.35);
     if (!reduceMotion) intro.style.setProperty("--ip", Math.min(1, y / (vh * 0.7)).toFixed(3));
+    if (y > vh * 0.6) leftIntro = true;
+    if (leftIntro && y < vh * 0.08) {
+      leftIntro = false;
+      intro.classList.remove("play");
+      void intro.offsetWidth;
+      intro.classList.add("play");
+    }
+  }
+  // iOS can skip the last scroll event of a fling, so re-check when the scroll settles
+  ["scrollend", "touchend", "resize", "orientationchange"].forEach((ev) =>
+    window.addEventListener(ev, () => requestAnimationFrame(syncIntro), { passive: true }));
+  new IntersectionObserver(() => syncIntro(), { threshold: Array.from({ length: 21 }, (_, i) => i / 20) }).observe(intro);
+  function onScroll() {
+    const y = window.scrollY;
+    syncIntro();
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
     ticking = false;
