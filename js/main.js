@@ -656,10 +656,11 @@
     const vh = window.innerHeight;
     const states = heroRevealItems.map((el) => {
       const top = el.offsetTop + el.offsetParent.getBoundingClientRect().top;
-      const enter = clamp01((vh * 0.94 - top) / (vh * 0.24));
-      const leave = clamp01((top + el.offsetHeight - vh * 0.08) / (vh * 0.22));
-      const opacity = Math.min(enter, leave);
-      return { el, opacity, offset: 28 * (1 - enter) - 18 * (1 - leave) };
+      const enter = clamp01((vh * 0.95 - top) / (vh * 0.65));
+      const leave = clamp01((top + vh * 0.45) / (vh * 0.45));
+      const progress = Math.min(enter, leave);
+      const opacity = progress * progress * (3 - 2 * progress);
+      return { el, opacity, offset: 56 * (1 - enter) - 36 * (1 - leave) };
     });
     states.forEach(({ el, opacity, offset }) => {
       el.style.setProperty("--hero-opacity", opacity.toFixed(3));
