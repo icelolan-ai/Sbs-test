@@ -776,6 +776,21 @@
     document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
   })();
 
+  /* ---------- Hero orb tilts toward the cursor (wide screens) ---------- */
+  (function orbTilt() {
+    const orb = $("#orb");
+    if (!orb || reduceMotion) return;
+    const hero = $("#home");
+    hero.addEventListener("pointermove", (e) => {
+      const r = orb.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
+      const dy = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
+      orb.style.setProperty("--rx", (dx * 18).toFixed(2) + "deg");
+      orb.style.setProperty("--ry", (-dy * 18).toFixed(2) + "deg");
+    });
+    hero.addEventListener("pointerleave", () => { orb.style.removeProperty("--rx"); orb.style.removeProperty("--ry"); });
+  })();
+
   /* ---------- Cookie notice ---------- */
   const cookie = $("#cookie");
   if (!store.get("sbs-cookie")) cookie.hidden = false;
