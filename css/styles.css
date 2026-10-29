@@ -456,3 +456,8 @@ body.at-intro .cookie { opacity: 0; pointer-events: none; }
 .trace + .sec { padding-top: 14px; }
 /* Blend the hero gradient into the page so the trace below has no visible seam */
 .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 180px; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(7, 11, 14, 0), #070b0e); }
+
+.trace .stub { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; opacity: 0; transition: opacity .5s; filter: drop-shadow(0 0 4px rgba(224, 80, 94, .8)); }
+.trace .stub.on { opacity: .85; }
+.trace .pad { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 3px; border: 1.5px solid rgba(211, 224, 230, .28); background: var(--bg); transition: all .45s var(--ease); }
+.trace .pad.on { border-color: #ffb3ba; background: rgba(224, 80, 94, .35); box-shadow: 0 0 12px rgba(224, 80, 94, .8); }
