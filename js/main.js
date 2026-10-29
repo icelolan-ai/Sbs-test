@@ -68,6 +68,7 @@
 
   function wireContacts() {
     $$("[data-mail]").forEach((a) => { a.href = mailto(CFG.email, t("contact.subject")); });
+    $$("[data-mail-addr]").forEach((el) => { el.textContent = CFG.email; });
     $$("[data-train-addr]").forEach((el) => { el.textContent = CFG.trainingEmail; });
     $$("[data-train]").forEach((a) => {
       const r = trainHref(a.dataset.train, a.dataset.subject);
