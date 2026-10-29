@@ -453,6 +453,40 @@
     }
   }, { passive: true });
 
+  /* ---------- iOS-style press: the pressed button grows, its neighbours shrink ---------- */
+  const GROUPS = ".tabbar, .lang, .seg, .tiers, .chip-row, .social, .hero-actions, .train-actions, .svc-list, .contact-cta";
+  let pressedGroup = null;
+  function releasePress() {
+    if (!pressedGroup) return;
+    pressedGroup.classList.remove("pressing");
+    $$(".is-pressed", pressedGroup).forEach((x) => x.classList.remove("is-pressed"));
+    pressedGroup = null;
+  }
+  document.addEventListener("pointerdown", (e) => {
+    const group = e.target.closest(GROUPS);
+    if (!group || reduceMotion) return;
+    const item = Array.from(group.children).find((c) => c.contains(e.target));
+    if (!item || item.matches(".seg-thumb")) return;
+    releasePress();
+    pressedGroup = group;
+    group.classList.add("pressing");
+    item.classList.add("is-pressed");
+  }, { passive: true });
+  ["pointerup", "pointercancel", "dragstart"].forEach((ev) => document.addEventListener(ev, () => setTimeout(releasePress, 140), { passive: true }));
+
+  /* ---------- Dock magnification on the tab bar (finger or cursor) ---------- */
+  function magnify(e) {
+    if (reduceMotion) return;
+    const tabs = $$(".tab", tabbar);
+    tabs.forEach((tb) => {
+      const r = tb.getBoundingClientRect();
+      const d = Math.abs(e.clientX - (r.left + r.width / 2));
+      const k = Math.max(0, 1 - d / 120);
+      tb.style.setProperty("--s", (1 + k * 0.38).toFixed(3));
+    });
+  }
+  function unmagnify() { $$(".tab", tabbar).forEach((tb) => tb.style.removeProperty("--s")); }
+
   /* ---------- Navigation placement ---------- */
   const appbar = $("#appbar");
   const tabbar = $("#tabbar");
@@ -465,11 +499,15 @@
     }
   }
   placeNav();
+  tabbar.addEventListener("pointermove", magnify);
+  tabbar.addEventListener("pointerdown", magnify);
+  tabbar.addEventListener("pointerleave", unmagnify);
+  tabbar.addEventListener("pointerup", () => setTimeout(unmagnify, 180));
+  tabbar.addEventListener("pointercancel", unmagnify);
   (wide.addEventListener ? wide.addEventListener("change", placeNav) : wide.addListener(placeNav));
 
   /* ---------- Scroll behaviour ---------- */
   const progress = $("#progress");
-  const heroBg = $("#heroBg");
   let lastY = window.scrollY, ticking = false;
   function onScroll() {
     const y = window.scrollY;
@@ -480,7 +518,6 @@
       else if (y < lastY - 6 || y < 40) appbar.classList.remove("hide");
     }
     lastY = y;
-    if (!reduceMotion && y < window.innerHeight * 1.2) heroBg.style.setProperty("--py", (y * 0.25).toFixed(1) + "px");
     ticking = false;
   }
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
@@ -535,7 +572,7 @@
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(Math.min(70, (w * h) / 14000));
+      const n = Math.round(Math.min(46, (w * h) / 20000));
       nodes = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35 }));
     }
 
