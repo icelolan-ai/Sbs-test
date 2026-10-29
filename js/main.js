@@ -508,7 +508,7 @@
 
   /* ---------- Scroll behaviour ---------- */
   const progress = $("#progress");
-  let lastY = window.scrollY, ticking = false;
+  let ticking = false;
   const intro = $("#intro");
   function onScroll() {
     const y = window.scrollY;
@@ -517,11 +517,6 @@
     if (!reduceMotion) intro.style.setProperty("--ip", Math.min(1, y / (vh * 0.7)).toFixed(3));
     const max = document.documentElement.scrollHeight - window.innerHeight;
     progress.style.transform = `scaleX(${max > 0 ? Math.min(1, y / max) : 0})`;
-    if (!wide.matches) {
-      if (y > lastY + 6 && y > 120) appbar.classList.add("hide");
-      else if (y < lastY - 6 || y < 40) appbar.classList.remove("hide");
-    }
-    lastY = y;
     ticking = false;
   }
   window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });

@@ -19,3 +19,4 @@ python3 -m http.server 8000   # then open http://localhost:8000
 - Leave `links.secureBangkok` / `links.gamp` empty and those buttons email the training address instead.
 - Thai text is a first draft and should be reviewed by a native speaker before publishing.
 - The site can be installed to a phone's home screen (PWA) when served over HTTPS.
+- After changing CSS or JS, raise the `?v=` number on the `<link>`/`<script>` tags in `index.html` (and `CACHE` in `sw.js`) so phones that already visited pick up the new files.
