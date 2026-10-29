@@ -532,3 +532,17 @@ body.at-intro .cookie { opacity: 0; pointer-events: none; }
 .office-list span { color: var(--silver); font-size: 14px; }
 .office-list em { color: var(--accent); font-style: normal; font-size: 14px; }
 @media (min-width: 760px) { .work-grid, .service-extras { grid-template-columns: repeat(2, minmax(0, 1fr)); } .office-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Address disclosure sits separately from the interactive map. */
+.office-dropdown { margin-top: 32px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.office-dropdown summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px; cursor: pointer; list-style: none; font-size: clamp(20px, 3vw, 26px); font-weight: 500; line-height: 1.4; }
+.office-dropdown summary::-webkit-details-marker { display: none; }
+.office-dropdown summary .ico { flex: 0 0 auto; transition: transform .25s var(--ease); }
+.office-dropdown[open] summary .ico { transform: rotate(180deg); }
+.office-dropdown summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -5px; border-radius: var(--radius); }
+.office-dropdown .office-list { margin: 0; padding: 0 24px 24px; gap: 16px; }
+.office-dropdown .office-list a { padding: 24px; gap: 14px; min-width: 0; }
+.office-dropdown .office-list strong { line-height: 1.4; }
+.office-dropdown .office-list span { line-height: 1.7; overflow-wrap: anywhere; }
+.office-dropdown .office-list em { margin-top: auto; padding-top: 4px; }
+@media (max-width: 480px) { .office-dropdown summary { padding: 22px 20px; } .office-dropdown .office-list { padding: 0 16px 16px; } .office-dropdown .office-list a { padding: 24px 20px; } }
