@@ -125,7 +125,7 @@
         <div id="tierList">${checkList(t("tier." + k + ".items"))}</div>`;
     }
     const subject = t("sheet.subject") + t(kind === "consulting" ? "svc.consulting.title" : "svc.monitoring.title");
-    html += `<a class="btn btn-primary sheet-cta" href="${mailto(CFG.email, subject)}">${icon("contact")}<span>${esc(t("sheet.cta"))}</span></a>`;
+    html += `<div class="sheet-foot"><a class="btn btn-primary sheet-cta" href="${mailto(CFG.email, subject)}">${icon("contact")}<span>${esc(t("sheet.cta"))}</span></a></div>`;
     body.innerHTML = html;
   }
 
