@@ -637,3 +637,13 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .intro.logo-emphasis .intro-cue { scale: .9; filter: brightness(.8); }
 .intro-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 12px; border-radius: 12px; }
 @media (prefers-reduced-motion: reduce) { .intro-logo, .intro-name, .intro-cue { transition: none; } }
+
+/* Named tier selectors, with a prominent red active state. */
+.tier-dots { gap: 14px; margin: -4px 0 18px; }
+.tier-dot { width: 80px; min-height: 68px; height: auto; padding: 10px 4px; display: flex; flex-direction: column; justify-content: center; gap: 10px; border-radius: 12px; }
+.tier-dot .tier-dot-mark { width: 12px; height: 12px; flex: 0 0 12px; transform: scale(.8); box-shadow: none; background: transparent; }
+.tier-dot .tier-dot-label { width: auto; height: auto; border: 0; border-radius: 0; color: var(--muted); background: transparent; box-shadow: none; transform: none; font-size: 13px; line-height: 1.4; transition: color .2s; }
+.tier-dot.sel .tier-dot-mark { background: var(--accent); border-color: var(--accent); transform: scale(1.5); box-shadow: 0 0 14px rgba(224,80,94,.5); }
+.tier-dot.sel .tier-dot-label { color: var(--text); font-weight: 500; background: transparent; transform: none; box-shadow: none; }
+.tier-dot:hover .tier-dot-label { background: transparent; }
+.tier-dot:not(.sel):hover .tier-dot-mark { background: var(--dot-color); }
