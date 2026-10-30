@@ -719,3 +719,5 @@ body { background-size: 100% 100%; background-attachment: fixed; }
   #services .svc .more { font-size: 18px; padding-top: 18px; }
   #services .work-section { margin-top: 104px; }
 }
+#services .svc { grid-template-rows: 168px minmax(0, 1fr); }
+@media (min-width: 1024px) { #services .svc { grid-template-rows: 220px minmax(0, 1fr); } }
