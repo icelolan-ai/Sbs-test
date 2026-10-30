@@ -681,3 +681,8 @@ body { background-size: 100% 100%; background-attachment: fixed; }
   #about .step-detail h3 { font-size: clamp(30px, 2.6vw, 42px); line-height: 1.25; margin-bottom: 18px; }
   #about .step-detail .sub { font-size: 22px; line-height: 1.65; max-width: 36ch; margin-inline: auto; }
 }
+
+/* Original conference visuals belong with the Life Sciences presentations. */
+.presentation-image { display: block; padding: 12px; background: rgba(255,255,255,.035); border-bottom: 1px solid var(--line); }
+.presentation-image img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #101820; }
+.presentation-image:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
