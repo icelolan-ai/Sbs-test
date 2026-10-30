@@ -569,7 +569,7 @@ body.at-intro .cookie { opacity: 0; pointer-events: none; }
 body { background-color: #05090f; background-image: linear-gradient(rgba(51, 119, 149, .035) 1px, transparent 1px), linear-gradient(90deg, rgba(51, 119, 149, .035) 1px, transparent 1px); background-size: 64px 64px; }
 html::before { background: #08121b; }
 .hero-glow { background: radial-gradient(ellipse at 4% 22%, rgba(25, 134, 169, .22), transparent 45%), radial-gradient(ellipse at 98% 60%, rgba(185, 38, 59, .16), transparent 42%); animation: none; }
-.hero-net { opacity: .9; pointer-events: none; -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.8) 22%, rgba(0,0,0,.18) 38%, rgba(0,0,0,.18) 62%, rgba(0,0,0,.8) 78%, #000 100%); mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.8) 22%, rgba(0,0,0,.18) 38%, rgba(0,0,0,.18) 62%, rgba(0,0,0,.8) 78%, #000 100%); }
+.hero-net { opacity: .9; pointer-events: none; -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.8) 22%, rgba(0,0,0,.42) 42%, rgba(0,0,0,.42) 58%, rgba(0,0,0,.8) 78%, #000 100%); mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.8) 22%, rgba(0,0,0,.42) 42%, rgba(0,0,0,.42) 58%, rgba(0,0,0,.8) 78%, #000 100%); }
 .hero::after { background: linear-gradient(180deg, transparent, #05090f); }
 @media (max-width: 600px) { .hero-net { opacity: .65; } }
 

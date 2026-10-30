@@ -739,7 +739,7 @@
         const right = i >= count, n = i % count;
         const edge = right ? w : 0, dir = right ? -1 : 1;
         const y = (n + .4) * h / count;
-        const reach = Math.min(w * .29, 380) * (.5 + (n % 4) * .16);
+        const reach = w * .49 * (.72 + (n % 4) * .09);
         const bend = edge + dir * reach * .5;
         const end = edge + dir * reach;
         const shift = (n % 2 ? 1 : -1) * (24 + n % 3 * 18);
@@ -764,12 +764,12 @@
       ctx.stroke();
       for (const route of routes) {
         // Extend each circuit from its anchored screen edge as the page scrolls.
-        const growth = motion.matches ? 1 : .62 + scrollProgress * .88;
+        const growth = motion.matches ? 1 : 1 + scrollProgress * .14;
         const edge = route.points[0][0];
         const fullPoints = route.points.map(([x,y]) => [edge + (x-edge)*growth, y]);
         const fullLengths = fullPoints.slice(1).map((p,i)=>Math.hypot(p[0]-fullPoints[i][0],p[1]-fullPoints[i][1]));
         const fullTotal = fullLengths.reduce((a,b)=>a+b,0);
-        let remaining = fullTotal * (motion.matches ? 1 : .48 + scrollProgress * .52);
+        let remaining = fullTotal * (motion.matches ? 1 : .9 + scrollProgress * .1);
         const points = [fullPoints[0]];
         for (let i=0;i<fullLengths.length;i++) {
           const a=fullPoints[i], b=fullPoints[i+1];
