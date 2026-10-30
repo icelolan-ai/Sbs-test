@@ -760,3 +760,18 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   :is(.svc, .work-card, .detail-card, .approach, .talk, .train, .mapbox, .office, .office-dropdown, .seg, .acc, .cookie, .btn-ghost, .social a, .chip, .sheet, .appbar, .tabbar) { background-color: rgba(9, 20, 30, .94); }
 }
+/* Expanded reading dialogs on desktop; retain the mobile bottom sheet. */
+@media (min-width: 1024px) {
+  .sheet { width: min(1120px, calc(100vw - 96px)); max-height: 92svh; }
+  .sheet-scroll { padding: 40px 40px 0; }
+  .sheet-body { font-size: 20px; line-height: 1.75; }
+  .sheet-body h3 { font-size: 32px; line-height: 1.3; padding-right: 52px; margin-bottom: 22px; }
+  .sheet-body h4 { font-size: 17px; margin-top: 32px; margin-bottom: 18px; }
+  html[lang="th"] .sheet-body h4 { font-size: 18px; }
+  .sheet-body .checks li { font-size: 19px; padding: 14px 4px; gap: 16px; }
+  .sheet-body .acc-btn { font-size: 20px; padding: 20px 22px; }
+  .sheet-body .acc-body > div { padding-inline: 22px; }
+  .sheet-close { top: 18px; right: 18px; width: 48px; height: 48px; }
+  .sheet-foot { margin: 28px -40px 0; padding: 20px 40px 24px; }
+  .sheet-cta { min-height: 58px; font-size: 18px; }
+}
