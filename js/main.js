@@ -726,8 +726,8 @@
   /* ---------- Cyber defense grid: circuit routes, secure nodes and data packets ---------- */
   (function network() {
     const cv = $("#net"), ctx = cv.getContext("2d");
-    let w = 0, h = 0, routes = [], raf = 0, running = false, visible = false, last = 0;
-    let pulse = null;
+    let w = 0, h = 0, routes = [], raf = 0, running = false, last = 0;
+    let pulse = null, scrollProgress = 0;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     function size() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -749,6 +749,10 @@
       });
     }
     function draw(now = 0) {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const target = motion.matches ? 0 : Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      scrollProgress += (target - scrollProgress) * .18;
+      if (Math.abs(target - scrollProgress) < .0001) scrollProgress = target;
       ctx.clearRect(0, 0, w, h);
       ctx.lineWidth = 1;
       // Architectural grid with crosshair intersections, rather than drifting dust.
@@ -759,6 +763,23 @@
       for (let y = 0; y < h; y += step) { ctx.moveTo(0,y); ctx.lineTo(w,y); }
       ctx.stroke();
       for (const route of routes) {
+        // Extend each circuit from its anchored screen edge as the page scrolls.
+        const growth = motion.matches ? 1 : .62 + scrollProgress * .88;
+        const edge = route.points[0][0];
+        const fullPoints = route.points.map(([x,y]) => [edge + (x-edge)*growth, y]);
+        const fullLengths = fullPoints.slice(1).map((p,i)=>Math.hypot(p[0]-fullPoints[i][0],p[1]-fullPoints[i][1]));
+        const fullTotal = fullLengths.reduce((a,b)=>a+b,0);
+        let remaining = fullTotal * (motion.matches ? 1 : .48 + scrollProgress * .52);
+        const points = [fullPoints[0]];
+        for (let i=0;i<fullLengths.length;i++) {
+          const a=fullPoints[i], b=fullPoints[i+1];
+          const amount=Math.min(1,remaining/fullLengths[i]);
+          points.push([a[0]+(b[0]-a[0])*amount,a[1]+(b[1]-a[1])*amount]);
+          remaining-=fullLengths[i];
+          if(remaining<=0) break;
+        }
+        const lengths=points.slice(1).map((p,i)=>Math.hypot(p[0]-points[i][0],p[1]-points[i][1]));
+        const total=lengths.reduce((a,b)=>a+b,0);
         const time = motion.matches ? 0 : now / 1000;
         const phase = route.phase * Math.PI * 2;
         const dx = motion.matches ? 0 : Math.sin(time * .55 + phase) * (w < 600 ? 5 : 10);
@@ -768,14 +789,14 @@
         ctx.translate(dx, dy);
         const color = route.red ? "224,80,94" : "65,194,220";
         ctx.strokeStyle = `rgba(${color},${.32 + energy * .18})`;
-        ctx.beginPath(); route.points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.stroke();
+        ctx.beginPath(); points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.stroke();
         // A moving dashed highlight makes the data direction visible along the circuit.
         ctx.setLineDash([18, 70]);
         ctx.lineDashOffset = motion.matches ? 0 : -now * .045 - route.phase * 88;
         ctx.strokeStyle = `rgba(${color},.7)`;
         ctx.stroke();
         ctx.setLineDash([]);
-        const [ex,ey] = route.points[3];
+        const [ex,ey] = points[points.length-1];
         const halo = 5 + energy * 5;
         ctx.strokeStyle = `rgba(${color},${.08 + energy * .18})`;
         ctx.strokeRect(ex-halo,ey-halo,halo*2,halo*2);
@@ -783,15 +804,15 @@
         ctx.strokeStyle = `rgba(${color},.65)`;
         ctx.strokeRect(ex-3,ey-3,6,6);
         ctx.shadowBlur = 0;
-        let distance = ((motion.matches ? .55 : now * .00018 + route.phase) % 1) * route.total;
-        for (let j=0;j<route.lengths.length;j++) {
-          if (distance <= route.lengths[j]) {
-            const t = distance / route.lengths[j], a = route.points[j], b = route.points[j+1];
+        let distance = ((motion.matches ? .55 : now * .00018 + route.phase) % 1) * total;
+        for (let j=0;j<lengths.length;j++) {
+          if (distance <= lengths[j]) {
+            const t = distance / lengths[j], a = points[j], b = points[j+1];
             const x = a[0]+(b[0]-a[0])*t, y = a[1]+(b[1]-a[1])*t;
             ctx.shadowColor = `rgb(${color})`; ctx.shadowBlur = 12;
             ctx.fillStyle = `rgba(${color},.95)`; ctx.fillRect(x-2,y-2,4,4); ctx.shadowBlur = 0; break;
           }
-          distance -= route.lengths[j];
+          distance -= lengths[j];
         }
         ctx.restore();
       }
@@ -814,18 +835,17 @@
       raf=requestAnimationFrame(frame);
     }
     function sync() {
-      cancelAnimationFrame(raf); running=visible && !document.hidden && !motion.matches;
+      cancelAnimationFrame(raf); running=!document.hidden && !motion.matches;
       if(running) raf=requestAnimationFrame(frame); else draw();
     }
     size(); draw();
     let resizeTimer;
     window.addEventListener("resize",()=>{ clearTimeout(resizeTimer); resizeTimer=setTimeout(()=>{size(); if(!running) draw();},150); });
-    const hero=$("#home");
-    hero.addEventListener("pointerdown",e=>{
+    document.addEventListener("pointerdown",e=>{
       if(motion.matches || e.target.closest("a,button,summary")) return;
       const r=cv.getBoundingClientRect(); pulse={x:e.clientX-r.left,y:e.clientY-r.top,time:performance.now()};
     });
-    new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();}).observe(hero);
+    sync();
     document.addEventListener("visibilitychange",sync);
     motion.addEventListener("change",sync);
   })();
