@@ -689,3 +689,11 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 
 /* Focus belongs to individual wheel steps, never the rectangular SVG canvas. */
 .wheel:focus, .wheel:focus-visible { outline: none; }
+
+/* Digital world with geographically aligned office pins and secure links. */
+.map { aspect-ratio: 1; width: min(100%, 560px); justify-self: center; background: radial-gradient(circle at center, rgba(16, 80, 107, .12), transparent 70%); }
+.map::before { content: none; }
+.digital-world { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.map-arcs { pointer-events: none; }
+.map-arcs path { stroke: #f27482; stroke-width: 1.6; filter: drop-shadow(0 0 3px rgba(224,80,94,.55)); }
+.map .pin { z-index: 1; }
