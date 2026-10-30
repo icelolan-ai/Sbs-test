@@ -342,7 +342,7 @@
         <p>${esc(t("monitoring.intro"))}</p>
         <h4>${esc(t("monitoring.tiersTitle"))}</h4>
         <p class="tier-scroll-hint">${esc(t("tier.scroll"))}</p><div class="tiers" data-selected="${tier}" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n, i) =>
-          `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}" aria-pressed="${i === tier}"><span class="tier-emblem" aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 4 56 14v20c0 16-12 27-24 34C20 61 8 50 8 34V14Z"/><path class="tier-check" d="m21 35 8 8 16-18"/></svg></span><span class="tier-label"><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></span><span class="tier-rank" aria-hidden="true">${"▰".repeat(i + 1)}</span></button>`).join("")}</div>
+          `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}"${window.matchMedia("(hover: none) and (pointer: coarse)").matches ? " disabled" : ""} aria-pressed="${i === tier}"><span class="tier-emblem" aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 4 56 14v20c0 16-12 27-24 34C20 61 8 50 8 34V14Z"/><path class="tier-check" d="m21 35 8 8 16-18"/></svg></span><span class="tier-label"><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></span><span class="tier-rank" aria-hidden="true">${"▰".repeat(i + 1)}</span></button>`).join("")}</div>
         <div class="tier-dots" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n,i)=>`<button type="button" class="tier-dot tier-dot-${n}${i===tier ? " sel" : ""}" data-tier-dot="${i}" aria-label="${esc(t("tier."+n))}" title="${esc(t("tier."+n))}" aria-pressed="${i===tier}"><span class="tier-dot-mark" aria-hidden="true"></span><span class="tier-dot-label">${esc(t("tier."+n))}</span></button>`).join("")}</div>
         <p class="tier-for" id="tierFor">${esc(t("tier." + k + ".for"))}</p>
         <div id="tierList">${checkList(t("tier." + k + ".items"), "tier-list")}</div>
@@ -435,6 +435,7 @@
   let tierWheelTime = 0, tierWheelDelta = 0, tierWheelLast = 0;
   $("#sheetScroll").addEventListener("wheel", (e) => {
     const stack = e.target.closest(".tiers");
+    if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
     if (!stack || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) || !e.deltaY) return;
     const direction = Math.sign(e.deltaY), next = tier + direction;
     if (next < 0 || next >= TIERS.length) { tierWheelDelta = 0; return; }
@@ -485,7 +486,7 @@
   const PRESSABLE = ".btn, .svc, .chip, .tab, .lang-btn, .seg button, .tier, .office, .social a, .talk-btn, .acc-btn";
   document.addEventListener("pointerdown", (e) => {
     const el = e.target.closest(PRESSABLE);
-    if (!el || reduceMotion) return;
+    if (!el || reduceMotion || (el.matches(".tier") && window.matchMedia("(hover: none) and (pointer: coarse)").matches)) return;
     const r = el.getBoundingClientRect();
     const size = Math.max(r.width, r.height) * 2.2;
     const s = document.createElement("span");
@@ -510,7 +511,7 @@
   }
   document.addEventListener("pointerdown", (e) => {
     const group = e.target.closest(GROUPS);
-    if (!group || reduceMotion) return;
+    if (!group || reduceMotion || (group.matches(".tiers") && window.matchMedia("(hover: none) and (pointer: coarse)").matches)) return;
     const item = Array.from(group.children).find((c) => c.contains(e.target));
     if (!item || item.matches(".seg-thumb")) return;
     releasePress();
