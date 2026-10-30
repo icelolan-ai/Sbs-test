@@ -697,3 +697,25 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .map-arcs { pointer-events: none; }
 .map-arcs path { stroke: #f27482; stroke-width: 1.6; filter: drop-shadow(0 0 3px rgba(224,80,94,.55)); }
 .map .pin { z-index: 1; }
+/* Give the three primary services more visual weight and breathing room. */
+#services > .wrap > .sec-head { margin-bottom: 48px; }
+#services .svc-list { gap: 24px; }
+#services .svc { grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 28px; min-height: 350px; }
+#services .svc .art { width: 100%; height: 168px; }
+#services .svc .art-radar { width: 168px; height: 168px; }
+#services .svc-text { display: flex; flex-direction: column; height: 100%; min-width: 0; }
+#services .svc h3 { font-size: 26px; line-height: 1.25; margin-bottom: 14px; }
+#services .svc p { font-size: 17px; line-height: 1.65; margin-bottom: 16px; }
+#services .svc .more { font-size: 17px; padding-top: 10px; margin-top: auto; }
+#services .work-section { margin-top: 80px; }
+@media (min-width: 1024px) {
+  #services > .wrap > .sec-head { margin-bottom: 64px; }
+  #services .svc-list { gap: 28px; }
+  #services .svc { min-height: 480px; padding: 32px; gap: 30px; }
+  #services .svc .art { height: 220px; }
+  #services .svc .art-radar { width: 210px; height: 210px; }
+  #services .svc h3 { font-size: 30px; }
+  #services .svc p { font-size: 18px; }
+  #services .svc .more { font-size: 18px; padding-top: 18px; }
+  #services .work-section { margin-top: 104px; }
+}
