@@ -655,3 +655,7 @@ body { background-size: 100% 100%; background-attachment: fixed; }
   .tier:disabled { cursor: default; -webkit-tap-highlight-color: transparent; }
   .tier:not(.sel):hover { opacity: .35; filter: blur(1px); }
 }
+
+/* The opening mark is an interactive graphic, not a long-press image target. */
+.intro-logo, .intro-logo img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+.intro-logo img { pointer-events: none; -webkit-user-drag: none; }
