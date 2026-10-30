@@ -917,6 +917,8 @@
     const opening = $("#intro");
     const activate = () => opening.classList.add("logo-emphasis");
     const reset = () => opening.classList.remove("logo-emphasis");
+    logo.addEventListener("contextmenu", (e) => e.preventDefault());
+    logo.addEventListener("dragstart", (e) => e.preventDefault());
     logo.addEventListener("pointerenter", activate);
     logo.addEventListener("pointerdown", (e) => {
       if (e.pointerType === "touch") e.preventDefault();
