@@ -647,3 +647,11 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .tier-dot.sel .tier-dot-label { color: var(--text); font-weight: 500; background: transparent; transform: none; box-shadow: none; }
 .tier-dot:hover .tier-dot-label { background: transparent; }
 .tier-dot:not(.sel):hover .tier-dot-mark { background: var(--dot-color); }
+
+/* On phones, the tier graphic is display-only; named dots control selection. */
+@media (hover: none) and (pointer: coarse) {
+  .tier-scroll-hint { display: none; }
+  .tiers { touch-action: pan-y; }
+  .tier:disabled { cursor: default; -webkit-tap-highlight-color: transparent; }
+  .tier:not(.sel):hover { opacity: .35; filter: blur(1px); }
+}
