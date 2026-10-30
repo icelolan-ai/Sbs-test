@@ -759,13 +759,31 @@
       for (let y = 0; y < h; y += step) { ctx.moveTo(0,y); ctx.lineTo(w,y); }
       ctx.stroke();
       for (const route of routes) {
+        const time = motion.matches ? 0 : now / 1000;
+        const phase = route.phase * Math.PI * 2;
+        const dx = motion.matches ? 0 : Math.sin(time * .55 + phase) * (w < 600 ? 5 : 10);
+        const dy = motion.matches ? 0 : Math.cos(time * .45 + phase) * (w < 600 ? 8 : 14);
+        const energy = motion.matches ? .5 : (Math.sin(time * 1.4 + phase) + 1) / 2;
+        ctx.save();
+        ctx.translate(dx, dy);
         const color = route.red ? "224,80,94" : "65,194,220";
-        ctx.strokeStyle = `rgba(${color},.36)`;
+        ctx.strokeStyle = `rgba(${color},${.32 + energy * .18})`;
         ctx.beginPath(); route.points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.stroke();
+        // A moving dashed highlight makes the data direction visible along the circuit.
+        ctx.setLineDash([18, 70]);
+        ctx.lineDashOffset = motion.matches ? 0 : -now * .045 - route.phase * 88;
+        ctx.strokeStyle = `rgba(${color},.7)`;
+        ctx.stroke();
+        ctx.setLineDash([]);
         const [ex,ey] = route.points[3];
+        const halo = 5 + energy * 5;
+        ctx.strokeStyle = `rgba(${color},${.08 + energy * .18})`;
+        ctx.strokeRect(ex-halo,ey-halo,halo*2,halo*2);
+        ctx.shadowColor = `rgb(${color})`; ctx.shadowBlur = 5 + energy * 10;
         ctx.strokeStyle = `rgba(${color},.65)`;
         ctx.strokeRect(ex-3,ey-3,6,6);
-        let distance = ((motion.matches ? .55 : now * .000055 + route.phase) % 1) * route.total;
+        ctx.shadowBlur = 0;
+        let distance = ((motion.matches ? .55 : now * .00018 + route.phase) % 1) * route.total;
         for (let j=0;j<route.lengths.length;j++) {
           if (distance <= route.lengths[j]) {
             const t = distance / route.lengths[j], a = route.points[j], b = route.points[j+1];
@@ -775,6 +793,7 @@
           }
           distance -= route.lengths[j];
         }
+        ctx.restore();
       }
       if (!motion.matches) {
         const scan = (now * .035) % (h + 180) - 180;
