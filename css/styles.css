@@ -686,3 +686,6 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .presentation-image { display: block; padding: 12px; background: rgba(255,255,255,.035); border-bottom: 1px solid var(--line); }
 .presentation-image img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: contain; background: #101820; }
 .presentation-image:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+
+/* Focus belongs to individual wheel steps, never the rectangular SVG canvas. */
+.wheel:focus, .wheel:focus-visible { outline: none; }
