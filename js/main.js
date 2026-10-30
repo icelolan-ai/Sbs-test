@@ -738,14 +738,31 @@
       routes = Array.from({ length: count * 2 }, (_, i) => {
         const right = i >= count, n = i % count;
         const edge = right ? w : 0, dir = right ? -1 : 1;
-        const y = (n + .4) * h / count;
-        const reach = w * .49 * (.72 + (n % 4) * .09);
-        const bend = edge + dir * reach * .5;
-        const end = edge + dir * reach;
-        const shift = (n % 2 ? 1 : -1) * (24 + n % 3 * 18);
-        const points = [[edge,y],[bend,y],[bend + dir * 24,y + shift],[end,y + shift]];
+        // Each side/route has a stable independent seed, so resizing preserves its identity.
+        let seed = (Math.imul(i + 1, 2654435761) ^ (right ? 0x6d2b79f5 : 0x1b873593)) >>> 0;
+        const random = () => {
+          seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+          return seed / 4294967296;
+        };
+        const rowHeight = h / count;
+        let y = (n + .2 + random() * .6) * rowHeight;
+        const reach = w * (.35 + random() * .15);
+        const bends = 1 + Math.floor(random() * 3);
+        const points = [[edge, y]];
+        for (let j = 0; j < bends; j++) {
+          const fraction = (j + .28 + random() * .35) / (bends + .2);
+          const x = edge + dir * reach * fraction;
+          points.push([x, y]);
+          const shift = (random() < .5 ? -1 : 1) * rowHeight * (.22 + random() * .55);
+          y = Math.min(h - 8, Math.max(8, y + shift));
+          // Mix right-angle and diagonal transitions, with different run lengths.
+          const diagonal = random() < .65 ? Math.min(reach * .08, Math.abs(shift)) : 0;
+          if (diagonal > 0 || y !== points[points.length - 1][1]) points.push([x + dir * diagonal, y]);
+        }
+        points.push([edge + dir * reach, y]);
         const lengths = points.slice(1).map((p,j) => Math.hypot(p[0]-points[j][0], p[1]-points[j][1]));
-        return { points, lengths, total: lengths.reduce((a,b)=>a+b,0), red: n % 4 === 0, phase: n * .137 };
+        return { points, lengths, total: lengths.reduce((a,b)=>a+b,0), red: random() < .28, phase: random(), speed: .00013 + random() * .0001 };
+
       });
     }
     function draw(now = 0) {
@@ -804,7 +821,7 @@
         ctx.strokeStyle = `rgba(${color},.65)`;
         ctx.strokeRect(ex-3,ey-3,6,6);
         ctx.shadowBlur = 0;
-        let distance = ((motion.matches ? .55 : now * .00018 + route.phase) % 1) * total;
+        let distance = ((motion.matches ? .55 : now * route.speed + route.phase) % 1) * total;
         for (let j=0;j<lengths.length;j++) {
           if (distance <= lengths[j]) {
             const t = distance / lengths[j], a = points[j], b = points[j+1];
