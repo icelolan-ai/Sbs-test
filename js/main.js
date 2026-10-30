@@ -723,80 +723,92 @@
   $$("[data-section]").forEach((s) => secIO.observe(s));
   tabbar.addEventListener("click", () => buzz());
 
-  /* ---------- Hero network: drifts, follows the finger, and ripples on tap ---------- */
+  /* ---------- Cyber defense grid: circuit routes, secure nodes and data packets ---------- */
   (function network() {
-    const cv = $("#net");
-    const ctx = cv.getContext("2d");
-    let w = 0, h = 0, nodes = [], waves = [], raf = 0, running = false;
-    const ptr = { x: -999, y: -999 };
-
+    const cv = $("#net"), ctx = cv.getContext("2d");
+    let w = 0, h = 0, routes = [], raf = 0, running = false, visible = false, last = 0;
+    let pulse = null;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     function size() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(Math.min(46, (w * h) / 20000));
-      nodes = Array.from({ length: n }, () => ({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - 0.5) * 0.35, vy: (Math.random() - 0.5) * 0.35 }));
+      const count = w < 600 ? 9 : 16;
+      routes = Array.from({ length: count * 2 }, (_, i) => {
+        const right = i >= count, n = i % count;
+        const edge = right ? w : 0, dir = right ? -1 : 1;
+        const y = (n + .4) * h / count;
+        const reach = Math.min(w * .29, 380) * (.5 + (n % 4) * .16);
+        const bend = edge + dir * reach * .5;
+        const end = edge + dir * reach;
+        const shift = (n % 2 ? 1 : -1) * (24 + n % 3 * 18);
+        const points = [[edge,y],[bend,y],[bend + dir * 24,y + shift],[end,y + shift]];
+        const lengths = points.slice(1).map((p,j) => Math.hypot(p[0]-points[j][0], p[1]-points[j][1]));
+        return { points, lengths, total: lengths.reduce((a,b)=>a+b,0), red: n % 4 === 0, phase: n * .137 };
+      });
     }
-
-    function frame() {
+    function draw(now = 0) {
       ctx.clearRect(0, 0, w, h);
-      const link = Math.min(140, w / 3);
-      for (const a of nodes) {
-        if (!reduceMotion) {
-          a.x += a.vx; a.y += a.vy;
-          a.vx *= 0.99; a.vy *= 0.99;
-          if (Math.abs(a.vx) < 0.12) a.vx += (Math.random() - 0.5) * 0.05;
-          if (Math.abs(a.vy) < 0.12) a.vy += (Math.random() - 0.5) * 0.05;
-          if (a.x < 0 || a.x > w) { a.vx *= -1; a.x = Math.min(w, Math.max(0, a.x)); }
-          if (a.y < 0 || a.y > h) { a.vy *= -1; a.y = Math.min(h, Math.max(0, a.y)); }
+      ctx.lineWidth = 1;
+      // Architectural grid with crosshair intersections, rather than drifting dust.
+      ctx.strokeStyle = "rgba(77,155,183,.09)";
+      const step = w < 600 ? 48 : 64;
+      ctx.beginPath();
+      for (let x = 0; x < w; x += step) { ctx.moveTo(x,0); ctx.lineTo(x,h); }
+      for (let y = 0; y < h; y += step) { ctx.moveTo(0,y); ctx.lineTo(w,y); }
+      ctx.stroke();
+      for (const route of routes) {
+        const color = route.red ? "224,80,94" : "65,194,220";
+        ctx.strokeStyle = `rgba(${color},.36)`;
+        ctx.beginPath(); route.points.forEach(([x,y],i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y)); ctx.stroke();
+        const [ex,ey] = route.points[3];
+        ctx.strokeStyle = `rgba(${color},.65)`;
+        ctx.strokeRect(ex-3,ey-3,6,6);
+        let distance = ((motion.matches ? .55 : now * .000055 + route.phase) % 1) * route.total;
+        for (let j=0;j<route.lengths.length;j++) {
+          if (distance <= route.lengths[j]) {
+            const t = distance / route.lengths[j], a = route.points[j], b = route.points[j+1];
+            const x = a[0]+(b[0]-a[0])*t, y = a[1]+(b[1]-a[1])*t;
+            ctx.shadowColor = `rgb(${color})`; ctx.shadowBlur = 12;
+            ctx.fillStyle = `rgba(${color},.95)`; ctx.fillRect(x-2,y-2,4,4); ctx.shadowBlur = 0; break;
+          }
+          distance -= route.lengths[j];
         }
-        ctx.fillStyle = "rgba(211,224,230,.85)";
-        ctx.beginPath(); ctx.arc(a.x, a.y, 1.7, 0, 6.283); ctx.fill();
       }
-      for (let i = 0; i < nodes.length; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < nodes.length; j++) {
-          const b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < link) { ctx.strokeStyle = `rgba(211,224,230,${(1 - d / link) * 0.3})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
-        }
-        const dp = Math.hypot(a.x - ptr.x, a.y - ptr.y);
-        if (dp < 170) { ctx.strokeStyle = `rgba(224,80,94,${(1 - dp / 170) * 0.75})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(ptr.x, ptr.y); ctx.stroke(); }
+      if (!motion.matches) {
+        const scan = (now * .035) % (h + 180) - 180;
+        const gradient = ctx.createLinearGradient(0,scan,0,scan+140);
+        gradient.addColorStop(0,"rgba(65,194,220,0)"); gradient.addColorStop(1,"rgba(65,194,220,.055)");
+        ctx.fillStyle=gradient; ctx.fillRect(0,scan,w,140);
+        ctx.fillStyle="rgba(65,194,220,.16)"; ctx.fillRect(0,scan+140,w,1);
       }
-      waves = waves.filter((wv) => wv.r < wv.max);
-      for (const wv of waves) {
-        wv.r += 6;
-        ctx.strokeStyle = `rgba(224,80,94,${(1 - wv.r / wv.max) * 0.8})`;
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(wv.x, wv.y, wv.r, 0, 6.283); ctx.stroke();
-        ctx.lineWidth = 1;
+      if (pulse) {
+        const age=(now-pulse.time)/1100;
+        if(age>=1) pulse=null;
+        else { ctx.strokeStyle=`rgba(224,80,94,${(1-age)*.65})`; const r=12+age*110; ctx.strokeRect(pulse.x-r,pulse.y-r,r*2,r*2); }
       }
-      if (running) raf = requestAnimationFrame(frame);
     }
-
-    function start() { if (running || reduceMotion) return; running = true; raf = requestAnimationFrame(frame); }
-    function stop() { running = false; cancelAnimationFrame(raf); }
-
-    size(); frame();
-    let rt;
-    window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { size(); frame(); }, 150); });
-    const hero = $("#home");
-    const pos = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
-    hero.addEventListener("pointermove", (e) => { [ptr.x, ptr.y] = pos(e); });
-    hero.addEventListener("pointerleave", () => { ptr.x = ptr.y = -999; });
-    hero.addEventListener("pointerdown", (e) => {
-      if (e.target.closest("a, button")) return;
-      const [x, y] = pos(e);
-      ptr.x = x; ptr.y = y;
-      waves.push({ x, y, r: 4, max: 220 });
-      for (const a of nodes) {
-        const dx = a.x - x, dy = a.y - y, d = Math.hypot(dx, dy) || 1;
-        if (d < 220) { const f = (1 - d / 220) * 4; a.vx += (dx / d) * f; a.vy += (dy / d) * f; }
-      }
-      buzz(10);
+    function frame(now) {
+      if (!running) return;
+      if(now-last>=32) { draw(now); last=now; }
+      raf=requestAnimationFrame(frame);
+    }
+    function sync() {
+      cancelAnimationFrame(raf); running=visible && !document.hidden && !motion.matches;
+      if(running) raf=requestAnimationFrame(frame); else draw();
+    }
+    size(); draw();
+    let resizeTimer;
+    window.addEventListener("resize",()=>{ clearTimeout(resizeTimer); resizeTimer=setTimeout(()=>{size(); if(!running) draw();},150); });
+    const hero=$("#home");
+    hero.addEventListener("pointerdown",e=>{
+      if(motion.matches || e.target.closest("a,button,summary")) return;
+      const r=cv.getBoundingClientRect(); pulse={x:e.clientX-r.left,y:e.clientY-r.top,time:performance.now()};
     });
-    new IntersectionObserver((en) => (en[0].isIntersecting && !document.hidden ? start() : stop())).observe(hero);
-    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+    new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();}).observe(hero);
+    document.addEventListener("visibilitychange",sync);
+    motion.addEventListener("change",sync);
   })();
 
   /* ---------- Cookie notice ---------- */
