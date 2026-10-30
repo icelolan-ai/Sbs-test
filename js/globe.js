@@ -4,7 +4,7 @@
   const map = document.querySelector('#map'), canvas = document.querySelector('#globeCanvas');
   const ctx = canvas.getContext('2d'), motion = matchMedia('(prefers-reduced-motion: reduce)');
   const locations = { us: [29.4, -95.4], th: [13.74, 100.56], au: [-37.81, 144.96] };
-  const controls = document.createElement('div'); controls.className = 'globe-offices'; map.appendChild(controls);
+  const controls = document.createElement('div'); controls.className = 'globe-offices'; map.after(controls);
   let size = 0, yaw = 65, target = null, pausedUntil = 0, dragging = null, visible = false, raf = 0, last = 0;
   const rad = Math.PI / 180;
   function project(lat, lon, elevation = 1) {
@@ -109,7 +109,7 @@
   new ResizeObserver(()=>{size=map.clientWidth;const dpr=Math.min(devicePixelRatio||1,2);canvas.width=size*dpr;canvas.height=size*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);draw();}).observe(map);
   new IntersectionObserver(e=>{visible=e[0].isIntersecting;sync();}).observe(map);
   new MutationObserver(()=>{updateControls();draw();}).observe(map,{childList:true});
-  map.addEventListener('click',e=>{
+  function selectOffice(e) {
     const button=e.target.closest('[data-globe-office]'),pin=e.target.closest('.pin');
     const id=button?.dataset.globeOffice||pin?.dataset.office;
     if(!id)return;
@@ -117,7 +117,9 @@
     pausedUntil=performance.now()+8000;
     if(motion.matches){yaw=locations[id][1];target=null;draw();}
     else {target=locations[id][1];sync();}
-  });
+  }
+  map.addEventListener('click',selectOffice);
+  controls.addEventListener('click',selectOffice);
   map.addEventListener('pointerdown',e=>{if(e.target.closest('button')||e.button!==0)return;dragging={x:e.clientX,y:e.clientY,yaw,locked:false};});
   map.addEventListener('pointermove',e=>{
     if(!dragging)return;
