@@ -153,6 +153,19 @@
     buzz(12);
     showStep(i);
   }
+  function previewWheelSegment(e) {
+    const g = e.target.closest(".wseg");
+    if (!g) return;
+    userTouchedWheel = true;
+    stopAuto();
+    const index = Number(g.dataset.i);
+    if (index !== stepIdx) showStep(index);
+  }
+  wheel.addEventListener("pointerover", (e) => {
+    if (e.pointerType !== "touch") previewWheelSegment(e);
+  });
+  wheel.addEventListener("pointerdown", previewWheelSegment);
+  wheel.addEventListener("focusin", previewWheelSegment);
   wheel.addEventListener("click", (e) => {
     const g = e.target.closest(".wseg");
     if (g) pickStep(Number(g.dataset.i));
