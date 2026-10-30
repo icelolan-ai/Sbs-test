@@ -600,3 +600,15 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 @media (hover: hover) { .tier:not(.sel):hover { opacity: .82; filter: none; } }
 @media (max-width: 480px) { .tiers { margin-inline: 8px; height: 350px; } .tier { width: 86%; padding: 18px; gap: 12px; } .tier-silver { left: 7%; } .tier-gold { left: 14%; } .tier-emblem { width: 38px; flex-basis: 38px; } .tier b { font-size: 21px; } .tier .tier-rank { letter-spacing: 1px; font-size: 9px; } }
 @media (prefers-reduced-motion: reduce) { .tier { transition: none; } }
+
+/* Centered vertical tier carousel. */
+.tier-scroll-hint { color: var(--muted); font-size: 13px; margin: 0 0 8px; text-align: center; }
+.tiers { --selected: 2; height: 320px; margin: 0 0 18px; perspective: 1000px; overflow: hidden; border-radius: 20px; }
+.tiers[data-selected="0"] { --selected: 0; }
+.tiers[data-selected="1"] { --selected: 1; }
+.tier { --tier-index: 0; --offset: calc(var(--tier-index) - var(--selected)); top: 50%; left: 50%; width: 88%; height: 132px; transform: translate(-50%, calc(-50% + var(--offset) * 84px)) scale(.9) rotateX(10deg); transform-origin: center; opacity: .35; filter: blur(1px); }
+.tier-bronze { --tier-index: 0; }
+.tier-silver { --tier-index: 1; }
+.tier-gold { --tier-index: 2; }
+.tier.sel { transform: translate(-50%, -50%) scale(1.02); opacity: 1; filter: none; }
+@media (max-width: 480px) { .tiers { height: 300px; margin-inline: 0; } .tier { left: 50%; width: 90%; padding: 20px; } }

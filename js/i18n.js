@@ -1,6 +1,7 @@
 /* All visible text lives here (EN default, TH second). Edit wording in one place. */
 window.SBS_I18N = {
   en: {
+    "tier.scroll": "Scroll over the cards to explore each level",
     "work.title": "People behind your security",
     "work.sub": "Consulting, engineering and monitoring supported by our team.",
     "work.consulting": "Consulting & engineering",
@@ -299,6 +300,7 @@ window.SBS_I18N = {
   },
 
   th: {
+    "tier.scroll": "เลื่อนล้อเมาส์บนการ์ดเพื่อดูแต่ละระดับ",
     "work.title": "ทีมงานเบื้องหลังความปลอดภัยของคุณ",
     "work.sub": "งานที่ปรึกษา วิศวกรรม และเฝ้าระวังโดยทีมงานของเรา",
     "work.consulting": "ที่ปรึกษาและวิศวกรรมระบบ",
