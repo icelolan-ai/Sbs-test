@@ -252,8 +252,8 @@
 
   /* ---------- Office map ---------- */
   let officeId = "th";
-  // Equirectangular, cropped to lat 60..-50 / lon -130..170, inset so pins stay off the edges
-  const project = ([lat, lon]) => [8 + ((lon + 130) / 300) * 84, 10 + ((60 - lat) / 110) * 80];
+  // Match the stylized world graphic: full longitude/latitude within the globe.
+  const project = ([lat, lon]) => [50 + (lon / 180) * 40, 50 - (lat / 90) * 40];
 
   function renderMap() {
     const map = $("#map");
@@ -271,7 +271,7 @@
       b.innerHTML = `<i></i><span>${esc(t("office." + o.id))}</span>`;
       map.appendChild(b);
     });
-    const pts = CFG.offices.map((o) => { const [x, y] = project(COORDS[o.id]); return [x, y * 0.6]; });
+    const pts = CFG.offices.map((o) => { const [x, y] = project(COORDS[o.id]); return [x, y]; });
     const arc = (a, b) => {
       const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
       const d = Math.hypot(b[0] - a[0], b[1] - a[1]);
