@@ -183,11 +183,15 @@
     $("#timeline").innerHTML = t("since.f").map((f) => `<li><b>${esc(f[0])}</b><span>${esc(f[1])}</span></li>`).join("");
   }
 
+  const presentationImages = ["EXPORT%202.png", "EXPORT%201%20VER%202.png", "EXPORT%203.png"].map(name =>
+    "https://img1.wsimg.com/isteam/ip/312c3578-4387-4c6d-8cee-7c91665b25d1/" + name + "/:/rs=w:1023,cg:true");
+
   function renderTalks() {
     const open = $$(".talk.open").map((x) => x.dataset.i);
     $("#talks").innerHTML = t("talks").map((x, i) => {
       const on = open.includes(String(i));
       return `<div class="talk${on ? " open" : ""}" data-i="${i}">
+        <a class="presentation-image" href="${presentationImages[i]}" target="_blank" rel="noopener" aria-label="${esc(t("presentation.open"))}: ${esc(x[1])}"><img src="${presentationImages[i]}" alt="${esc(x[1] + ": " + x[2])}" loading="lazy" width="1023" height="576"></a>
         <button type="button" class="talk-btn" aria-expanded="${on}"><span><time>${esc(x[0])}</time><strong>${esc(x[1])}</strong></span>${icon("down")}</button>
         <div class="talk-body"><p>${esc(x[2])}</p></div></div>`;
     }).join("");
@@ -327,10 +331,16 @@
     let html = "";
     let ctaMail = CFG.email;
     let subject = t("sheet.subject");
-    if (kind === "consulting") {
+    const topicSources = { siem: "24%2F7-monitoring", cloud: "consulting", iso: "about", vuln: "consulting", eib: "about", bi: "about" };
+    if (Object.prototype.hasOwnProperty.call(topicSources, kind)) {
+      subject += t("detail." + kind + ".title");
+      html = `<h3 id="sheetTitle">${esc(t("detail." + kind + ".title"))}</h3><p>${esc(t("detail." + kind + ".p"))}</p>${checkList(t("detail." + kind + ".items"))}<a class="btn btn-ghost" href="https://silverbulletsecurity.com/${topicSources[kind]}" target="_blank" rel="noopener">${esc(t("detail.source"))}${icon("arrow")}</a>`;
+
+    } else if (kind === "consulting") {
       subject += t("svc.consulting.title");
       html = `<h3 id="sheetTitle">${esc(t("consulting.heading"))}</h3>
         <p>${esc(t("consulting.intro"))}</p>
+        <p>${esc(t("consulting.approach"))}</p>
         <h4>${esc(t("consulting.listTitle"))}</h4>
         ${t("consulting.groups").map((g, i) => `<div class="acc${i === 0 ? " open" : ""}">
           <button type="button" class="acc-btn" aria-expanded="${i === 0}">${esc(g[0])}<small>${g[1].length}</small>${icon("down")}</button>
@@ -340,6 +350,8 @@
       const k = TIERS[tier];
       html = `<h3 id="sheetTitle">${esc(t("monitoring.heading"))}</h3>
         <p>${esc(t("monitoring.intro"))}</p>
+        <h4>${esc(t("monitoring.procTitle"))}</h4>${checkList(t("monitoring.procs"))}
+        <h4>${esc(t("monitoring.areasTitle"))}</h4>${checkList(t("monitoring.areas"))}
         <h4>${esc(t("monitoring.tiersTitle"))}</h4>
         <p class="tier-scroll-hint">${esc(t("tier.scroll"))}</p><div class="tiers" data-selected="${tier}" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n, i) =>
           `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}"${window.matchMedia("(hover: none) and (pointer: coarse)").matches ? " disabled" : ""} aria-pressed="${i === tier}"><span class="tier-emblem" aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 4 56 14v20c0 16-12 27-24 34C20 61 8 50 8 34V14Z"/><path class="tier-check" d="m21 35 8 8 16-18"/></svg></span><span class="tier-label"><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></span><span class="tier-rank" aria-hidden="true">${"▰".repeat(i + 1)}</span></button>`).join("")}</div>
