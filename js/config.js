@@ -21,8 +21,8 @@ window.SBS_CONFIG = {
   ],
 
   social: [
-    { id: "linkedin", label: "LinkedIn", url: "https://www.linkedin.com/company/silver-bullet-security/" },
-    { id: "facebook", label: "Facebook", url: "https://www.facebook.com/people/Silver-Bullet-Security/100063532233940/" },
-    { id: "x", label: "X", url: "https://x.com/bulletsecurity" },
+    { id: "linkedin", label: "LinkedIn", url: "https://www.linkedin.com/company/silver-bullet-security" },
+    { id: "facebook", label: "Facebook", url: "https://www.facebook.com/share/1D5yNmTsyG/?mibextid=wwXIfr" },
+    { id: "x", label: "X", url: "https://x.com/bulletsecurity?s=21" },
   ],
 };
