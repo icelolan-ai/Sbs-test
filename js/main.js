@@ -328,8 +328,8 @@
       html = `<h3 id="sheetTitle">${esc(t("monitoring.heading"))}</h3>
         <p>${esc(t("monitoring.intro"))}</p>
         <h4>${esc(t("monitoring.tiersTitle"))}</h4>
-        <div class="tiers" role="group">${TIERS.map((n, i) =>
-          `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}" aria-pressed="${i === tier}"><i></i><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></button>`).join("")}</div>
+        <div class="tiers" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n, i) =>
+          `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}" aria-pressed="${i === tier}"><span class="tier-emblem" aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 4 56 14v20c0 16-12 27-24 34C20 61 8 50 8 34V14Z"/><path class="tier-check" d="m21 35 8 8 16-18"/></svg></span><span class="tier-label"><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></span><span class="tier-rank" aria-hidden="true">${"▰".repeat(i + 1)}</span></button>`).join("")}</div>
         <p class="tier-for" id="tierFor">${esc(t("tier." + k + ".for"))}</p>
         <div id="tierList">${checkList(t("tier." + k + ".items"), "tier-list")}</div>
         <button type="button" class="btn btn-ghost toggle" id="cmpToggle" aria-expanded="${compareOpen}">${icon("layers")}<span>${esc(t(compareOpen ? "compare.hide" : "compare.show"))}</span></button>
