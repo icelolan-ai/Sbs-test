@@ -612,3 +612,13 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .tier-gold { --tier-index: 2; }
 .tier.sel { transform: translate(-50%, -50%) scale(1.02); opacity: 1; filter: none; }
 @media (max-width: 480px) { .tiers { height: 300px; margin-inline: 0; } .tier { left: 50%; width: 90%; padding: 20px; } }
+
+/* Direct tier navigation, with generous pointer/touch targets. */
+.tier-dots { display: flex; align-items: center; justify-content: center; gap: 4px; margin: -8px 0 10px; }
+.tier-dot { --dot-color: #b0763d; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
+.tier-dot-silver { --dot-color: #9aa8bb; }
+.tier-dot-gold { --dot-color: #d4a72c; }
+.tier-dot span { width: 10px; height: 10px; border: 1px solid var(--dot-color); background: transparent; border-radius: 50%; transition: background .2s, box-shadow .2s, transform .2s; }
+.tier-dot.sel span { background: var(--dot-color); transform: scale(1.3); box-shadow: 0 0 12px var(--dot-color); }
+.tier-dot:hover span { background: var(--dot-color); }
+.tier-dot:focus-visible { outline: 2px solid var(--text); outline-offset: -4px; }
