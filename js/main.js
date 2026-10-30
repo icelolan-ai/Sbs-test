@@ -330,6 +330,7 @@
         <h4>${esc(t("monitoring.tiersTitle"))}</h4>
         <p class="tier-scroll-hint">${esc(t("tier.scroll"))}</p><div class="tiers" data-selected="${tier}" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n, i) =>
           `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}" aria-pressed="${i === tier}"><span class="tier-emblem" aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 4 56 14v20c0 16-12 27-24 34C20 61 8 50 8 34V14Z"/><path class="tier-check" d="m21 35 8 8 16-18"/></svg></span><span class="tier-label"><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></span><span class="tier-rank" aria-hidden="true">${"▰".repeat(i + 1)}</span></button>`).join("")}</div>
+        <div class="tier-dots" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n,i)=>`<button type="button" class="tier-dot tier-dot-${n}${i===tier ? " sel" : ""}" data-tier-dot="${i}" aria-label="${esc(t("tier."+n))}" title="${esc(t("tier."+n))}" aria-pressed="${i===tier}"><span aria-hidden="true"></span></button>`).join("")}</div>
         <p class="tier-for" id="tierFor">${esc(t("tier." + k + ".for"))}</p>
         <div id="tierList">${checkList(t("tier." + k + ".items"), "tier-list")}</div>
         <button type="button" class="btn btn-ghost toggle" id="cmpToggle" aria-expanded="${compareOpen}">${icon("layers")}<span>${esc(t(compareOpen ? "compare.hide" : "compare.show"))}</span></button>
@@ -402,12 +403,14 @@
       buzz();
       return;
     }
-    const tb = e.target.closest("[data-tier]");
+    const dot = e.target.closest("[data-tier-dot]");
+    const tb = dot ? $(`[data-tier="${dot.dataset.tierDot}"]`, $("#sheetBody")) : e.target.closest("[data-tier]");
     if (tb) {
       tier = Number(tb.dataset.tier);
       tb.closest(".tiers").dataset.selected = tier;
       buzz(12);
       $$("[data-tier]").forEach((x) => { const on = x === tb; x.classList.toggle("sel", on); x.setAttribute("aria-pressed", String(on)); });
+      $$("[data-tier-dot]").forEach((x) => { const on = Number(x.dataset.tierDot) === tier; x.classList.toggle("sel", on); x.setAttribute("aria-pressed", String(on)); });
       $("#tierFor").textContent = t("tier." + TIERS[tier] + ".for");
       $("#tierList").innerHTML = checkList(t("tier." + TIERS[tier] + ".items"), "tier-list swap");
       const table = $(".cmp[data-sel]");
