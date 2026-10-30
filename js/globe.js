@@ -101,6 +101,7 @@
       yaw+=delta*.13;
       if(Math.abs(delta)<.1){yaw=target;target=null;}
     } else if(!motion.matches&&!dragging&&now>pausedUntil&&!(matchMedia('(hover: hover)').matches && map.matches(':hover'))) yaw+=dt*.0035;
+    yaw = ((yaw + 180) % 360 + 360) % 360 - 180;
     draw();
     if(!motion.matches||target!==null)raf=requestAnimationFrame(frame);
   }
