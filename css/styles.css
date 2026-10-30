@@ -721,3 +721,10 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 }
 #services .svc { grid-template-rows: 168px minmax(0, 1fr); }
 @media (min-width: 1024px) { #services .svc { grid-template-rows: 220px minmax(0, 1fr); } }
+/* Rotatable globe with direct access to offices on its hidden hemisphere. */
+.map { touch-action: pan-y; cursor: grab; }
+.map:active { cursor: grabbing; }
+.map .pin[hidden] { display: none; }
+.globe-offices { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; gap: 6px; z-index: 2; }
+.globe-offices button { min-height: 44px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 999px; background: #0b1925; color: var(--silver); font: inherit; font-size: 12px; cursor: pointer; }
+.globe-offices button[aria-pressed="true"] { color: #fff; border-color: var(--accent); background: #48202c; }
