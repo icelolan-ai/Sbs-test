@@ -628,3 +628,12 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .wseg.on { transform: translate(var(--tx), var(--ty)) scale(1.07); opacity: 1; }
 .wseg.on path { transform: none; fill: var(--accent); }
 @media (prefers-reduced-motion: reduce) { .wseg { transition: none; } }
+
+/* Opening logo emphasis; independent scale preserves the entrance animations. */
+.intro-logo { scale: 1; transition: scale .35s var(--ease); }
+.intro-name, .intro-cue { scale: 1; transition: scale .35s var(--ease), filter .35s; }
+.intro.logo-emphasis .intro-logo { scale: 1.16; }
+.intro.logo-emphasis .intro-name { scale: .94; filter: brightness(.8); }
+.intro.logo-emphasis .intro-cue { scale: .9; filter: brightness(.8); }
+.intro-logo:focus-visible { outline: 2px solid var(--accent); outline-offset: 12px; border-radius: 12px; }
+@media (prefers-reduced-motion: reduce) { .intro-logo, .intro-name, .intro-cue { transition: none; } }

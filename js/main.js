@@ -910,6 +910,25 @@
     motion.addEventListener("change",sync);
   })();
 
+  /* ---------- Opening logo: pointer, touch and keyboard emphasis ---------- */
+  (function introLogoEmphasis() {
+    const logo = $(".intro-logo");
+    const opening = $("#intro");
+    const activate = () => opening.classList.add("logo-emphasis");
+    const reset = () => opening.classList.remove("logo-emphasis");
+    logo.addEventListener("pointerenter", activate);
+    logo.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") e.preventDefault();
+      activate();
+    });
+    logo.addEventListener("pointerleave", reset);
+    logo.addEventListener("pointercancel", reset);
+    logo.addEventListener("focus", activate);
+    logo.addEventListener("blur", reset);
+    document.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") reset(); });
+    window.addEventListener("blur", reset);
+  })();
+
   /* ---------- Cookie notice ---------- */
   const cookie = $("#cookie");
   if (!store.get("sbs-cookie")) cookie.hidden = false;
