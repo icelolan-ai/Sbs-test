@@ -328,7 +328,7 @@
       html = `<h3 id="sheetTitle">${esc(t("monitoring.heading"))}</h3>
         <p>${esc(t("monitoring.intro"))}</p>
         <h4>${esc(t("monitoring.tiersTitle"))}</h4>
-        <div class="tiers" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n, i) =>
+        <p class="tier-scroll-hint">${esc(t("tier.scroll"))}</p><div class="tiers" data-selected="${tier}" role="group" aria-label="${esc(t("monitoring.tiersTitle"))}">${TIERS.map((n, i) =>
           `<button type="button" class="tier tier-${n}${i === tier ? " sel" : ""}" data-tier="${i}" aria-pressed="${i === tier}"><span class="tier-emblem" aria-hidden="true"><svg viewBox="0 0 64 72"><path d="M32 4 56 14v20c0 16-12 27-24 34C20 61 8 50 8 34V14Z"/><path class="tier-check" d="m21 35 8 8 16-18"/></svg></span><span class="tier-label"><b>${esc(t("tier." + n))}</b><span>${t("tier." + n + ".items").length} ${esc(t("tier.count"))}</span></span><span class="tier-rank" aria-hidden="true">${"▰".repeat(i + 1)}</span></button>`).join("")}</div>
         <p class="tier-for" id="tierFor">${esc(t("tier." + k + ".for"))}</p>
         <div id="tierList">${checkList(t("tier." + k + ".items"), "tier-list")}</div>
@@ -405,6 +405,7 @@
     const tb = e.target.closest("[data-tier]");
     if (tb) {
       tier = Number(tb.dataset.tier);
+      tb.closest(".tiers").dataset.selected = tier;
       buzz(12);
       $$("[data-tier]").forEach((x) => { const on = x === tb; x.classList.toggle("sel", on); x.setAttribute("aria-pressed", String(on)); });
       $("#tierFor").textContent = t("tier." + TIERS[tier] + ".for");
@@ -412,6 +413,32 @@
       const table = $(".cmp[data-sel]");
       if (table) table.dataset.sel = tier;
     }
+  });
+
+  // One wheel gesture advances one level; at the ends, normal sheet scrolling resumes.
+  let tierWheelTime = 0, tierWheelDelta = 0, tierWheelLast = 0;
+  $("#sheetScroll").addEventListener("wheel", (e) => {
+    const stack = e.target.closest(".tiers");
+    if (!stack || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY) || !e.deltaY) return;
+    const direction = Math.sign(e.deltaY), next = tier + direction;
+    if (next < 0 || next >= TIERS.length) { tierWheelDelta = 0; return; }
+    e.preventDefault();
+    const now = performance.now();
+    if (now - tierWheelTime < 420) return;
+    if (now - tierWheelLast > 180 || Math.sign(tierWheelDelta) !== direction) tierWheelDelta = 0;
+    tierWheelLast = now;
+    tierWheelDelta += e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? stack.clientHeight : 1);
+    if (Math.abs(tierWheelDelta) < 30) return;
+    tierWheelTime = now; tierWheelDelta = 0;
+    $(`[data-tier="${next}"]`, stack).click();
+  }, { passive: false });
+  $("#sheetBody").addEventListener("keydown", (e) => {
+    const button = e.target.closest("[data-tier]");
+    if (!button || !["ArrowUp", "ArrowDown", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+    const next = e.key === "Home" ? 0 : e.key === "End" ? 2 : Math.min(2, Math.max(0, tier + (e.key === "ArrowDown" ? 1 : -1)));
+    const target = $(`[data-tier="${next}"]`, button.closest(".tiers"));
+    target.click(); target.focus({ preventScroll: true });
   });
 
   (function dragToClose() {
