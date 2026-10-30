@@ -622,3 +622,9 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 .tier-dot.sel span { background: var(--dot-color); transform: scale(1.3); box-shadow: 0 0 12px var(--dot-color); }
 .tier-dot:hover span { background: var(--dot-color); }
 .tier-dot:focus-visible { outline: 2px solid var(--text); outline-offset: -4px; }
+
+/* Expand the whole segment, including its number, around the wheel center. */
+.wseg { transform-origin: 160px 160px; transform: scale(.93); transition: transform .32s var(--ease), opacity .32s; opacity: .65; }
+.wseg.on { transform: translate(var(--tx), var(--ty)) scale(1.07); opacity: 1; }
+.wseg.on path { transform: none; fill: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .wseg { transition: none; } }
