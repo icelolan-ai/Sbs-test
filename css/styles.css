@@ -659,3 +659,11 @@ body { background-size: 100% 100%; background-attachment: fixed; }
 /* The opening mark is an interactive graphic, not a long-press image target. */
 .intro-logo, .intro-logo img { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .intro-logo img { pointer-events: none; -webkit-user-drag: none; }
+/* Larger, evenly sized service menus. */
+.also-title { font-size: 18px; margin-bottom: 16px; }
+.also .chip-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+.also .chip { width: 100%; min-height: 78px; padding: 18px 22px; gap: 16px; border-radius: 20px; font-size: 19px; line-height: 1.4; text-align: left; }
+.also .chip .ico { width: 28px; height: 28px; flex: 0 0 28px; }
+.also .chip span { overflow-wrap: anywhere; }
+@media (min-width: 600px) { .also .chip-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .also .chip-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .also .chip { min-height: 90px; font-size: 20px; } }
