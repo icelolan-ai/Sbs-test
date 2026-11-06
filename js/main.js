@@ -23,8 +23,8 @@
 
   const TIERS = ["bronze", "silver", "gold"];
   const TRAININGS = [
-    { key: "conf", link: "secureBangkok", subject: "training.subject.conf", img: "assets/img/training.jpg" },
-    { key: "gamp", link: "gamp", subject: "training.subject.gamp", img: "assets/img/story.jpg" },
+    { key: "conf", link: "secureBangkok", subject: "training.subject.conf", img: "assets/img/story.jpg" },
+    { key: "gamp", link: "gamp", subject: "training.subject.gamp", img: "assets/img/training.jpg" },
   ];
   // Office map pins: [lat, lon]
   const COORDS = { us: [29.4, -95.4], th: [13.74, 100.56], au: [-37.81, 144.96] };
