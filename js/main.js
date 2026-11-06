@@ -40,6 +40,7 @@
     $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", t(el.dataset.i18nAlt)));
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
+    decodeTerm();
     updateWheelLabels();
     showStep(stepIdx, false);
     renderTimeline();
@@ -51,6 +52,43 @@
     renderSocial();
     wireContacts();
     if (current) renderSheet(current);
+  }
+
+  /* ---------- Hero eyebrow: terminal line that types itself in, scrambled glyphs resolving left to right ---------- */
+  const term = $("#heroTerm");
+  const GLYPHS = "!<>-_\\/[]{}=+*^?#$%&@01";
+  let termRaf = 0;
+  function decodeTerm() {
+    if (!term) return;
+    const text = $(".term-text", term).textContent;
+    const anim = $(".term-anim", term);
+    cancelAnimationFrame(termRaf);
+    if (reduceMotion) { anim.textContent = text; term.classList.add("done"); return; }
+    term.classList.remove("done");
+    const chars = Array.from(text);
+    const n = chars.length, tail = 4, perChar = 34;
+    const t0 = performance.now();
+    let lastSwap = 0, noise = [];
+    (function frame(now) {
+      const step = Math.floor((now - t0) / perChar);
+      const typed = Math.min(n, step);
+      const locked = Math.min(n, Math.max(0, step - tail));
+      if (now - lastSwap > 45) {
+        lastSwap = now;
+        noise = chars.map((c) => (c === " " ? " " : GLYPHS[(Math.random() * GLYPHS.length) | 0]));
+      }
+      anim.textContent = chars.slice(0, locked).join("") + noise.slice(locked, typed).join("");
+      if (locked < n) termRaf = requestAnimationFrame(frame);
+      else { anim.textContent = text; term.classList.add("done"); }
+    })(t0);
+  }
+  // Replay each time the line comes back into view
+  if (term) {
+    let seen = false;
+    new IntersectionObserver((en) => {
+      if (en[0].isIntersecting && !seen) { seen = true; decodeTerm(); }
+      else if (!en[0].isIntersecting) seen = false;
+    }, { threshold: 0.9 }).observe(term);
   }
 
   function setLang(l) {
