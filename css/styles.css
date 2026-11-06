@@ -775,3 +775,22 @@ body { background-size: 100% 100%; background-attachment: fixed; }
   .sheet-foot { margin: 28px -40px 0; padding: 20px 40px 24px; }
   .sheet-cta { min-height: 58px; font-size: 18px; }
 }
+
+
+/* ---------- Hero eyebrow as a terminal line ---------- */
+.eyebrow.term { display: inline-flex; align-items: center; gap: 10px; max-width: 100%; padding: 7px 14px 7px 12px; margin-bottom: 16px; border-radius: 12px; background: rgba(8, 13, 17, .55); border: 1px solid rgba(224, 80, 94, .32); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 0 24px -8px rgba(224, 80, 94, .55); font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Noto Sans Thai", monospace; font-size: 14px; letter-spacing: .02em; }
+.term-prompt { color: #7fd3e2; font-weight: 600; }
+.term-line { position: relative; min-width: 0; text-align: left; }
+.term-text { color: transparent; white-space: nowrap; }
+.term-anim { position: absolute; inset: 0; white-space: nowrap; overflow: hidden; color: var(--accent); text-shadow: 0 0 10px rgba(224, 80, 94, .45); }
+.term-cursor { width: 8px; height: 1.1em; flex: none; background: var(--accent); box-shadow: 0 0 8px rgba(224, 80, 94, .8); animation: blink 1s steps(1) infinite; }
+.eyebrow.term:not(.done) .term-cursor { animation: none; }
+@keyframes blink { 50% { opacity: 0; } }
+html[lang="th"] .eyebrow.term { font-size: 14px; }
+@media (max-width: 420px) {
+  .eyebrow.term, html[lang="th"] .eyebrow.term { font-size: 12.5px; gap: 8px; padding: 6px 11px 6px 10px; }
+}
+@media (max-width: 340px) {
+  .term-text, .term-anim { white-space: normal; }
+}
+@media (prefers-reduced-motion: reduce) { .term-cursor { animation: none; } }
