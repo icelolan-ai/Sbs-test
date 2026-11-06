@@ -57,38 +57,78 @@
   /* ---------- Hero eyebrow: terminal line that types itself in, scrambled glyphs resolving left to right ---------- */
   const term = $("#heroTerm");
   const GLYPHS = "!<>-_\\/[]{}=+*^?#$%&@01";
-  let termRaf = 0;
-  function decodeTerm() {
-    if (!term) return;
-    const text = $(".term-text", term).textContent;
+  const ROTATE_MS = 3200;
+  let termRaf = 0, termTimer = 0, wordIdx = 0, termVisible = false;
+
+  // Types `next` in from character `from` onward (earlier characters stay as they are),
+  // with scrambled glyphs resolving left to right. Erases back to `from` first when asked.
+  function typeTerm(next, from, erase, done) {
     const anim = $(".term-anim", term);
     cancelAnimationFrame(termRaf);
-    if (reduceMotion) { anim.textContent = text; term.classList.add("done"); return; }
     term.classList.remove("done");
-    const chars = Array.from(text);
-    const n = chars.length, tail = 4, perChar = 34;
+    const chars = Array.from(next), n = chars.length, tail = 4, perChar = 34, eraseStep = 18;
+    const shown = Array.from(anim.textContent || "");
+    const eraseFrom = erase ? shown.length : from;
     const t0 = performance.now();
     let lastSwap = 0, noise = [];
     (function frame(now) {
-      const step = Math.floor((now - t0) / perChar);
-      const typed = Math.min(n, step);
-      const locked = Math.min(n, Math.max(0, step - tail));
+      const el = now - t0;
+      const erased = Math.min(eraseFrom - from, Math.floor(el / eraseStep));
+      if (erase && erased < eraseFrom - from) {
+        anim.textContent = shown.slice(0, eraseFrom - erased).join("");
+        termRaf = requestAnimationFrame(frame);
+        return;
+      }
+      const step = Math.floor((el - (erase ? (eraseFrom - from) * eraseStep : 0)) / perChar);
+      const typed = Math.min(n, from + step);
+      const locked = Math.min(n, from + Math.max(0, step - tail));
       if (now - lastSwap > 45) {
         lastSwap = now;
         noise = chars.map((c) => (c === " " ? " " : GLYPHS[(Math.random() * GLYPHS.length) | 0]));
       }
       anim.textContent = chars.slice(0, locked).join("") + noise.slice(locked, typed).join("");
       if (locked < n) termRaf = requestAnimationFrame(frame);
-      else { anim.textContent = text; term.classList.add("done"); }
+      else { anim.textContent = next; term.classList.add("done"); if (done) done(); }
     })(t0);
   }
-  // Replay each time the line comes back into view
+
+  const termText = (i) => t("hero.eyebrowPrefix") + t("hero.eyebrowWords")[i];
+
+  function scheduleRotate() {
+    clearTimeout(termTimer);
+    if (reduceMotion || !termVisible || document.hidden) return;
+    termTimer = setTimeout(() => {
+      wordIdx = (wordIdx + 1) % t("hero.eyebrowWords").length;
+      typeTerm(termText(wordIdx), Array.from(t("hero.eyebrowPrefix")).length, true, scheduleRotate);
+    }, ROTATE_MS);
+  }
+
+  // Full decode from the start (on entering view and on language switch)
+  function decodeTerm() {
+    if (!term) return;
+    clearTimeout(termTimer);
+    wordIdx = 0;
+    const text = termText(0);
+    // The hidden sizing text holds the longest variant so the badge keeps one width while words rotate
+    const words = t("hero.eyebrowWords");
+    const longest = words.reduce((a, w) => (Array.from(w).length > Array.from(a).length ? w : a), words[0]);
+    $(".term-text", term).textContent = t("hero.eyebrowPrefix") + longest;
+    if (reduceMotion) {
+      $(".term-anim", term).textContent = text;
+      term.classList.add("done");
+      return;
+    }
+    $(".term-anim", term).textContent = "";
+    typeTerm(text, 0, false, scheduleRotate);
+  }
+
   if (term) {
-    let seen = false;
     new IntersectionObserver((en) => {
-      if (en[0].isIntersecting && !seen) { seen = true; decodeTerm(); }
-      else if (!en[0].isIntersecting) seen = false;
+      const vis = en[0].isIntersecting;
+      if (vis && !termVisible) { termVisible = true; decodeTerm(); }
+      else if (!vis && termVisible) { termVisible = false; clearTimeout(termTimer); }
     }, { threshold: 0.9 }).observe(term);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) scheduleRotate(); else clearTimeout(termTimer); });
   }
 
   function setLang(l) {
