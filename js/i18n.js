@@ -66,6 +66,8 @@ window.SBS_I18N = {
     "lang.label": "Language",
 
     "hero.eyebrow": "Cyber Security Professional Services",
+    "hero.eyebrowPrefix": "Cyber Security ",
+    "hero.eyebrowWords": ["Professional Services", "Consulting", "24/7 Monitoring", "Training"],
     "hero.title": "Security is a method, not a single product.",
     "hero.sub":
       "Managed security services for the secure design, monitoring and management of on-premise and cloud-based systems.",
@@ -381,6 +383,8 @@ window.SBS_I18N = {
     "lang.label": "ภาษา",
 
     "hero.eyebrow": "บริการความปลอดภัยไซเบอร์มืออาชีพ",
+    "hero.eyebrowPrefix": "ไซเบอร์ซีเคียวริตี้ · ",
+    "hero.eyebrowWords": ["บริการมืออาชีพ", "ที่ปรึกษา", "เฝ้าระวัง 24/7", "อบรม"],
     "hero.title": "ความปลอดภัยคือวิธีการ ไม่ใช่ผลิตภัณฑ์ชิ้นเดียว",
     "hero.sub":
       "บริการ Managed Security ครอบคลุมการออกแบบ การเฝ้าระวัง และการบริหารจัดการระบบทั้งแบบ On-premise และบนคลาวด์ อย่างปลอดภัย",

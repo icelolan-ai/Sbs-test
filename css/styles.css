@@ -794,3 +794,9 @@ html[lang="th"] .eyebrow.term { font-size: 14px; }
   .term-text, .term-anim { white-space: normal; }
 }
 @media (prefers-reduced-motion: reduce) { .term-cursor { animation: none; } }
+/* Cursor follows the last typed character instead of sitting at the badge's edge */
+.eyebrow.term .term-cursor { display: none; }
+.term-anim::after { content: ""; display: inline-block; width: .55em; height: 1.05em; margin-left: 4px; vertical-align: -.16em; background: var(--accent); box-shadow: 0 0 8px rgba(224, 80, 94, .8); }
+.eyebrow.term.done .term-anim::after { animation: blink 1s steps(1) infinite; }
+.term-line { padding-right: calc(.55em + 6px); }
+@media (prefers-reduced-motion: reduce) { .eyebrow.term.done .term-anim::after { animation: none; } }
