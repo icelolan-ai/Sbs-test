@@ -2,7 +2,11 @@
 window.SBS_CONFIG = {
   email: "sales@silverbulletsecurity.com",
   trainingEmail: "training@silverbulletsecurity.com",
-  phone: "", // e.g. "+66 2 000 0000" — Call button appears once this is filled in
+  phone: "",
+
+  // Facebook Messenger link for the chat widget. m.me/<page username or page ID> opens a chat with the page.
+  // Page ID taken from the old site's Facebook link; replace with m.me/<username> if the page has one.
+  messenger: "https://m.me/100063532233940", // e.g. "+66 2 000 0000" — Call button appears once this is filled in
 
   // Training pages. Empty = the button falls back to emailing the training address.
   links: {

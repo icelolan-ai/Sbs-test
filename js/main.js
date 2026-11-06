@@ -37,6 +37,8 @@
       if (el.dataset.count && !el.dataset.done) return; // count-up still pending
       el.textContent = t(el.dataset.i18n);
     });
+    $$("[data-i18n-ph]").forEach((el) => el.setAttribute("placeholder", t(el.dataset.i18nPh)));
+    renderChatQuick();
     $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", t(el.dataset.i18nAlt)));
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -1021,6 +1023,72 @@
     document.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") reset(); });
     window.addEventListener("blur", reset);
   })();
+
+  /* ---------- Chat widget: compose here, send by email, or switch to Messenger ---------- */
+  const chat = $("#chat"), chatPanel = $("#chatPanel"), chatFab = $("#chatFab");
+  let chatMode = "email";
+  function renderChatQuick() {
+    const box = $("#chatQuick");
+    if (box) box.innerHTML = t("chat.quick").map((q) => `<button type="button" class="chip" data-quick="${esc(q)}">${esc(q)}</button>`).join("");
+  }
+  function setChatOpen(open) {
+    chat.classList.toggle("open", open);
+    chatFab.setAttribute("aria-expanded", String(open));
+    if (open) {
+      chatPanel.hidden = false;
+      requestAnimationFrame(() => chatPanel.classList.add("show"));
+      setTimeout(() => (chatMode === "email" ? $("#chatMsg") : $("#chatFbBtn")).focus({ preventScroll: true }), 250);
+    } else {
+      chatPanel.classList.remove("show");
+      setTimeout(() => { if (!chat.classList.contains("open")) chatPanel.hidden = true; }, 300);
+    }
+    buzz();
+  }
+  function setChatMode(mode, quiet) {
+    chatMode = mode;
+    chat.dataset.mode = mode;
+    $$("[data-chat-mode]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.chatMode === mode)));
+    $("#chatForm").hidden = mode !== "email";
+    $("#chatFb").hidden = mode !== "fb";
+    if (!quiet) buzz();
+  }
+  function bubble(text, cls) {
+    const d = document.createElement("div");
+    d.className = "bubble " + cls;
+    d.textContent = text;
+    $("#chatLog").appendChild(d);
+    $("#chatLog").scrollTop = $("#chatLog").scrollHeight;
+  }
+  chatFab.addEventListener("click", () => setChatOpen(!chat.classList.contains("open")));
+  $("#chatClose").addEventListener("click", () => { setChatOpen(false); chatFab.focus({ preventScroll: true }); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && chat.classList.contains("open")) { setChatOpen(false); chatFab.focus({ preventScroll: true }); } });
+  $$("[data-chat-mode]").forEach((b) => b.addEventListener("click", () => setChatMode(b.dataset.chatMode)));
+  $("#chatFbBtn").href = CFG.messenger || (CFG.social.find((x) => x.id === "facebook") || {}).url || "#";
+  $("#chatQuick").addEventListener("click", (e) => {
+    const q = e.target.closest("[data-quick]");
+    if (!q) return;
+    const m = $("#chatMsg");
+    m.value = (m.value ? m.value.trim() + " " : "") + q.dataset.quick + ": ";
+    m.focus();
+    m.dispatchEvent(new Event("input"));
+  });
+  $("#chatMsg").addEventListener("input", (e) => { const m = e.target; m.style.height = "auto"; m.style.height = Math.min(m.scrollHeight, 120) + "px"; });
+  $("#chatMsg").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); $("#chatForm").requestSubmit(); } });
+  $("#chatForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const msg = $("#chatMsg").value.trim();
+    if (!msg) { bubble(t("chat.need"), "in note"); $("#chatMsg").focus(); return; }
+    const name = $("#chatName").value.trim(), from = $("#chatFrom").value.trim();
+    bubble(msg, "out");
+    const body = msg + "\n\n— " + [name, from].filter(Boolean).join(" · ");
+    const subject = t("chat.subject") + (name ? " — " + name : "");
+    window.location.href = `mailto:${CFG.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    $("#chatMsg").value = "";
+    $("#chatMsg").style.height = "";
+    setTimeout(() => bubble(t("chat.sent"), "in"), 450);
+  });
+  renderChatQuick();
+  setChatMode("email", true);
 
   /* ---------- Cookie notice ---------- */
   const cookie = $("#cookie");
