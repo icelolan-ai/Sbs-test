@@ -301,7 +301,9 @@
         <p>${esc(t("training." + it.key + ".p"))}</p>
         <div class="train-actions">
           <a class="btn btn-primary" href="${esc(r.href)}"${r.ext ? ' target="_blank" rel="noopener"' : ""}><span>${esc(t("training." + it.key + ".cta"))}</span>${icon("arrow")}</a>
-          <a class="btn btn-ghost" href="${esc(CFG.links[it.link])}" target="_blank" rel="noopener">${esc(t("training.details"))}${icon("arrow")}</a>
+          ${CFG.links[it.link]
+            ? `<a class="btn btn-ghost" href="${esc(CFG.links[it.link])}" target="_blank" rel="noopener">${esc(t("training.details"))}${icon("arrow")}</a>`
+            : `<button type="button" class="btn btn-ghost" data-open="program-${it.key}">${esc(t("training.details"))}${icon("arrow")}</button>`}
           <button type="button" class="btn btn-ghost" data-open="training">${icon("layers")}<span>${esc(t("training.compare.title"))}</span></button>
         </div>
       </div>`;
@@ -411,11 +413,24 @@
     let html = "";
     let ctaMail = CFG.email;
     let subject = t("sheet.subject");
-    const topicSources = { siem: "24%2F7-monitoring", cloud: "consulting", iso: "about", vuln: "consulting", eib: "about", bi: "about" };
+    // Each topic points to the full in-site service sheet it belongs to
+    const topicSources = { siem: "monitoring", cloud: "consulting", iso: "monitoring", vuln: "consulting", eib: "consulting", bi: "consulting" };
     if (Object.prototype.hasOwnProperty.call(topicSources, kind)) {
       subject += t("detail." + kind + ".title");
-      html = `<h3 id="sheetTitle">${esc(t("detail." + kind + ".title"))}</h3><p>${esc(t("detail." + kind + ".p"))}</p>${checkList(t("detail." + kind + ".items"))}<a class="btn btn-ghost" href="https://silverbulletsecurity.com/${topicSources[kind]}" target="_blank" rel="noopener">${esc(t("detail.source"))}${icon("arrow")}</a>`;
+      html = `<h3 id="sheetTitle">${esc(t("detail." + kind + ".title"))}</h3><p>${esc(t("detail." + kind + ".p"))}</p>${checkList(t("detail." + kind + ".items"))}<button type="button" class="btn btn-ghost" data-open="${topicSources[kind]}">${esc(t("detail.more"))}${icon("arrow")}</button>`;
 
+    } else if (kind === "program-conf" || kind === "program-gamp") {
+      const k = kind.slice(8);
+      ctaMail = CFG.trainingEmail;
+      subject += t("training." + k + ".title");
+      html = `<h3 id="sheetTitle">${esc(t("program." + k + ".heading"))}</h3>
+        ${t("program." + k + ".p").map((x) => `<p>${esc(x)}</p>`).join("")}`;
+      if (k === "gamp") {
+        html += `<h4>${esc(t("program.gamp.listTitle"))}</h4>${checkList(t("program.gamp.items"))}
+          <h4>${esc(t("program.gamp.eventsTitle"))}</h4>
+          <ul class="checks">${t("talks").map((x) => `<li>${icon("training")}<span><strong>${esc(x[1])}</strong> · ${esc(x[0])}<br>${esc(x[2])}</span></li>`).join("")}</ul>`;
+      }
+      html += `<p class="cmp-note">${esc(t("program.pres"))} <a href="${mailto(CFG.trainingEmail, t("training.subject.pres"))}">${esc(CFG.trainingEmail)}</a></p>`;
     } else if (kind === "consulting") {
       subject += t("svc.consulting.title");
       html = `<h3 id="sheetTitle">${esc(t("consulting.heading"))}</h3>
