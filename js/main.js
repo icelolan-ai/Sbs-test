@@ -44,6 +44,7 @@
     });
     $$("[data-i18n-ph]").forEach((el) => el.setAttribute("placeholder", t(el.dataset.i18nPh)));
     renderChatQuick();
+    renderGallery();
     $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", t(el.dataset.i18nAlt)));
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -430,6 +431,10 @@
       subject += t("training." + k + ".title");
       html = `<h3 id="sheetTitle">${esc(t("program." + k + ".heading"))}</h3>
         ${t("program." + k + ".p").map((x) => `<p>${esc(x)}</p>`).join("")}`;
+      if (k === "conf") {
+        html += `<h4>${esc(t("gallery.title"))}</h4><p>${esc(t("gallery.sub"))}</p>
+          <div class="sheet-thumbs">${GALLERY.map((g, i) => `<button type="button" class="sheet-thumb" data-photo="${i}" aria-label="${esc(t("gallery.caps")[i])}"><img src="${g.sm}" alt="" loading="lazy"></button>`).join("")}</div>`;
+      }
       if (k === "gamp") {
         html += `<h4>${esc(t("program.gamp.listTitle"))}</h4>${checkList(t("program.gamp.items"))}
           <h4>${esc(t("program.gamp.eventsTitle"))}</h4>
@@ -1043,6 +1048,69 @@
     document.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") reset(); });
     window.addEventListener("blur", reset);
   })();
+
+  /* ---------- Event gallery + lightbox ---------- */
+  const GALLERY = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `assets/img/sb2020-${n}.webp`, sm: `assets/img/sb2020-${n}-sm.webp`, tall: n >= 5 }));
+  let photoIdx = 0, lbReturn = null;
+  function renderGallery() {
+    const track = $("#galleryTrack");
+    if (!track) return;
+    const caps = t("gallery.caps");
+    track.innerHTML = GALLERY.map((g, i) =>
+      `<button type="button" class="g-item${g.tall ? " tall" : ""}" data-photo="${i}"><img src="${g.sm}" alt="${esc(caps[i])}" loading="lazy" width="640" height="${g.tall ? 960 : 427}"><span>${esc(caps[i])}</span></button>`).join("");
+  }
+  const lb = $("#lightbox");
+  function showPhoto(i) {
+    photoIdx = (i + GALLERY.length) % GALLERY.length;
+    const img = $("#lbImg"), cap = t("gallery.caps")[photoIdx];
+    img.classList.remove("in");
+    img.src = GALLERY[photoIdx].src;
+    img.alt = cap;
+    $("#lbCap").textContent = `${cap} · ${photoIdx + 1}/${GALLERY.length}`;
+    img.decode ? img.decode().then(() => img.classList.add("in"), () => img.classList.add("in")) : img.classList.add("in");
+  }
+  function openPhoto(i) {
+    lbReturn = document.activeElement;
+    lb.hidden = false;
+    document.body.classList.add("lb-open");
+    requestAnimationFrame(() => lb.classList.add("open"));
+    showPhoto(i);
+    buzz();
+    setTimeout(() => $("#lbClose").focus({ preventScroll: true }), 60);
+  }
+  function closePhoto() {
+    if (lb.hidden) return;
+    lb.classList.remove("open");
+    document.body.classList.remove("lb-open");
+    setTimeout(() => { lb.hidden = true; }, 250);
+    if (lbReturn && lbReturn.focus) lbReturn.focus({ preventScroll: true });
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-photo]");
+    if (b) openPhoto(Number(b.dataset.photo));
+  });
+  $("#lbClose").addEventListener("click", closePhoto);
+  $("#lbPrev").addEventListener("click", () => { showPhoto(photoIdx - 1); buzz(); });
+  $("#lbNext").addEventListener("click", () => { showPhoto(photoIdx + 1); buzz(); });
+  lb.addEventListener("click", (e) => { if (e.target === lb) closePhoto(); });
+  document.addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") { e.stopImmediatePropagation(); closePhoto(); }
+    if (e.key === "ArrowRight") showPhoto(photoIdx + 1);
+    if (e.key === "ArrowLeft") showPhoto(photoIdx - 1);
+  }, true);
+  (function lbSwipe() {
+    let x0 = null, y0 = 0;
+    lb.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) showPhoto(photoIdx + (dx < 0 ? 1 : -1));
+      else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) closePhoto();
+      x0 = null;
+    });
+  })();
+  renderGallery();
 
   /* ---------- Chat widget: compose here, send by email, or switch to Messenger ---------- */
   const chat = $("#chat"), chatPanel = $("#chatPanel"), chatFab = $("#chatFab");

@@ -867,3 +867,52 @@ body.locked .chat { display: none; }
 /* Low-end devices / Data Saver (html.lite set in main.js): drop the costliest decorative effects */
 html.lite .hero-glow, html.lite body::before { animation: none; }
 html.lite .appbar, html.lite .tabbar, html.lite .chat-panel { -webkit-backdrop-filter: none; backdrop-filter: none; background-color: rgba(10, 17, 22, .94); }
+
+
+/* ---------- Event gallery ---------- */
+.gallery { margin-top: 44px; }
+.gallery-head h3 { margin-bottom: .2em; }
+.gallery-head .sub { margin-bottom: 16px; }
+.gallery-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -18px 12px; padding: 4px 18px 10px; scrollbar-width: none; -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; }
+.gallery-track::-webkit-scrollbar { display: none; }
+.g-item { position: relative; flex: 0 0 min(78vw, 360px); aspect-ratio: 3 / 2; padding: 0; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: var(--surface); cursor: zoom-in; scroll-snap-align: start; transition: transform .3s var(--ease), border-color .3s; }
+.g-item.tall { flex-basis: min(46vw, 220px); aspect-ratio: 2 / 3; }
+.g-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.g-item span { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 14px 11px; font-size: 13.5px; text-align: left; color: #fff; background: linear-gradient(180deg, transparent, rgba(8, 13, 17, .85)); }
+.g-item:hover { border-color: rgba(255, 255, 255, .3); }
+.g-item:hover img { transform: scale(1.05); }
+.g-item:active { transform: scale(.97); }
+@media (min-width: 900px) {
+  .gallery-track { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 210px; margin: 0 0 12px; padding: 0; overflow: visible; }
+  .g-item, .g-item.tall { flex: none; aspect-ratio: auto; height: 100%; }
+  /* 4 x 3 mosaic: poster large, two portraits tall, three landscapes along the bottom */
+  .g-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1 / 3; }
+  .g-item:nth-child(5) { grid-column: 3; grid-row: 1 / 3; }
+  .g-item:nth-child(6) { grid-column: 4; grid-row: 1 / 3; }
+  .g-item:nth-child(2) { grid-column: 1 / 3; grid-row: 3; }
+  .g-item:nth-child(3) { grid-column: 3; grid-row: 3; }
+  .g-item:nth-child(4) { grid-column: 4; grid-row: 3; }
+  .gallery .hint-line { display: none; }
+}
+
+/* Thumbnails inside the Secure Bangkok sheet */
+.sheet-thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.sheet-thumb { padding: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; aspect-ratio: 1; cursor: zoom-in; background: var(--surface); }
+.sheet-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- Lightbox ---------- */
+.lightbox { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; padding: calc(56px + var(--safe-t)) 12px calc(24px + var(--safe-b)); background: rgba(4, 8, 12, .92); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; transition: opacity .25s; touch-action: none; }
+.lightbox.open { opacity: 1; }
+body.lb-open { overflow: hidden; }
+body.lb-open .chat, body.lb-open .tabbar { visibility: hidden; }
+.lb-fig { margin: 0; max-width: min(1200px, 100%); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.lb-fig img { max-width: 100%; max-height: calc(100svh - 150px); width: auto; height: auto; border-radius: 14px; box-shadow: 0 30px 80px -20px #000; opacity: 0; transform: scale(.97); transition: opacity .3s, transform .4s var(--ease); }
+.lb-fig img.in { opacity: 1; transform: none; }
+.lb-fig figcaption { color: var(--silver); font-size: 14.5px; text-align: center; }
+.lb-btn { position: absolute; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: rgba(16, 25, 31, .8); color: #fff; cursor: pointer; }
+.lb-close { top: calc(10px + var(--safe-t)); right: 12px; }
+.lb-prev, .lb-next { top: 50%; transform: translateY(-50%); }
+.lb-prev { left: 10px; }
+.lb-prev .ico { transform: rotate(180deg); }
+.lb-next { right: 10px; }
+@media (max-width: 600px) { .lb-prev, .lb-next { top: auto; bottom: calc(18px + var(--safe-b)); transform: none; } .lb-fig img { max-height: calc(100svh - 190px); } }
