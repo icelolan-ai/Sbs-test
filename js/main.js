@@ -6,6 +6,11 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Low-end devices or Data Saver: draw the background at a lower resolution and frame rate.
+  // (iOS Safari reports neither memory nor real core counts, so iPhones keep the full effect.)
+  const conn = navigator.connection || {};
+  const lite = !!conn.saveData || (navigator.deviceMemory || 8) <= 2 || (navigator.hardwareConcurrency || 8) <= 2;
+  if (lite) document.documentElement.classList.add("lite");
 
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -23,8 +28,8 @@
 
   const TIERS = ["bronze", "silver", "gold"];
   const TRAININGS = [
-    { key: "conf", link: "secureBangkok", subject: "training.subject.conf", img: "assets/img/story.jpg" },
-    { key: "gamp", link: "gamp", subject: "training.subject.gamp", img: "assets/img/training.jpg" },
+    { key: "conf", link: "secureBangkok", subject: "training.subject.conf", img: "assets/img/story.webp" },
+    { key: "gamp", link: "gamp", subject: "training.subject.gamp", img: "assets/img/training.webp" },
   ];
   // Office map pins: [lat, lon]
   const COORDS = { us: [29.4, -95.4], th: [13.74, 100.56], au: [-37.81, 144.96] };
@@ -39,6 +44,7 @@
     });
     $$("[data-i18n-ph]").forEach((el) => el.setAttribute("placeholder", t(el.dataset.i18nPh)));
     renderChatQuick();
+    renderGallery();
     $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", t(el.dataset.i18nAlt)));
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -301,7 +307,9 @@
         <p>${esc(t("training." + it.key + ".p"))}</p>
         <div class="train-actions">
           <a class="btn btn-primary" href="${esc(r.href)}"${r.ext ? ' target="_blank" rel="noopener"' : ""}><span>${esc(t("training." + it.key + ".cta"))}</span>${icon("arrow")}</a>
-          <a class="btn btn-ghost" href="${esc(CFG.links[it.link])}" target="_blank" rel="noopener">${esc(t("training.details"))}${icon("arrow")}</a>
+          ${CFG.links[it.link]
+            ? `<a class="btn btn-ghost" href="${esc(CFG.links[it.link])}" target="_blank" rel="noopener">${esc(t("training.details"))}${icon("arrow")}</a>`
+            : `<button type="button" class="btn btn-ghost" data-open="program-${it.key}">${esc(t("training.details"))}${icon("arrow")}</button>`}
           <button type="button" class="btn btn-ghost" data-open="training">${icon("layers")}<span>${esc(t("training.compare.title"))}</span></button>
         </div>
       </div>`;
@@ -411,11 +419,28 @@
     let html = "";
     let ctaMail = CFG.email;
     let subject = t("sheet.subject");
-    const topicSources = { siem: "24%2F7-monitoring", cloud: "consulting", iso: "about", vuln: "consulting", eib: "about", bi: "about" };
+    // Each topic points to the full in-site service sheet it belongs to
+    const topicSources = { siem: "monitoring", cloud: "consulting", iso: "monitoring", vuln: "consulting", eib: "consulting", bi: "consulting" };
     if (Object.prototype.hasOwnProperty.call(topicSources, kind)) {
       subject += t("detail." + kind + ".title");
-      html = `<h3 id="sheetTitle">${esc(t("detail." + kind + ".title"))}</h3><p>${esc(t("detail." + kind + ".p"))}</p>${checkList(t("detail." + kind + ".items"))}<a class="btn btn-ghost" href="https://silverbulletsecurity.com/${topicSources[kind]}" target="_blank" rel="noopener">${esc(t("detail.source"))}${icon("arrow")}</a>`;
+      html = `<h3 id="sheetTitle">${esc(t("detail." + kind + ".title"))}</h3><p>${esc(t("detail." + kind + ".p"))}</p>${checkList(t("detail." + kind + ".items"))}<button type="button" class="btn btn-ghost" data-open="${topicSources[kind]}">${esc(t("detail.more"))}${icon("arrow")}</button>`;
 
+    } else if (kind === "program-conf" || kind === "program-gamp") {
+      const k = kind.slice(8);
+      ctaMail = CFG.trainingEmail;
+      subject += t("training." + k + ".title");
+      html = `<h3 id="sheetTitle">${esc(t("program." + k + ".heading"))}</h3>
+        ${t("program." + k + ".p").map((x) => `<p>${esc(x)}</p>`).join("")}`;
+      if (k === "conf") {
+        html += `<h4>${esc(t("gallery.title"))}</h4><p>${esc(t("gallery.sub"))}</p>
+          <div class="sheet-thumbs">${GALLERY.map((g, i) => `<button type="button" class="sheet-thumb" data-photo="${i}" aria-label="${esc(t("gallery.caps")[i])}"><img src="${g.sm}" alt="" loading="lazy"></button>`).join("")}</div>`;
+      }
+      if (k === "gamp") {
+        html += `<h4>${esc(t("program.gamp.listTitle"))}</h4>${checkList(t("program.gamp.items"))}
+          <h4>${esc(t("program.gamp.eventsTitle"))}</h4>
+          <ul class="checks">${t("talks").map((x) => `<li>${icon("training")}<span><strong>${esc(x[1])}</strong> · ${esc(x[0])}<br>${esc(x[2])}</span></li>`).join("")}</ul>`;
+      }
+      html += `<p class="cmp-note">${esc(t("program.pres"))} <a href="${mailto(CFG.trainingEmail, t("training.subject.pres"))}">${esc(CFG.trainingEmail)}</a></p>`;
     } else if (kind === "consulting") {
       subject += t("svc.consulting.title");
       html = `<h3 id="sheetTitle">${esc(t("consulting.heading"))}</h3>
@@ -866,7 +891,7 @@
     let pulse = null, scrollProgress = 0;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     function size() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = lite ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -984,7 +1009,7 @@
     }
     function frame(now) {
       if (!running) return;
-      if(now-last>=32) { draw(now); last=now; }
+      if(now-last>=(lite ? 66 : 32)) { draw(now); last=now; }
       raf=requestAnimationFrame(frame);
     }
     function sync() {
@@ -1023,6 +1048,69 @@
     document.addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") reset(); });
     window.addEventListener("blur", reset);
   })();
+
+  /* ---------- Event gallery + lightbox ---------- */
+  const GALLERY = [1, 2, 3, 4, 5, 6].map((n) => ({ src: `assets/img/sb2020-${n}.webp`, sm: `assets/img/sb2020-${n}-sm.webp`, tall: n >= 5 }));
+  let photoIdx = 0, lbReturn = null;
+  function renderGallery() {
+    const track = $("#galleryTrack");
+    if (!track) return;
+    const caps = t("gallery.caps");
+    track.innerHTML = GALLERY.map((g, i) =>
+      `<button type="button" class="g-item${g.tall ? " tall" : ""}" data-photo="${i}"><img src="${g.sm}" alt="${esc(caps[i])}" loading="lazy" width="640" height="${g.tall ? 960 : 427}"><span>${esc(caps[i])}</span></button>`).join("");
+  }
+  const lb = $("#lightbox");
+  function showPhoto(i) {
+    photoIdx = (i + GALLERY.length) % GALLERY.length;
+    const img = $("#lbImg"), cap = t("gallery.caps")[photoIdx];
+    img.classList.remove("in");
+    img.src = GALLERY[photoIdx].src;
+    img.alt = cap;
+    $("#lbCap").textContent = `${cap} · ${photoIdx + 1}/${GALLERY.length}`;
+    img.decode ? img.decode().then(() => img.classList.add("in"), () => img.classList.add("in")) : img.classList.add("in");
+  }
+  function openPhoto(i) {
+    lbReturn = document.activeElement;
+    lb.hidden = false;
+    document.body.classList.add("lb-open");
+    requestAnimationFrame(() => lb.classList.add("open"));
+    showPhoto(i);
+    buzz();
+    setTimeout(() => $("#lbClose").focus({ preventScroll: true }), 60);
+  }
+  function closePhoto() {
+    if (lb.hidden) return;
+    lb.classList.remove("open");
+    document.body.classList.remove("lb-open");
+    setTimeout(() => { lb.hidden = true; }, 250);
+    if (lbReturn && lbReturn.focus) lbReturn.focus({ preventScroll: true });
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-photo]");
+    if (b) openPhoto(Number(b.dataset.photo));
+  });
+  $("#lbClose").addEventListener("click", closePhoto);
+  $("#lbPrev").addEventListener("click", () => { showPhoto(photoIdx - 1); buzz(); });
+  $("#lbNext").addEventListener("click", () => { showPhoto(photoIdx + 1); buzz(); });
+  lb.addEventListener("click", (e) => { if (e.target === lb) closePhoto(); });
+  document.addEventListener("keydown", (e) => {
+    if (lb.hidden) return;
+    if (e.key === "Escape") { e.stopImmediatePropagation(); closePhoto(); }
+    if (e.key === "ArrowRight") showPhoto(photoIdx + 1);
+    if (e.key === "ArrowLeft") showPhoto(photoIdx - 1);
+  }, true);
+  (function lbSwipe() {
+    let x0 = null, y0 = 0;
+    lb.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) showPhoto(photoIdx + (dx < 0 ? 1 : -1));
+      else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) closePhoto();
+      x0 = null;
+    });
+  })();
+  renderGallery();
 
   /* ---------- Chat widget: compose here, send by email, or switch to Messenger ---------- */
   const chat = $("#chat"), chatPanel = $("#chatPanel"), chatFab = $("#chatFab");

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://icelolan-ai.github.io/Sbs-test/sitemap.xml

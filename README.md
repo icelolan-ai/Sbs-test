@@ -20,3 +20,5 @@ python3 -m http.server 8000   # then open http://localhost:8000
 - Thai text is a first draft and should be reviewed by a native speaker before publishing.
 - The site can be installed to a phone's home screen (PWA) when served over HTTPS.
 - After changing CSS or JS, raise the `?v=` number on the `<link>`/`<script>` tags in `index.html` (and `CACHE` in `sw.js`) so phones that already visited pick up the new files.
+- `sitemap.xml`, `robots.txt`, the `canonical` link and the JSON-LD block in `index.html` use the GitHub Pages address. When the site moves to its own domain, replace `https://icelolan-ai.github.io/Sbs-test/` in those four places.
+- Page photos are WebP (`assets/img/*.webp`); the matching `.jpg` files are kept as originals, and `og-image.jpg` stays JPEG for link previews.

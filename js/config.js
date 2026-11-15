@@ -2,16 +2,17 @@
 window.SBS_CONFIG = {
   email: "sales@silverbulletsecurity.com",
   trainingEmail: "training@silverbulletsecurity.com",
-  phone: "",
+  phone: "", // e.g. "+66 2 000 0000" — Call button appears once this is filled in
 
   // Facebook Messenger link for the chat widget. m.me/<page username or page ID> opens a chat with the page.
   // Page ID taken from the old site's Facebook link; replace with m.me/<username> if the page has one.
-  messenger: "https://m.me/100063532233940", // e.g. "+66 2 000 0000" — Call button appears once this is filled in
+  messenger: "https://m.me/100063532233940",
 
-  // Training pages. Empty = the button falls back to emailing the training address.
+  // Optional external pages for "View program details". Leave empty to open the program details
+  // built into this site (content taken from the old /bkk-training and /gxp-training pages).
   links: {
-    secureBangkok: "https://silverbulletsecurity.com/bkk-training", // was /bkk-training on the old site
-    gamp: "https://silverbulletsecurity.com/gxp-training",          // was /gxp-training on the old site
+    secureBangkok: "",
+    gamp: "",
   },
 
   offices: [
