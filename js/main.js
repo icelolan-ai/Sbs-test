@@ -6,6 +6,11 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Low-end devices or Data Saver: draw the background at a lower resolution and frame rate.
+  // (iOS Safari reports neither memory nor real core counts, so iPhones keep the full effect.)
+  const conn = navigator.connection || {};
+  const lite = !!conn.saveData || (navigator.deviceMemory || 8) <= 2 || (navigator.hardwareConcurrency || 8) <= 2;
+  if (lite) document.documentElement.classList.add("lite");
 
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
@@ -23,8 +28,8 @@
 
   const TIERS = ["bronze", "silver", "gold"];
   const TRAININGS = [
-    { key: "conf", link: "secureBangkok", subject: "training.subject.conf", img: "assets/img/story.jpg" },
-    { key: "gamp", link: "gamp", subject: "training.subject.gamp", img: "assets/img/training.jpg" },
+    { key: "conf", link: "secureBangkok", subject: "training.subject.conf", img: "assets/img/story.webp" },
+    { key: "gamp", link: "gamp", subject: "training.subject.gamp", img: "assets/img/training.webp" },
   ];
   // Office map pins: [lat, lon]
   const COORDS = { us: [29.4, -95.4], th: [13.74, 100.56], au: [-37.81, 144.96] };
@@ -881,7 +886,7 @@
     let pulse = null, scrollProgress = 0;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     function size() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = lite ? 1 : Math.min(window.devicePixelRatio || 1, 2);
       w = cv.clientWidth; h = cv.clientHeight;
       cv.width = w * dpr; cv.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -999,7 +1004,7 @@
     }
     function frame(now) {
       if (!running) return;
-      if(now-last>=32) { draw(now); last=now; }
+      if(now-last>=(lite ? 66 : 32)) { draw(now); last=now; }
       raf=requestAnimationFrame(frame);
     }
     function sync() {

@@ -417,7 +417,7 @@ html.js .hero-reveal { opacity: var(--hero-opacity, 0); transform: translateY(va
 .intro-logo img { width: 100%; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, .55)); }
 .intro-logo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .85) 50%, transparent 62%) no-repeat; background-size: 260% 100%; background-position: 140% 0;
-  -webkit-mask: url(../assets/img/logo-mark.png) center / contain no-repeat; mask: url(../assets/img/logo-mark.png) center / contain no-repeat;
+  -webkit-mask: url(../assets/img/logo-mark.webp) center / contain no-repeat; mask: url(../assets/img/logo-mark.webp) center / contain no-repeat;
   background-position: 140% 0; }
 .intro.play .intro-logo::after { animation: shine 2.2s 1.2s ease-in-out both, shine 2.2s 6s ease-in-out infinite; }
 .intro-name { margin: 30px 0 0; font-size: 13px; font-weight: 500; letter-spacing: .5em; text-indent: .5em; color: var(--silver); }
@@ -863,3 +863,7 @@ body.locked .chat { display: none; }
   .chat { right: 24px; bottom: 24px; }
 }
 @media (prefers-reduced-motion: reduce) { .chat-fab::before { animation: none; } }
+
+/* Low-end devices / Data Saver (html.lite set in main.js): drop the costliest decorative effects */
+html.lite .hero-glow, html.lite body::before { animation: none; }
+html.lite .appbar, html.lite .tabbar, html.lite .chat-panel { -webkit-backdrop-filter: none; backdrop-filter: none; background-color: rgba(10, 17, 22, .94); }
