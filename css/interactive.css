@@ -1,13 +1,8 @@
-/* Styles for js/interactive.js: readiness check, segmentation demo, phishing game, hidden terminal */
+/* Security Lab page (lab.html): page shell + styles for js/interactive.js */
 
 .ix-card { margin-top: 32px; padding: 22px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); }
 .ix-card.swap > * { animation: fadeUp .45s var(--ease) both; }
 .ix-card h3 { margin-bottom: .3em; }
-
-/* Hero link to the check */
-.hero-assess { display: inline-flex; align-items: center; gap: 10px; margin: -10px 0 26px; font-size: 15.5px; font-weight: 500; color: var(--silver); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(211, 224, 230, .35); }
-.hero-assess .ico { width: 18px; height: 18px; transition: transform .3s var(--ease); }
-.hero-assess:hover .ico { transform: translateX(4px); }
 
 /* ---------- 1. Readiness check ---------- */
 .assess { margin-top: 0; min-height: 300px; }
@@ -101,8 +96,6 @@
 .ph-actions .btn { flex: 1 1 200px; }
 
 /* ---------- 4. Hidden terminal ---------- */
-.term-open { display: inline-grid; place-items: center; min-width: 44px; height: 36px; padding: 0 10px; margin-bottom: 4px; border-radius: 10px; border: 1px solid var(--line); background: rgba(8, 13, 17, .6); color: #7fd3e2; font: 600 14px ui-monospace, Menlo, Consolas, monospace; cursor: pointer; }
-.term-open:hover { border-color: rgba(127, 211, 226, .5); }
 .xterm { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; padding: calc(16px + var(--safe-t)) 12px calc(16px + var(--safe-b)); background: rgba(4, 8, 12, .7); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; transition: opacity .2s; }
 .xterm.open { opacity: 1; }
 body.xterm-open { overflow: hidden; }
@@ -133,3 +126,76 @@ body.xterm-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .r-shape, .as-icons span, .ph-spot.pop, .seg-svg .n.block circle { animation: none; }
 }
+
+/* ---------- Lab page shell ---------- */
+.lab-page { padding-bottom: 0; }
+.lab-hero { position: relative; isolation: isolate; overflow: hidden; padding: calc(var(--appbar-h) + var(--safe-t) + 44px) 0 24px; background: linear-gradient(165deg, #10202a 0%, #0b151c 45%, #070b0e 100%); }
+.lab-hero h1 { font-size: clamp(36px, 9vw, 60px); font-weight: 500; margin-bottom: .3em; }
+.lab-hero .lead { max-width: 44ch; margin-bottom: 26px; }
+.lab-nav { display: none; }
+.lab-term { display: grid; gap: 18px; align-items: center; }
+.lab-term .btn { justify-self: start; }
+.lab-page .sec { padding-top: 56px; }
+@media (min-width: 900px) {
+  .lab-page .appbar { display: grid; grid-template-columns: 1fr auto 1fr; }
+  .lab-page .appbar .lang { justify-self: end; }
+  .lab-nav { display: flex; gap: 2px; }
+  .lab-nav a { display: flex; align-items: center; height: 44px; padding: 0 16px; border-radius: 14px; font-size: 15px; color: var(--muted); transition: background .25s, color .25s; }
+  .lab-nav a:hover { background: var(--surface-2); color: #fff; }
+  .lab-term { grid-template-columns: 1fr auto; padding: 32px; }
+  .lab-page .sec { padding-top: 90px; }
+}
+
+/* ---------- Scam practice: scenario tabs and message styles ---------- */
+.ph-tabs { display: flex; gap: 8px; margin: 14px -22px 0; padding: 2px 22px 6px; overflow-x: auto; scrollbar-width: none; }
+.ph-tabs::-webkit-scrollbar { display: none; }
+.ph-tab { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 14px 0 6px; border-radius: 999px; border: 1px solid var(--line); background: rgba(8, 13, 17, .5); color: var(--muted); font-size: 14.5px; font-weight: 500; cursor: pointer; transition: border-color .25s, color .25s, background .25s; }
+.ph-tab b { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; background: rgba(255, 255, 255, .08); }
+.ph-tab[aria-selected="true"] { color: #fff; border-color: var(--accent); background: rgba(224, 80, 94, .14); }
+.ph-tab.done b { background: #3ecf8e; color: #062016; }
+.ph-intro { margin: 6px 0 14px; color: var(--silver); font-size: 15.5px; }
+.ph-stage { margin-top: 16px; }
+.ph-stage.swap > * { animation: fadeUp .4s var(--ease) both; }
+.ph-acct { margin: 0; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; color: #4c5966; }
+.ph-body p { margin: 0; }
+.ph-total { margin: 6px 0 12px; font-size: 17px; font-weight: 500; color: #6fe0ad; }
+
+/* SMS */
+.ph-phone { position: relative; max-width: 380px; margin: 14px auto 0; padding: 14px 14px 18px; border-radius: 28px; background: #f4f6f8; color: #1d2733; box-shadow: 0 20px 40px -24px #000; border: 6px solid #22303a; }
+.ph-phone-top { display: flex; justify-content: center; padding: 6px 0 12px; border-bottom: 1px solid #dde3e8; margin-bottom: 12px; font-weight: 600; }
+.ph-sms { padding: 12px 14px; border-radius: 18px 18px 18px 6px; background: #e3e8ec; font-size: 15px; line-height: 1.55; }
+.ph-sms .ph-spot { display: inline; margin: 0; padding: 1px 3px; }
+.ph-sms .ph-spot.on .ph-tip { display: block; margin: 6px 0; }
+.ph-time { display: block; margin-top: 6px; font-size: 12px; color: #6b7885; }
+
+/* Chat */
+.ph-chat { position: relative; max-width: 420px; margin: 14px auto 0; border-radius: 22px; overflow: hidden; background: #e8edf1; color: #1d2733; box-shadow: 0 20px 40px -24px #000; }
+.ph-chat-top { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; border-bottom: 1px solid #dde3e8; }
+.ph-chat-top strong { display: block; font-size: 15.5px; }
+.ph-chat-top small { color: #c0392b; font-size: 12.5px; }
+.ph-avatar { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: #7a8794; color: #fff; font-weight: 600; }
+.ph-bubbles { display: grid; gap: 8px; padding: 14px; }
+.ph-bub { justify-self: start; max-width: 88%; }
+.ph-bub .ph-spot { margin: 0; padding: 10px 13px; border-radius: 16px 16px 16px 6px; background: #fff; border-style: solid; border-color: transparent; font-size: 15px; line-height: 1.5; }
+.ph-bub .ph-spot.on { border-style: dashed; border-color: #d0414f; background: #fff3f4; }
+
+/* Sign-in page */
+.ph-browser { position: relative; margin-top: 14px; border-radius: 16px; overflow: hidden; background: #f4f6f8; color: #1d2733; box-shadow: 0 20px 40px -24px #000; }
+.ph-urlbar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 12px; background: #dfe5ea; font: 13.5px ui-monospace, Menlo, Consolas, monospace; }
+.ph-warn { color: #b3261e; font-family: var(--font); font-weight: 600; }
+.ph-login { display: grid; gap: 10px; justify-items: stretch; max-width: 360px; margin: 0 auto; padding: 22px 18px 26px; }
+.ph-logo { justify-self: center; padding: 6px 16px; border-radius: 10px; background: #2b6cb0; color: #fff; font-weight: 700; letter-spacing: .02em; filter: blur(.4px); }
+.ph-field { display: grid; gap: 4px; text-align: left; }
+.ph-field small { color: #4c5966; font-size: 12.5px; }
+.ph-input { display: block; padding: 9px 12px; border-radius: 8px; border: 1px solid #c9d2da; background: #fff; color: #6b7885; font-size: 14.5px; }
+.ph-login .ph-fakebtn { text-align: center; }
+.ph-login .ph-spot { margin: 0; }
+.ph-demo { z-index: 1; }
+
+@media (min-width: 900px) {
+  .phish { display: block; }
+  .ph-tabs { margin: 18px 0 0; padding: 2px 0 6px; flex-wrap: wrap; overflow: visible; }
+  .ph-stage { display: grid; grid-template-columns: minmax(0, 1fr); }
+}
+.ph-tip { font-family: var(--font); font-weight: 400; }
+.ph-chat-top, .ph-urlbar { padding-top: 22px; }

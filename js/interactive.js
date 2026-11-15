@@ -1,6 +1,5 @@
-/* Interactive extras: readiness check, IT/OT segmentation demo, phishing game, hidden terminal.
-   Self-contained: remove this file and its <script> tag (plus the four containers in index.html)
-   to take them out again. Depends on window.SBS from main.js. */
+/* Security Lab tools (lab.html): readiness check, IT/OT segmentation demo, scam practice, terminal.
+   Depends on window.SBS from js/lab.js. */
 (function () {
   "use strict";
   const SBS = window.SBS;
@@ -9,7 +8,7 @@
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
   const t = (k) => SBS.t(k);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const fill = (str, n) => String(str).replace("{n}", n);
+  const fill = (str, n, m) => String(str).replace("{n}", n).replace("{m}", m);
   const icon = (id) => `<svg class="ico" aria-hidden="true"><use href="#i-${id}"/></svg>`;
   const mailto = (to, subject, body) => `mailto:${to}?subject=${encodeURIComponent(subject)}${body ? "&body=" + encodeURIComponent(body) : ""}`;
   const onLang = [];
@@ -79,7 +78,7 @@
           <ul class="checks">${(r.picks.length ? r.picks : [t("ix.as.none")]).map((x) => `<li>${icon("check")}<span>${esc(x)}</span></li>`).join("")}</ul>
           <div class="as-actions">
             <a class="btn btn-primary" href="${mailto(SBS.cfg.email, t("ix.as.mailSubject"), body)}">${icon("contact")}<span>${esc(t("ix.as.send"))}</span></a>
-            <button type="button" class="btn btn-ghost" data-open="monitoring">${icon("layers")}<span>${esc(t("ix.as.tiers"))}</span></button>
+            <a class="btn btn-ghost" href="index.html#open-monitoring">${icon("layers")}<span>${esc(t("ix.as.tiers"))}</span></a>
             <button type="button" class="btn btn-ghost" data-as="retake">${esc(t("ix.as.retake"))}</button>
           </div>
           <p class="cmp-note">${esc(t("ix.as.note"))}</p>
@@ -153,7 +152,7 @@
             <button type="button" class="btn btn-primary" data-seg="run">${icon("shield")}<span>${esc(t("ix.seg.run"))}</span></button>
             <button type="button" class="btn btn-ghost" data-seg="reset">${esc(t("ix.seg.reset"))}</button>
           </div>
-          <button type="button" class="seg-cta" data-open="consulting">${esc(t("ix.seg.cta"))}${icon("arrow")}</button>
+          <a class="seg-cta" href="index.html#open-consulting">${esc(t("ix.seg.cta"))}${icon("arrow")}</a>
         </div>
       </div>`;
     infected.forEach((k) => mark(k));
@@ -203,56 +202,109 @@
   }
 
   /* =========================================================
-     3. Spot-the-phishing game
+     3. Spot-the-scam practice: five scenarios, each with its own warning signs
      ========================================================= */
   const phEl = $("#phishGame");
-  const SPOTS = ["from", "subject", "hello", "body", "button", "attach"];
-  let found = new Set(), revealed = false;
+  const SCEN = [
+    { id: "mail", spots: ["from", "subject", "hello", "body", "button", "attach"] },
+    { id: "sms", spots: ["sender", "fee", "deadline", "link"] },
+    { id: "chat", spots: ["newnum", "gift", "secret", "codes"] },
+    { id: "login", spots: ["secure", "url", "lure", "otp"] },
+    { id: "inv", spots: ["from", "reply", "bank", "pressure", "zip"] },
+  ];
+  const TOTAL = SCEN.reduce((a, s) => a + s.spots.length, 0);
+  let scIdx = 0;
+  let scState = SCEN.map(() => ({ found: new Set(), revealed: false }));
+  const scDone = (i) => scState[i].revealed || scState[i].found.size === SCEN[i].spots.length;
 
-  function spot(key, inner) { return `<button type="button" class="ph-spot${found.has(key) || revealed ? " on" : ""}" data-spot="${key}">${inner}<span class="ph-tip" role="note">${esc(t("ix.ph.tips")[key])}</span></button>`; }
+  function scenarioHtml(i) {
+    const id = SCEN[i].id, P = t("ix.ph.s")[id], L = t("ix.ph.lbl"), st = scState[i];
+    const spot = (key, inner) => `<button type="button" class="ph-spot${st.found.has(key) || st.revealed ? " on" : ""}" data-spot="${key}">${inner}<span class="ph-tip" role="note">${esc(P.tips[key])}</span></button>`;
+    const demo = `<div class="ph-demo">${esc(t("ix.ph.demo"))}</div>`;
+    if (id === "mail") return `<div class="ph-mail">${demo}
+        <div class="ph-row"><span class="ph-k">${esc(L.from)}</span>${spot("from", "IT Helpdesk &lt;support@acme-payrol1.co&gt;")}</div>
+        <div class="ph-row"><span class="ph-k">${esc(L.subject)}</span>${spot("subject", `<strong>${esc(P.subject)}</strong>`)}</div>
+        <div class="ph-body">${spot("hello", esc(P.hello))}${spot("body", esc(P.body))}
+          ${spot("button", `<span class="ph-fakebtn">${esc(P.button)}</span><small>acme-payroll.secure-login.xyz/verify</small>`)}
+          <p class="ph-sign">${esc(P.sign)}</p>${spot("attach", `<span class="ph-file">${icon("box")}Payroll_Update.pdf.exe</span>`)}</div></div>`;
+    if (id === "sms") return `<div class="ph-phone">${demo}
+        <div class="ph-phone-top">${spot("sender", "+44 7700 900123")}</div>
+        <div class="ph-sms"><span>${esc(P.p1)}</span> ${spot("fee", esc(P.fee))} ${spot("deadline", esc(P.deadline))} ${spot("link", "<u>swft-parcel.co/pay?id=88213</u>")}</div>
+        <time class="ph-time">10:42</time></div>`;
+    if (id === "chat") return `<div class="ph-chat">${demo}
+        <div class="ph-chat-top"><span class="ph-avatar" aria-hidden="true">S</span><div><strong>${esc(P.name)}</strong><small>${esc(P.contact)}</small></div></div>
+        <div class="ph-bubbles">${["newnum", "gift", "secret", "codes"].map((k, n) => `<div class="ph-bub">${spot(k, esc(P["m" + (n + 1)]))}</div>`).join("")}</div></div>`;
+    if (id === "login") return `<div class="ph-browser">${demo}
+        <div class="ph-urlbar">${spot("secure", `<span class="ph-warn">⚠ ${esc(P.notsecure)}</span>`)}${spot("url", "http://acme-cloud.login-verify.co/signin")}</div>
+        <div class="ph-login"><div class="ph-logo">Acme Cloud</div>${spot("lure", esc(P.lure))}
+          <span class="ph-field"><small>${esc(P.email)}</small><span class="ph-input">name@company.com</span></span>
+          <span class="ph-field"><small>${esc(P.password)}</small><span class="ph-input">••••••••</span></span>
+          ${spot("otp", `<span class="ph-field"><small>${esc(P.otp)}</small><span class="ph-input">_ _ _ _ _ _</span></span>`)}
+          <span class="ph-fakebtn">${esc(P.button)}</span></div></div>`;
+    return `<div class="ph-mail">${demo}
+        <div class="ph-row"><span class="ph-k">${esc(L.from)}</span>${spot("from", "Accounts &lt;accounts@acme-supp1ies.com&gt;")}</div>
+        <div class="ph-row"><span class="ph-k">${esc(L.reply)}</span>${spot("reply", "finance.acme@freemail.com")}</div>
+        <div class="ph-row"><span class="ph-k">${esc(L.subject)}</span><strong>${esc(P.subject)}</strong></div>
+        <div class="ph-body"><p>${esc(P.hello)}</p>${spot("bank", esc(P.bank))}<p class="ph-acct">${esc(P.account)}</p>${spot("pressure", esc(P.pressure))}
+          <p class="ph-sign">${esc(P.sign)}</p>${spot("zip", `<span class="ph-file">${icon("box")}Invoice_4471.zip</span>`)}</div></div>`;
+  }
 
-  function renderPhish() {
+  function renderPhish(animateStage) {
     if (!phEl) return;
-    const done = found.size === SPOTS.length;
-    phEl.innerHTML = `<div class="ph-head"><p class="eyebrow">${esc(t("ix.ph.eyebrow"))}</p><h3>${esc(t("ix.ph.title"))}</h3><p class="sub">${esc(t("ix.ph.sub"))}</p></div>
-      <div class="ph-mail" aria-label="${esc(t("ix.ph.demo"))}">
-        <div class="ph-demo">${esc(t("ix.ph.demo"))}</div>
-        <div class="ph-row"><span class="ph-k">${esc(t("ix.ph.from"))}</span>${spot("from", `IT Helpdesk &lt;support@acme-payrol1.co&gt;`)}</div>
-        <div class="ph-row"><span class="ph-k">${esc(t("ix.ph.subjLabel"))}</span>${spot("subject", `<strong>${esc(t("ix.ph.subject"))}</strong>`)}</div>
-        <div class="ph-body">
-          ${spot("hello", esc(t("ix.ph.hello")))}
-          ${spot("body", esc(t("ix.ph.body")))}
-          ${spot("button", `<span class="ph-fakebtn">${esc(t("ix.ph.button"))}</span><small>acme-payroll.secure-login.xyz/verify</small>`)}
-          <p class="ph-sign">${esc(t("ix.ph.sign"))}</p>
-          ${spot("attach", `<span class="ph-file">${icon("box")}Payroll_Update.pdf.exe</span>`)}
-        </div>
-      </div>
+    const names = t("ix.ph.names"), sc = SCEN[scIdx], st = scState[scIdx];
+    const shownCount = st.revealed ? sc.spots.length : st.found.size;
+    const allDone = SCEN.every((_, i) => scDone(i));
+    const own = scState.reduce((a, s, i) => a + (s.revealed ? Math.min(s.found.size, SCEN[i].spots.length) : s.found.size), 0);
+    let foot;
+    if (scDone(scIdx)) {
+      foot = `<p class="ph-end">${esc(t(st.revealed ? "ix.ph.shown" : "ix.ph.win"))}</p>
+        ${allDone ? `<p class="ph-total">${esc(fill(t("ix.ph.total"), own, TOTAL))}</p>` : ""}
+        <div class="ph-actions">
+          ${scIdx < SCEN.length - 1 ? `<button type="button" class="btn btn-primary" data-ph="next">${esc(t("ix.ph.next"))}${icon("arrow")}</button>` : `<a class="btn btn-primary" href="${mailto(SBS.cfg.trainingEmail, t("ix.ph.cta"))}">${icon("training")}<span>${esc(t("ix.ph.cta"))}</span></a>`}
+          <button type="button" class="btn btn-ghost" data-ph="again">${esc(t("ix.ph.again"))}</button>
+          ${allDone ? `<button type="button" class="btn btn-ghost" data-ph="restart">${esc(t("ix.ph.restart"))}</button>` : ""}
+        </div>`;
+    } else {
+      foot = `<div class="ph-actions"><button type="button" class="btn btn-ghost" data-ph="reveal">${esc(t("ix.ph.reveal"))}</button></div>`;
+    }
+    phEl.innerHTML = `<div class="ph-head"><p class="eyebrow">${esc(t("ix.ph.eyebrow"))}</p><h3>${esc(t("ix.ph.title"))}</h3><p class="sub">${esc(t("ix.ph.sub"))}</p>
+        <div class="ph-tabs" role="tablist">${SCEN.map((s, i) => `<button type="button" role="tab" class="ph-tab${scDone(i) ? " done" : ""}" data-ph-sc="${i}" aria-selected="${i === scIdx}"><b>${scDone(i) ? "✓" : i + 1}</b>${esc(names[i])}</button>`).join("")}</div></div>
+      <div class="ph-stage" id="phStage"><p class="ph-intro">${esc(t("ix.ph.s")[sc.id].intro)}</p>${scenarioHtml(scIdx)}</div>
       <div class="ph-foot">
-        <div class="ph-meter"><i style="width:${((revealed ? SPOTS.length : found.size) / SPOTS.length) * 100}%"></i></div>
-        <p class="ph-score">${esc(fill(t("ix.ph.found"), revealed ? SPOTS.length : found.size))}</p>
-        ${done || revealed ? `<p class="ph-end">${esc(t(done && !revealed ? "ix.ph.win" : "ix.ph.shown"))}</p>
-          <div class="ph-actions"><a class="btn btn-primary" href="${mailto(SBS.cfg.trainingEmail, t("ix.ph.cta"))}">${icon("training")}<span>${esc(t("ix.ph.cta"))}</span></a><button type="button" class="btn btn-ghost" data-ph="again">${esc(t("ix.ph.again"))}</button></div>`
-          : `<div class="ph-actions"><button type="button" class="btn btn-ghost" data-ph="reveal">${esc(t("ix.ph.reveal"))}</button></div>`}
+        <div class="ph-meter"><i style="width:${(shownCount / sc.spots.length) * 100}%"></i></div>
+        <p class="ph-score">${esc(fill(t("ix.ph.found"), shownCount, sc.spots.length))}</p>
+        ${foot}
       </div>`;
+    if (animateStage) { const s = $("#phStage"); s.classList.remove("swap"); void s.offsetWidth; s.classList.add("swap"); }
   }
 
   if (phEl) {
     phEl.addEventListener("click", (e) => {
       const s = e.target.closest("[data-spot]");
       const a = e.target.closest("[data-ph]");
+      const tab = e.target.closest("[data-ph-sc]");
+      const st = scState[scIdx];
       if (s) {
         const k = s.dataset.spot;
-        if (!found.has(k) && !revealed) { found.add(k); SBS.buzz(12); renderPhish(); const el = phEl.querySelector(`[data-spot="${k}"]`); if (el) el.classList.add("pop"); }
+        if (!st.found.has(k) && !st.revealed) { st.found.add(k); SBS.buzz(12); renderPhish(false); const el = phEl.querySelector(`[data-spot="${k}"]`); if (el) el.classList.add("pop"); }
         return;
       }
-      if (a) { if (a.dataset.ph === "reveal") revealed = true; else { found = new Set(); revealed = false; } SBS.buzz(); renderPhish(); }
+      if (tab) { scIdx = Number(tab.dataset.phSc); SBS.buzz(); renderPhish(true); return; }
+      if (!a) return;
+      if (a.dataset.ph === "reveal") st.revealed = true;
+      else if (a.dataset.ph === "again") scState[scIdx] = { found: new Set(), revealed: false };
+      else if (a.dataset.ph === "next") scIdx = Math.min(SCEN.length - 1, scIdx + 1);
+      else if (a.dataset.ph === "restart") { scState = SCEN.map(() => ({ found: new Set(), revealed: false })); scIdx = 0; }
+      SBS.buzz();
+      renderPhish(a.dataset.ph !== "reveal");
+      if (a.dataset.ph === "next" || a.dataset.ph === "restart") phEl.scrollIntoView({ block: "start", behavior: SBS.reduceMotion ? "auto" : "smooth" });
     });
-    onLang.push(renderPhish);
-    renderPhish();
+    onLang.push(() => renderPhish(false));
+    renderPhish(false);
   }
 
   /* =========================================================
-     4. Hidden terminal: ~ key, the >_ footer button, or 5 taps on the logo
+     4. Terminal: the Open terminal button or the ~ key
      ========================================================= */
   const term = document.createElement("div");
   term.className = "xterm";
@@ -275,16 +327,18 @@
     out.appendChild(line);
     out.scrollTop = out.scrollHeight;
   }
-  const go = (id) => { closeTerm(); setTimeout(() => SBS.scrollTo(id), 120); };
+  const go = (id) => { closeTerm(); if (document.getElementById(id)) setTimeout(() => SBS.scrollTo(id), 120); else location.href = "index.html#" + id; };
   const COMMANDS = {
-    help: () => print("Commands: services · about · training · contact · assess · phish · whoami · date · lang en|th · ls · clear · exit"),
-    ls: () => print("home/  services/  about/  training/  assess/  contact/"),
+    help: () => print("Commands: home · services · about · training · contact · assess · network · phish · whoami · date · lang en|th · ls · clear · exit"),
+    ls: () => print("home/  services/  about/  training/  contact/  lab/assess  lab/network  lab/phish"),
     services: () => { print("→ Opening services…", "ok"); go("services"); },
     about: () => { print("→ Opening about…", "ok"); go("about"); },
     training: () => { print("→ Opening training…", "ok"); go("training"); },
     contact: () => { print("→ Opening contact…", "ok"); go("contact"); },
     assess: () => { print("→ Starting the 1-minute security check…", "ok"); go("assess"); },
-    phish: () => { print("→ Loading the phishing challenge…", "ok"); closeTerm(); setTimeout(() => $("#phishGame") && $("#phishGame").scrollIntoView({ behavior: SBS.reduceMotion ? "auto" : "smooth", block: "center" }), 120); },
+    phish: () => { print("→ Loading the scam practice…", "ok"); go("phish"); },
+    network: () => { print("→ Loading the network demo…", "ok"); go("segment"); },
+    home: () => { print("→ Back to the main site…", "ok"); closeTerm(); location.href = "index.html"; },
     whoami: () => print("guest — curious visitor. Clearance level: coffee."),
     date: () => print(new Date().toString()),
     clear: () => { out.innerHTML = ""; },
@@ -342,11 +396,4 @@
   }, true);
   const openBtn = $("#termOpen");
   if (openBtn) openBtn.addEventListener("click", openTerm);
-  // Five quick taps on the logo
-  let taps = [];
-  $$(".brand").forEach((b) => b.addEventListener("click", () => {
-    const now = Date.now();
-    taps = taps.filter((x) => now - x < 2500).concat(now);
-    if (taps.length >= 5) { taps = []; openTerm(); }
-  }));
 })();

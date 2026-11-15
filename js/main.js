@@ -791,7 +791,8 @@
   if (location.hash) {
     const id = location.hash.slice(1);
     history.replaceState(null, "", location.pathname + location.search);
-    requestAnimationFrame(() => scrollToTarget(id));
+    if (id.startsWith("open-")) requestAnimationFrame(() => { scrollToTarget("services"); openSheet(id.slice(5)); });
+    else requestAnimationFrame(() => scrollToTarget(id));
   }
 
   /* ---------- Scroll behaviour ---------- */

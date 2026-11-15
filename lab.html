@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Security Lab — Silver Bullet Security</title>
+  <meta name="description" content="Hands-on tools: a 1-minute security readiness check, an IT/OT network segmentation demo, scam-spotting practice and a terminal.">
+  <link rel="canonical" href="https://icelolan-ai.github.io/Sbs-test/lab.html">
+  <meta property="og:title" content="Security Lab — Silver Bullet Security">
+  <meta property="og:description" content="Check your readiness, watch an attack get stopped, and practice spotting scams.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://icelolan-ai.github.io/Sbs-test/lab.html">
+  <meta property="og:image" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#10202a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="assets/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=56">
+  <link rel="stylesheet" href="css/interactive.css?v=56">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body class="lab-page">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5M5.5 10v9.5h4.5v-5h4v5h4.5V10"/></symbol>
+    <symbol id="i-services" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></symbol>
+    <symbol id="i-about" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.1"/></symbol>
+    <symbol id="i-training" viewBox="0 0 24 24"><path d="m2.5 9.5 9.5-4.5 9.5 4.5-9.5 4.5zM6.5 11.7v4.3c0 1.2 2.5 2.7 5.5 2.7s5.5-1.5 5.5-2.7v-4.3M21.5 9.5V15"/></symbol>
+    <symbol id="i-contact" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2.2"/><path d="m3.8 7.5 8.2 6 8.2-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h3.6l1.7 4.3-2.2 1.4a11 11 0 0 0 5.2 5.2l1.4-2.2L19 14.4V18a2 2 0 0 1-2 2A13 13 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-5.6 6.5-11a6.5 6.5 0 0 0-13 0c0 5.4 6.5 11 6.5 11z"/><circle cx="12" cy="10" r="2.3"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10a4 4 0 0 0 .6-7.95A5.5 5.5 0 0 0 7.1 9.2 4.7 4.7 0 0 0 7 18.5z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5 5"/></symbol>
+    <symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 8.5 4.5v9L12 21l-8.5-4.5v-9zM3.5 7.5 12 12l8.5-4.5M12 12v9"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3.5 9 4.7-9 4.7-9-4.7zM3 12.2l9 4.7 9-4.7M3 16.2l9 4.7 9-4.7"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V16M8 8v.1M11.5 16v-3.2a2.3 2.3 0 0 1 4.6 0V16M11.5 10.5V16"/></symbol>
+    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M14 8.5h2V5.5h-2.4A3.6 3.6 0 0 0 10 9.1V11H8v3h2v6h3v-6h2.3l.5-3H13V9.4c0-.5.4-.9 1-.9z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.5h16a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H10l-4.5 3.5V17.5H4A1.5 1.5 0 0 1 2.5 16V7A1.5 1.5 0 0 1 4 5.5z"/><path d="M7.5 10.5h9M7.5 13.5h6"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></symbol>
+    <symbol id="i-messenger" viewBox="0 0 24 24"><path d="M12 3C7 3 3 6.7 3 11.4c0 2.6 1.3 5 3.3 6.5V21l3-1.7c.9.3 1.8.4 2.7.4 5 0 9-3.7 9-8.3S17 3 12 3z"/><path d="m7.5 13.5 3-3.2 2.2 2 3.8-2.8-3 3.2-2.2-2z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M5 4.5h3.6l10.4 15h-3.6zM18.6 4.5 12.9 11M5.4 19.5l5.8-6.6"/></symbol>
+  </defs>
+</svg>
+
+<header class="appbar" id="appbar">
+  <a class="brand" href="index.html" aria-label="Silver Bullet Security">
+    <img class="brand-mark" src="assets/img/logo-mark.webp" alt="" width="64" height="27">
+    <span class="brand-word"><span class="brand-top">SILVER BULLET</span><span class="brand-sub">SECURITY</span></span>
+  </a>
+  <nav class="lab-nav" aria-label="Security Lab">
+    <a href="#assess" data-i18n="lab.nav.assess">Readiness check</a>
+    <a href="#segment" data-i18n="lab.nav.segment">Network demo</a>
+    <a href="#phish" data-i18n="lab.nav.phish">Scam practice</a>
+    <a href="#terminal" data-i18n="lab.nav.terminal">Terminal</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria="lang.label">
+    <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+    <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
+  </div>
+</header>
+
+<main>
+  <section class="lab-hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap">
+      <a class="lab-back" href="index.html"><svg class="ico"><use href="#i-arrow"/></svg><span data-i18n="lab.back">Back to the main site</span></a>
+      <p class="eyebrow" data-i18n="lab.eyebrow">Security Lab</p>
+      <h1 data-i18n="lab.title">Try security for yourself</h1>
+      <p class="lead" data-i18n="lab.sub"></p>
+      <div class="lab-tiles">
+        <a class="lab-tile" href="#assess"><span class="lab-ico"><svg class="ico"><use href="#i-chart"/></svg></span><strong data-i18n="lab.nav.assess"></strong><span data-i18n="lab.tile.assess"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+        <a class="lab-tile" href="#segment"><span class="lab-ico"><svg class="ico"><use href="#i-layers"/></svg></span><strong data-i18n="lab.nav.segment"></strong><span data-i18n="lab.tile.segment"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+        <a class="lab-tile" href="#phish"><span class="lab-ico"><svg class="ico"><use href="#i-contact"/></svg></span><strong data-i18n="lab.nav.phish"></strong><span data-i18n="lab.tile.phish"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+        <a class="lab-tile" href="#terminal"><span class="lab-ico"><span class="lab-prompt">&gt;_</span></span><strong data-i18n="lab.nav.terminal"></strong><span data-i18n="lab.tile.terminal"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="assess">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow" data-i18n="ix.as.eyebrow">1-minute check</p>
+        <h2 data-i18n="ix.as.title">How ready is your organization?</h2>
+        <p class="sub" data-i18n="ix.as.sub"></p>
+      </header>
+      <div class="ix-card assess" id="assessApp" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="segment">
+    <div class="wrap">
+      <div class="ix-card seg-demo" id="segDemo"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="phish">
+    <div class="wrap">
+      <div class="ix-card phish" id="phishGame"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="terminal">
+    <div class="wrap">
+      <div class="ix-card lab-term reveal">
+        <div>
+          <p class="eyebrow" data-i18n="lab.term.eyebrow">For the curious</p>
+          <h3 data-i18n="lab.term.title">Explore from the terminal</h3>
+          <p class="sub" data-i18n="lab.term.sub"></p>
+        </div>
+        <button type="button" class="btn btn-primary" id="termOpen"><span class="lab-prompt">&gt;_</span><span data-i18n="lab.term.btn">Open terminal</span></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <a class="lab-back" href="index.html"><svg class="ico"><use href="#i-arrow"/></svg><span data-i18n="lab.back">Back to the main site</span></a>
+    <img src="assets/img/logo-mark.webp" alt="" width="72" height="30">
+    <p data-i18n="footer.copy">Copyright © 2026 Silver Bullet Security — All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script src="js/config.js?v=56"></script>
+<script src="js/i18n.js?v=56"></script>
+<script src="js/lab.js?v=56"></script>
+<script src="js/interactive.js?v=56"></script>
+</body>
+</html>
