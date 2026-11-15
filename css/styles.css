@@ -909,3 +909,26 @@ body.lb-open .chat, body.lb-open .tabbar { visibility: hidden; }
 .lb-prev .ico { transform: rotate(180deg); }
 .lb-next { right: 10px; }
 @media (max-width: 600px) { .lb-prev, .lb-next { top: auto; bottom: calc(18px + var(--safe-b)); transform: none; } .lb-fig img { max-height: calc(100svh - 190px); } }
+
+
+/* ---------- Security Lab: hero link, teaser tiles (main page and lab.html) ---------- */
+.hero-assess { display: inline-flex; align-items: center; gap: 10px; margin: -10px 0 26px; font-size: 15.5px; font-weight: 500; color: var(--silver); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgba(211, 224, 230, .35); }
+.hero-assess .ico { width: 18px; height: 18px; transition: transform .3s var(--ease); }
+.hero-assess:hover .ico { transform: translateX(4px); }
+.lab-tiles { display: grid; gap: 12px; }
+.lab-tile { position: relative; display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: 14px; row-gap: 2px; align-items: center; padding: 16px 44px 16px 16px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); transition: border-color .25s, background .25s, transform .15s; }
+.lab-tile:hover { border-color: rgba(255, 255, 255, .28); background: var(--surface-2); }
+.lab-tile:active { transform: scale(.985); }
+.lab-ico { grid-row: 1 / span 2; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: rgba(224, 80, 94, .16); border: 1px solid rgba(224, 80, 94, .35); color: #ff8d98; }
+.lab-tile strong { font-size: 17px; }
+.lab-tile > span:not(.lab-ico) { color: var(--muted); font-size: 14.5px; line-height: 1.45; }
+.lab-go { position: absolute; right: 16px; top: 50%; width: 18px; height: 18px; margin-top: -9px; color: var(--silver); transition: transform .3s var(--ease); }
+.lab-tile:hover .lab-go { transform: translateX(4px); }
+.lab-prompt { font: 600 15px ui-monospace, Menlo, Consolas, monospace; color: #7fd3e2; }
+.lab-open { margin-top: 18px; }
+.lab-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 18px; font-size: 14.5px; color: var(--silver); }
+.lab-back .ico { width: 16px; height: 16px; transform: rotate(180deg); }
+.foot-lab { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 12px; border: 1px solid var(--line); background: rgba(8, 13, 17, .5); color: var(--silver); font-size: 14px; }
+.foot-lab:hover { border-color: rgba(127, 211, 226, .45); }
+@media (min-width: 600px) { .lab-tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .lab-tiles { grid-template-columns: repeat(4, 1fr); } .lab-tile { grid-template-columns: 1fr; grid-template-rows: auto; padding: 20px 20px 22px; align-content: start; } .lab-ico { grid-row: auto; margin-bottom: 10px; } .lab-go { top: 24px; margin-top: 0; } }

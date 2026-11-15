@@ -8,15 +8,15 @@
   <meta property="og:title" content="Silver Bullet Security — Cyber Security Professional Services">
   <meta property="og:description" content="Cybersecurity consulting, monitoring and training for your organization.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=2">
-  <meta property="og:image:secure_url" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=2">
+  <meta property="og:image" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=56">
+  <meta property="og:image:secure_url" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=56">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Silver Bullet Security — Security is a method, not a single product.">
   <meta property="og:url" content="https://icelolan-ai.github.io/Sbs-test/">
   <meta property="og:site_name" content="Silver Bullet Security">
-  <meta name="twitter:image" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=2">
+  <meta name="twitter:image" content="https://icelolan-ai.github.io/Sbs-test/assets/img/og-image.jpg?v=56">
   <meta name="twitter:title" content="Silver Bullet Security — Cyber Security Professional Services">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="canonical" href="https://icelolan-ai.github.io/Sbs-test/">
@@ -90,8 +90,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=55">
-  <link rel="stylesheet" href="css/interactive.css?v=55">
+  <link rel="stylesheet" href="css/styles.css?v=56">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body class="at-intro">
@@ -167,7 +166,7 @@
         <a class="btn btn-primary" href="#services"><span data-i18n="hero.cta1">Explore services</span><svg class="ico"><use href="#i-arrow"/></svg></a>
         <a class="btn btn-ghost" data-mail href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-i18n="hero.cta2">Email us</span></a>
       </div>
-      <a class="hero-assess" href="#assess"><span class="pulse-dot"></span><span data-i18n="ix.hero.assess">Take the 1-minute security check</span><svg class="ico"><use href="#i-arrow"/></svg></a>
+      <a class="hero-assess" href="lab.html#assess"><span class="pulse-dot"></span><span data-i18n="ix.hero.assess">Take the 1-minute security check</span><svg class="ico"><use href="#i-arrow"/></svg></a>
       <dl class="hero-stats">
         <div><dt data-count="2010" data-from="1990" data-i18n="stat1.n">2010</dt><dd data-i18n="stat1.l">Founded in Houston, Texas</dd></div>
         <div><dt data-count="3" data-i18n="stat2.n">3</dt><dd data-i18n="stat2.l">Offices: US · Thailand · Australia</dd></div>
@@ -251,7 +250,6 @@
           <button type="button" class="chip" data-open="bi"><svg class="ico"><use href="#i-chart"/></svg><span data-i18n="tile.bi.t"></span></button>
         </div>
       </div>
-      <div class="ix-card seg-demo reveal" id="segDemo"></div>
     </div>
   </section>
 
@@ -331,8 +329,6 @@
         <a data-train="" data-subject="training.subject.pres" href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-train-addr></span></a>
       </p>
 
-      <div class="ix-card phish reveal" id="phishGame"></div>
-
       <div class="gallery reveal" id="gallery">
         <div class="gallery-head">
           <p class="eyebrow" data-i18n="gallery.eyebrow">Event highlights</p>
@@ -345,15 +341,21 @@
     </div>
   </section>
 
-  <!-- ASSESSMENT -->
-  <section class="sec" id="assess">
+  <!-- SECURITY LAB (tools live on lab.html) -->
+  <section class="sec" id="lab">
     <div class="wrap">
       <header class="sec-head reveal">
-        <p class="eyebrow" data-i18n="ix.as.eyebrow">1-minute check</p>
-        <h2 data-i18n="ix.as.title">How ready is your organization?</h2>
-        <p class="sub" data-i18n="ix.as.sub"></p>
+        <p class="eyebrow" data-i18n="lab.eyebrow">Security Lab</p>
+        <h2 data-i18n="lab.title">Try security for yourself</h2>
+        <p class="sub" data-i18n="lab.sub"></p>
       </header>
-      <div class="ix-card assess reveal" id="assessApp" aria-live="polite"></div>
+      <div class="lab-tiles reveal">
+        <a class="lab-tile" href="lab.html#assess"><span class="lab-ico"><svg class="ico"><use href="#i-chart"/></svg></span><strong data-i18n="lab.nav.assess"></strong><span data-i18n="lab.tile.assess"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+        <a class="lab-tile" href="lab.html#segment"><span class="lab-ico"><svg class="ico"><use href="#i-layers"/></svg></span><strong data-i18n="lab.nav.segment"></strong><span data-i18n="lab.tile.segment"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+        <a class="lab-tile" href="lab.html#phish"><span class="lab-ico"><svg class="ico"><use href="#i-contact"/></svg></span><strong data-i18n="lab.nav.phish"></strong><span data-i18n="lab.tile.phish"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+        <a class="lab-tile" href="lab.html#terminal"><span class="lab-ico"><span class="lab-prompt">&gt;_</span></span><strong data-i18n="lab.nav.terminal"></strong><span data-i18n="lab.tile.terminal"></span><svg class="ico lab-go"><use href="#i-arrow"/></svg></a>
+      </div>
+      <a class="btn btn-primary lab-open reveal" href="lab.html"><span data-i18n="lab.open">Open the Security Lab</span><svg class="ico"><use href="#i-arrow"/></svg></a>
     </div>
   </section>
 
@@ -398,7 +400,7 @@
 <footer class="footer">
   <div class="wrap">
     <img src="assets/img/logo-mark.webp" alt="" width="72" height="30">
-    <button type="button" class="term-open" id="termOpen" data-i18n-aria="ix.term.open"><span aria-hidden="true">&gt;_</span></button>
+    <a class="foot-lab" href="lab.html"><span class="lab-prompt">&gt;_</span><span data-i18n="lab.eyebrow">Security Lab</span></a>
     <p data-i18n="footer.copy">Copyright © 2026 Silver Bullet Security — All Rights Reserved.</p>
   </div>
 </footer>
@@ -453,10 +455,9 @@
   <button type="button" class="chat-fab" id="chatFab" aria-expanded="false" aria-controls="chatPanel" data-i18n-aria="chat.open"><svg class="ico i-open"><use href="#i-chat"/></svg><svg class="ico i-close"><use href="#i-close"/></svg></button>
 </div>
 
-<script src="js/config.js?v=55"></script>
-<script src="js/i18n.js?v=55"></script>
-<script src="js/main.js?v=55"></script>
-<script src="js/globe.js?v=55"></script>
-<script src="js/interactive.js?v=55"></script>
+<script src="js/config.js?v=56"></script>
+<script src="js/i18n.js?v=56"></script>
+<script src="js/main.js?v=56"></script>
+<script src="js/globe.js?v=56"></script>
 </body>
 </html>
