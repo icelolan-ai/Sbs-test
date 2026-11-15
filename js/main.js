@@ -165,7 +165,7 @@
     const call = $("#callBtn");
     if (CFG.phone) {
       call.hidden = false;
-      call.href = "tel:" + CFG.phone.replace(/[^\d+]/g, "");
+      call.href = "tel:" + (CFG.phoneDial || CFG.phone).replace(/[^\d+]/g, "");
       $("[data-phone-num]").textContent = CFG.phone;
     } else {
       call.hidden = true;
