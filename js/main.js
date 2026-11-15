@@ -45,6 +45,7 @@
     $$("[data-i18n-ph]").forEach((el) => el.setAttribute("placeholder", t(el.dataset.i18nPh)));
     renderChatQuick();
     renderGallery();
+    (window.SBS_onLang || []).forEach((fn) => fn());
     $$("[data-i18n-alt]").forEach((el) => el.setAttribute("alt", t(el.dataset.i18nAlt)));
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     $$(".lang-btn").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -1180,6 +1181,8 @@
 
   /* ---------- Boot ---------- */
   $$(".lang-btn").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  // Small API for js/interactive.js
+  window.SBS = { t, get lang() { return lang; }, setLang, scrollTo: scrollToTarget, buzz, reduceMotion, cfg: CFG };
   setActive("home");
   applyLang();
   buildTraces();
