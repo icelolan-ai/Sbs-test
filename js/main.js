@@ -40,7 +40,7 @@
     $('meta[name="description"]').setAttribute("content", t("meta.desc"));
     $$("[data-i18n]").forEach((el) => {
       if (el.dataset.count && !el.dataset.done) return; // count-up still pending
-      el.textContent = t(el.dataset.i18n);
+      el.textContent = String(t(el.dataset.i18n)).replace("{year}", new Date().getFullYear());
     });
     $$("[data-i18n-ph]").forEach((el) => el.setAttribute("placeholder", t(el.dataset.i18nPh)));
     renderChatQuick();
@@ -1177,11 +1177,6 @@
   });
   renderChatQuick();
   setChatMode("email", true);
-
-  /* ---------- Cookie notice ---------- */
-  const cookie = $("#cookie");
-  if (!store.get("sbs-cookie")) cookie.hidden = false;
-  $("#cookieOk").addEventListener("click", () => { store.set("sbs-cookie", "1"); cookie.hidden = true; buzz(); });
 
   /* ---------- Boot ---------- */
   $$(".lang-btn").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
