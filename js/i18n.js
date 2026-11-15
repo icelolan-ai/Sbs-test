@@ -79,9 +79,6 @@ window.SBS_I18N = {
     "photo.story": "Silver Bullet Security service catalog and CMKL University training brochure",
     "photo.team": "Silver Bullet Security team outside Exchange Tower in Bangkok",
     "office.list.title": "Office addresses",
-    "cookie.title": "Your preferences",
-    "cookie.p": "This site stores your language choice and this notice dismissal in your browser. Website files are cached for offline access.",
-    "cookie.accept": "Got it",
     "chat.open": "Chat with us",
     "chat.title": "Silver Bullet Security",
     "chat.status": "Usually replies within one business day",
@@ -288,7 +285,7 @@ window.SBS_I18N = {
     "office.th": "Thailand",
     "office.au": "Australia",
 
-    "footer.copy": "Copyright © 2025 Silver Bullet Security — All Rights Reserved.",
+    "footer.copy": "Copyright © {year} Silver Bullet Security — All Rights Reserved.",
 
     "steps.tap": "Tap a step to explore",
     "steps.auto": "Step",
@@ -443,9 +440,6 @@ window.SBS_I18N = {
     "photo.story": "เอกสารแนะนำบริการ Silver Bullet Security และหลักสูตรของ CMKL University",
     "photo.team": "ทีม Silver Bullet Security หน้าอาคาร Exchange Tower กรุงเทพฯ",
     "office.list.title": "ที่อยู่สำนักงาน",
-    "cookie.title": "การตั้งค่าของคุณ",
-    "cookie.p": "เว็บไซต์จดจำภาษาที่เลือกและการปิดประกาศนี้ในเบราว์เซอร์ พร้อมแคชไฟล์เว็บไซต์สำหรับใช้งานออฟไลน์",
-    "cookie.accept": "รับทราบ",
     "chat.open": "แชทกับเรา",
     "chat.title": "Silver Bullet Security",
     "chat.status": "ปกติตอบกลับภายใน 1 วันทำการ",
@@ -652,7 +646,7 @@ window.SBS_I18N = {
     "office.th": "ประเทศไทย",
     "office.au": "ออสเตรเลีย",
 
-    "footer.copy": "ลิขสิทธิ์ © 2025 Silver Bullet Security สงวนลิขสิทธิ์",
+    "footer.copy": "ลิขสิทธิ์ © {year} Silver Bullet Security สงวนลิขสิทธิ์",
 
     "steps.tap": "แตะแต่ละขั้นเพื่อดูรายละเอียด",
     "steps.auto": "ขั้นที่",
