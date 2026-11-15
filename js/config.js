@@ -2,7 +2,10 @@
 window.SBS_CONFIG = {
   email: "sales@silverbulletsecurity.com",
   trainingEmail: "training@silverbulletsecurity.com",
-  phone: "", // e.g. "+66 2 000 0000" — Call button appears once this is filled in
+  // Shown on the Call button. Empty hides the button.
+  phone: "02-104-9251-3",
+  // Number the Call button dials (one line of the 9251–9253 range), in international format.
+  phoneDial: "+6621049251",
 
   // Facebook Messenger link for the chat widget. m.me/<page username or page ID> opens a chat with the page.
   // Page ID taken from the old site's Facebook link; replace with m.me/<username> if the page has one.
