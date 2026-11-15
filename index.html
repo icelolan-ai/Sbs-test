@@ -90,7 +90,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=54">
+  <link rel="stylesheet" href="css/styles.css?v=55">
+  <link rel="stylesheet" href="css/interactive.css?v=55">
   <script>document.documentElement.classList.add("js");</script>
 </head>
 <body class="at-intro">
@@ -166,6 +167,7 @@
         <a class="btn btn-primary" href="#services"><span data-i18n="hero.cta1">Explore services</span><svg class="ico"><use href="#i-arrow"/></svg></a>
         <a class="btn btn-ghost" data-mail href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-i18n="hero.cta2">Email us</span></a>
       </div>
+      <a class="hero-assess" href="#assess"><span class="pulse-dot"></span><span data-i18n="ix.hero.assess">Take the 1-minute security check</span><svg class="ico"><use href="#i-arrow"/></svg></a>
       <dl class="hero-stats">
         <div><dt data-count="2010" data-from="1990" data-i18n="stat1.n">2010</dt><dd data-i18n="stat1.l">Founded in Houston, Texas</dd></div>
         <div><dt data-count="3" data-i18n="stat2.n">3</dt><dd data-i18n="stat2.l">Offices: US · Thailand · Australia</dd></div>
@@ -249,6 +251,7 @@
           <button type="button" class="chip" data-open="bi"><svg class="ico"><use href="#i-chart"/></svg><span data-i18n="tile.bi.t"></span></button>
         </div>
       </div>
+      <div class="ix-card seg-demo reveal" id="segDemo"></div>
     </div>
   </section>
 
@@ -328,6 +331,8 @@
         <a data-train="" data-subject="training.subject.pres" href="#contact"><svg class="ico"><use href="#i-contact"/></svg><span data-train-addr></span></a>
       </p>
 
+      <div class="ix-card phish reveal" id="phishGame"></div>
+
       <div class="gallery reveal" id="gallery">
         <div class="gallery-head">
           <p class="eyebrow" data-i18n="gallery.eyebrow">Event highlights</p>
@@ -337,6 +342,18 @@
         <div class="gallery-track" id="galleryTrack" tabindex="0"></div>
         <p class="hint-line"><span class="pulse-dot"></span><span data-i18n="gallery.hint">Swipe to browse · tap a photo to enlarge</span></p>
       </div>
+    </div>
+  </section>
+
+  <!-- ASSESSMENT -->
+  <section class="sec" id="assess">
+    <div class="wrap">
+      <header class="sec-head reveal">
+        <p class="eyebrow" data-i18n="ix.as.eyebrow">1-minute check</p>
+        <h2 data-i18n="ix.as.title">How ready is your organization?</h2>
+        <p class="sub" data-i18n="ix.as.sub"></p>
+      </header>
+      <div class="ix-card assess reveal" id="assessApp" aria-live="polite"></div>
     </div>
   </section>
 
@@ -381,6 +398,7 @@
 <footer class="footer">
   <div class="wrap">
     <img src="assets/img/logo-mark.webp" alt="" width="72" height="30">
+    <button type="button" class="term-open" id="termOpen" data-i18n-aria="ix.term.open"><span aria-hidden="true">&gt;_</span></button>
     <p data-i18n="footer.copy">Copyright © 2026 Silver Bullet Security — All Rights Reserved.</p>
   </div>
 </footer>
@@ -435,9 +453,10 @@
   <button type="button" class="chat-fab" id="chatFab" aria-expanded="false" aria-controls="chatPanel" data-i18n-aria="chat.open"><svg class="ico i-open"><use href="#i-chat"/></svg><svg class="ico i-close"><use href="#i-close"/></svg></button>
 </div>
 
-<script src="js/config.js?v=54"></script>
-<script src="js/i18n.js?v=54"></script>
-<script src="js/main.js?v=54"></script>
-<script src="js/globe.js?v=54"></script>
+<script src="js/config.js?v=55"></script>
+<script src="js/i18n.js?v=55"></script>
+<script src="js/main.js?v=55"></script>
+<script src="js/globe.js?v=55"></script>
+<script src="js/interactive.js?v=55"></script>
 </body>
 </html>
